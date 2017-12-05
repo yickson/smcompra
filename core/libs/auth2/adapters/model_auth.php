@@ -108,7 +108,7 @@ class ModelAuth extends Auth2
         }
 
         // TODO: revisar seguridad
-        $password = hash($this->_algos, $password);
+        $password = hash($this->_algos, $password.'Smc0mpr4');
         //$username = addslashes($username);
         $username = filter_var($username, FILTER_SANITIZE_MAGIC_QUOTES);
 

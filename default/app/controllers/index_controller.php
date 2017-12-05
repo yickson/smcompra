@@ -6,6 +6,10 @@
  */
 class IndexController extends AppController
 {
+    function before_filter()
+    {
+      View::template('main');
+    }
 
     public function index()
     {

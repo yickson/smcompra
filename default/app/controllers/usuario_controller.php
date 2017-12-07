@@ -36,6 +36,19 @@ class UsuarioController extends AppController
     $this->data = $tipo;
     View::select(null, 'json');
   }
+
+  public function buscar()
+  {
+    $rut = Input::post('rut');
+    $usuario = (New Usuarios)->find_by_rut($rut);
+    $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
+  public function principal()
+  {
+    View::template(null);
+  }
 }
 
 

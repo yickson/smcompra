@@ -10,7 +10,7 @@ class Usuarios extends ActiveRecord
   {
     //Obtener el nombre rol del usuario
     $dato = (New Usuarios)->find($id);
-    return $dato->tipo //Esta variable cambiar por el nombre del campo que tenga el rol
+    return $dato->tipo; //Esta variable cambiar por el nombre del campo que tenga el rol
   }
 
   public function validar($rut)

@@ -17,11 +17,45 @@ class UsuarioController extends AppController
   public function datos()
   {
     //Identidad del apoderado
+    View::template(null);
+    $this->tipo = Session::get('tipo');
+    if($this->tipo == '' or !isset($this->tipo))
+    {
+      Redirect::to('index/index');
+    }
   }
 
   public function alumno()
   {
     //Identidad del alumno
+  }
+
+  public function tipo()
+  {
+    $tipo = Session::set('tipo', Input::post('tipo'));
+    $this->data = $tipo;
+    View::select(null, 'json');
+  }
+
+  public function buscar()
+  {
+    $rut = Input::post('rut');
+    $usuario = (New Usuarios)->find_by_rut($rut);
+    $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
+  public function buscar_alumno()
+  {
+    $rut = Input::post('rut');
+    $usuario = (New Alumnos)->find_by_rut($rut);
+    $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
+  public function principal()
+  {
+    View::template(null);
   }
 }
 

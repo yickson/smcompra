@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>SM Compra | Ediciones SM</title>
-    <?php Tag::css('lux') ?>
+    <?php Tag::css('minty') ?>
     <?php Tag::css('font') ?>
     <?php Tag::css('smcompra') ?>
     <?= Html::IncludeCss() ?>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
     <?php echo Html::img('fondo.jpg', 'Logo ediciones SM', 'style="width:100%; height: 100%; position:absolute"') ?></a>
@@ -33,8 +33,8 @@
 	</ul>
 	<div class="col-md-2"></div>
     </nav>
-  <div class="col-sm-2"></div>
-    <div class="container-fluid">
+    <br><br>
+    <div class="col-md-12">
       <?php View::content() ?>
     </div>
     <?php View::partial('pie') ?>

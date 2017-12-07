@@ -45,6 +45,14 @@ class UsuarioController extends AppController
     View::select(null, 'json');
   }
 
+  public function buscar_alumno()
+  {
+    $rut = Input::post('rut');
+    $usuario = (New Alumnos)->find_by_rut($rut);
+    $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
   public function principal()
   {
     View::template(null);

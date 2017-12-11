@@ -26,6 +26,12 @@
                $(this).prop("selected", true);
              }
           });
+          if(!result){
+            $("#enviar").prop("disabled", true);
+          }
+          else{
+            $("#enviar").prop("disabled", false);
+          }
         },
         error: function (xhr, ajaxOptions, thrownError) {
           console.log(xhr.status);
@@ -87,7 +93,7 @@
       <br>
       <a href="javascript:void(0);" class="add_button btn btn-info btn-circle" title="Agregar alumno"><i class="fa fa-plus" aria-hidden="true"></i></a>
       <button type="button" name="anterior" class="btn btn-primary">Anterior</button>
-      <button type="submit" class="btn btn-primary">Siguiente</button>
+      <button id="enviar" type="submit" class="btn btn-primary">Siguiente</button>
     </form>
   </div>
 </div>

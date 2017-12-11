@@ -1,16 +1,3 @@
-<?php 
-$hijos = array();
-$i=0;
-foreach($alumno as $al):
-    $hijos[$i]["id"] = $al->id;
-    $hijos[$i]["nombre"] = $al->nombre;
-    $i++;
-endforeach;
-?>
-<div id="hijos" data-info='<?php echo json_encode($hijos); ?>'></div>
-<div id="usuario" data-info='<?php echo json_encode($usuario); ?>'></div>
-<?php echo Tag::js('carrito') ?>
-<?php echo Tag::js('index_carrito') ?>
 <!-- header info alumno y seleccion hijos -->
 <div class="row">
     <div class="col-md-1" style="border: 0px solid">
@@ -21,23 +8,13 @@ endforeach;
 	</div>
     </div>
     <div class="col-md-6" style="border: 0px solid; background-color: #FFF; padding: 15px">
-	<h4>Alumno</h4>
-	<p><label>Nombre  : </label><label id="nombre_alumno"></label></p>
-	<p><label>Colegio : </label><label id="colegio_alumno"></label></p>
-	<p><label>Curso   : </label><label id="curso_alumno"></label></p>
+	
     </div>
     <div class="col-md-2" style="border: 0px solid; background-color: #FFF; padding: 15px ">
-	<h4>Carrito</h4>
-	<i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i>
-	<span id="carrito_txt" class="badge badge-dark">0</span>
+	
     </div>
     <div class="col-md-2" style="border:0px solid; background-color: #FFF; padding: 15px  ">
-	<h4>Hijos</h4>
-	<?php 
-	    foreach($hijos as $hijo):
-		echo '<div class="alumno" data-rel="'.$hijo["id"].'" style="cursor: pointer"><p>'.$hijo["nombre"].'</p></div>';
-	    endforeach;
-	?>
+	
     </div>
     <div class="col-md-1" style="border: 0px solid">
 	<div class="row">

@@ -14,14 +14,13 @@ class CarritoController extends AppController
     //Esta vista no debería cargar nada
     $alumnos = Input::post('alumno');
     foreach ($alumnos as $key => $valor) {
-      $alumno = (New Alumnos)->find_by_rut($valor['rut']);
-      var_dump($alumno->nombre, $alumno->id);
-      echo '<br>';
+      $alumno[] = (New Alumnos)->find_by_rut($valor['rut']);
     }
-    $this->apoderado = Session::get('iduser');
+    $this->usuario = Session::get('iduser');
+    $this->tipo = Session::get('tipo');
     $this->alumno = $alumno;
     //var_dump($this->apoderado);
-    View::select(null, null);
+    //View::select(null, "json");
   }
 
   /**
@@ -53,6 +52,10 @@ class CarritoController extends AppController
 
       $this->data = $alumnos;
       View::select(null,"json");
+  }
+
+  public function comprar(){
+
   }
 }
 

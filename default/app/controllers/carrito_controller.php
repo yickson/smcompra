@@ -45,6 +45,8 @@ class CarritoController extends AppController
   public function getProductos(){
       $id_usuario = $_POST["id_usuario"];
       $tipo = $_POST["tipo"];
+      $alumnos = "";
+      print_r($tipo);die();
       switch($tipo):
 	  case 1:
 	        $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,

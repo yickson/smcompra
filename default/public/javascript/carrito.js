@@ -14,8 +14,8 @@ var Carrito = function(option){
         $.extend($this , options);
     };
 
-    this.cargarProductos = function(){
-        var id_usuario = 689;
+    this.cargarProductos = function(usuario){
+        var id_usuario = usuario;
         var productos_ini  = "";
 	var productos_item = "";
 	var productos_fin  = "";
@@ -29,10 +29,9 @@ var Carrito = function(option){
 	    success: function(data){
 		//Carga productos
 		var hijos = $("#hijos").data("info");
-		var cantidad_productos = data.length;
+		var cantidad_productos = 0;
 		var display = 0;
 		var mostrar = "block";
-		$("#cantidad_productos").text(cantidad_productos);
 		$.each( hijos, function( key, val ) {
 		    productos_ini  = "";
 		    productos_item = "";
@@ -69,6 +68,7 @@ var Carrito = function(option){
 							"</div>"+
 						    "</div>"+
 						"</div>";
+                            cantidad_productos++;
 			}
 		    });
 		    productos_fin = "</div></div>";
@@ -82,8 +82,10 @@ var Carrito = function(option){
 		    productos_html += val;
 		});
 		$("#alumno_productos").html(productos_html);
+                $("#cantidad_productos").text(cantidad_productos);
 	    },
 	    error: function(data){
+                console.log("error");
 	    }
 	});
     };
@@ -100,6 +102,12 @@ var Carrito = function(option){
         }
         $("#carrito_txt").text($this.carrito.length);
     };
+    
+    this.alumnos = function(id){
+	    dataAlumno(id);
+	    $(".cont-productos").css("display", "none");
+	    $("#alumno"+id).css("display", "block");
+    }
     
     function dataAlumno(id){
 	$.ajax({

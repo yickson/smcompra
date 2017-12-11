@@ -1,33 +1,16 @@
 <?php 
-$hijos = array(array("id" => "2315", "nombre" => "Francia Alvarez"),
-               array("id" => "2316", "nombre" => "Maximiliano Alvares"));
+$hijos = array();
+$i=0;
+foreach($alumno as $al):
+    $hijos[$i]["id"] = $al->id;
+    $hijos[$i]["nombre"] = $al->nombre;
+    $i++;
+endforeach;
 ?>
 <div id="hijos" data-info='<?php echo json_encode($hijos); ?>'></div>
+<div id="usuario" data-info='<?php echo json_encode($apoderado); ?>'></div>
 <?php echo Tag::js('carrito') ?>
-<script>
-   $(document).ready(function(){
-       var carrito = [];
-       var  carrito_compra = new Carrito();
-       carrito_compra.cargarProductos();
-       
-       $("#alumno_productos").on("click",".producto", function(e){
-	    var id = $(this).data("rel");
-	    var agregado_estado = $(this).data("agregado");
-	    carrito_compra.agregar(id, agregado_estado);
-	    
-       });
-       
-       $(".alumno").on("click",function(e){
-	    var id = $(this).data("rel");
-	    dataAlumno(id);
-	    $(".cont-productos").css("display", "none");
-	    $("#alumno"+id).css("display", "block");
-       });
-   });
-</script>
-
-
-
+<?php echo Tag::js('index_carrito') ?>
 <!-- header info alumno y seleccion hijos -->
 <div class="row">
     <div class="col-md-1" style="border: 0px solid">

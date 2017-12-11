@@ -42,6 +42,7 @@ class UsuarioController extends AppController
   {
     $rut = Input::post('rut');
     $usuario = (New Usuarios)->find_by_rut($rut);
+    Session::set('iduser', $usuario->id);
     $this->data = $usuario;
     View::select(null, 'json');
   }

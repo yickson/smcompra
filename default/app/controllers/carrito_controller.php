@@ -12,8 +12,16 @@ class CarritoController extends AppController
   public function index()
   {
     //Esta vista no debería cargar nada
+    $alumnos = Input::post('alumno');
+    foreach ($alumnos as $key => $valor) {
+      $alumno = (New Alumnos)->find_by_rut($valor['rut']);
+    }
+    $this->apoderado = Session::get('iduser');
+    $this->alumno = $alumno;
+    //var_dump($this->apoderado);
+    View::select(null, null);
   }
-  
+
   /**
    * Retorna información del alumno
    * @param  $id post(int)
@@ -27,7 +35,7 @@ class CarritoController extends AppController
       $this->data = $alumno;
       View::select(null,"json");
   }
-  
+
   /**
    * Retorna Pproductos de los hijos del profesor
    * @param  $id post(int)
@@ -37,10 +45,10 @@ class CarritoController extends AppController
       $id_usuario = $_POST["id_usuario"];
       $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,
 						   (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, pa.alumno_id as id_alumno
-						   FROM productos as p 
+						   FROM productos as p
 						   INNER JOIN profesor_alumnos pa ON (pa.producto_id = p.id and pa.usuario_id = $id_usuario)
 						   ORDER BY pa.alumno_id ASC");
-      
+
       $this->data = $alumnos;
       View::select(null,"json");
   }

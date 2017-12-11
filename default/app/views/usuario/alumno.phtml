@@ -1,91 +1,93 @@
 <?php echo Tag::js('agregar') ?>
 <script>
   $(document).ready(function(){
-    $('#volver').click(function(){
-      $('#cap').empty().load('usuario/principal');
-    });
-    $('#rut').blur(function(){
-      var rut = $('#rut').val();
+    $(document).on("blur", ".rut", function(){
+      var rut = $(this).val();
+      var numero = $(this).attr('id');
+      var curso;
+      //console.log(rut, numero);
       $.ajax({
-        url: '../usuario/buscar_alumno',
+        url: 'usuario/buscar_alumno',
         type: 'POST',
         cache: false,
         data: {"rut":rut},
         success: function(result){
-          $("#nombre").attr("value", result['nombre']);
-          $("#nombre").prop("disabled", true);
+          console.log(result);
+          $("#nombre"+numero).attr("value", result['nombre']);
+          $("#nombre"+numero).prop("disabled", true);
           if(result['email'] != ""){
-            $('.email').attr("value", result['email']);
-            $(".email").prop("disabled", true);
-          }  
+            $('#email'+numero).attr("value", result['email']);
+            $("#email"+numero).prop("disabled", true);
+          }
+          $("#curso"+numero+ " option").each(function(){
+             //console.log('opcion '+$(this).text()+' valor '+ $(this).attr('value'))
+             curso = $(this).attr('value');
+             if(curso == result['curso']){
+               $(this).prop("selected", true);
+             }
+          });
         },
         error: function (xhr, ajaxOptions, thrownError) {
           console.log(xhr.status);
           console.log(thrownError);
         }
       })
-    });
+    })
   })
 </script>
 <br>
-<div class="row">
-  <div class="col-sm-2"></div>
-  <div class="col-sm-8 col-xs-12">
-    <div class="card bg-light mb-12">
-      <div class="card-header">Identificación del alumno - Ediciones SM</div>
-      <div class="card-body text-dark">
-        <h2 class="card-title">Paso 2 / 2</h2>
-        <form id="estudiante">
-          <div class="row">
-            <div class="col-xs-12 col-sm-6">
-              <div class="form-group">
-                <label class="col-form-label" for="inputDefault">RUT</label>
-                <input id="rut" name="rut" type="text" class="form-control" placeholder="11.111.111-1" id="inputDefault">
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <div class="form-group">
-                <label class="col-form-label" for="inputDefault">NOMBRE COMPLETO</label>
-                <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Papelucho Paletin" id="inputDefault">
-              </div>
-            </div>
+<div class="card bg-light mb-12">
+  <div class="card-header">Identificación del alumno - Ediciones SM</div>
+  <div class="card-body text-dark">
+    <h2 class="card-title">Paso 2 / 2</h2>
+    <?php echo Form::open('carrito') ?>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+            <label class="col-form-label" for="inputDefault">RUT</label>
+            <input id="0" name="alumno[0][rut]" type="text" class="form-control rut" placeholder="11.111.111-1" id="inputDefault">
           </div>
-          <div class="row">
-            <div class="col-xs-12 col-sm-6">
-              <div class="form-group">
-                <label for="exampleInputEmail1">CORREO</label>
-                <input type="email" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <div class="form-group">
-                <label for="exampleSelect1">CURSO</label>
-                <select name="curso" class="form-control" id="exampleSelect1">
-                  <option value="1">Primero Básico</option>
-                  <option value="2">Segundo Básico</option>
-                  <option value="3">Tercero Básico</option>
-                  <option value="4">Cuarto Básico</option>
-                  <option value="5">Quinto Básico</option>
-                  <option value="6">Sexto Básico</option>
-                  <option value="7">Séptimo Básico</option>
-                  <option value="8">Octavo Básico</option>
-                  <option value="9">Primero Medio</option>
-                  <option value="10">Segundo Medio</option>
-                  <option value="11">Tercero Medio</option>
-                  <option value="12">Cuarto Medio</option>
-                </select>
-              </div>
-            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+            <label class="col-form-label" for="inputDefault">NOMBRE COMPLETO</label>
+            <input id="nombre0" name="alumno[0][nombre]" type="text" class="form-control" placeholder="Papelucho Paletin" id="inputDefault">
           </div>
-          <div class="field_wrapper">
-          </div>
-          <br>
-          <a href="javascript:void(0);" class="add_button btn btn-info btn-circle" title="Agregar alumno"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          <button type="button" name="anterior" class="btn btn-primary">Anterior</button>
-          <button type="submit" class="btn btn-primary">Siguiente</button>
-        </form>
+        </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+            <label for="exampleInputEmail1">CORREO</label>
+            <input id="email0"type="email" name="alumno[0][correo]" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+            <label for="exampleSelect1">CURSO</label>
+            <select name="alumno[0][curso]" class="form-control" id="curso0">
+              <option value="1">Primero Básico</option>
+              <option value="2">Segundo Básico</option>
+              <option value="3">Tercero Básico</option>
+              <option value="4">Cuarto Básico</option>
+              <option value="5">Quinto Básico</option>
+              <option value="6">Sexto Básico</option>
+              <option value="7">Séptimo Básico</option>
+              <option value="8">Octavo Básico</option>
+              <option value="9">Primero Medio</option>
+              <option value="10">Segundo Medio</option>
+              <option value="11">Tercero Medio</option>
+              <option value="12">Cuarto Medio</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field_wrapper">
+      </div>
+      <br>
+      <a href="javascript:void(0);" class="add_button btn btn-info btn-circle" title="Agregar alumno"><i class="fa fa-plus" aria-hidden="true"></i></a>
+      <button type="button" name="anterior" class="btn btn-primary">Anterior</button>
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+    </form>
   </div>
-  <div class="col-sm-2"></div>
 </div>

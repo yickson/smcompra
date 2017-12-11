@@ -28,6 +28,7 @@ class UsuarioController extends AppController
   public function alumno()
   {
     //Identidad del alumno
+    View::template(null);
   }
 
   public function tipo()
@@ -41,6 +42,7 @@ class UsuarioController extends AppController
   {
     $rut = Input::post('rut');
     $usuario = (New Usuarios)->find_by_rut($rut);
+    Session::set('iduser', $usuario->id);
     $this->data = $usuario;
     View::select(null, 'json');
   }
@@ -50,6 +52,11 @@ class UsuarioController extends AppController
     $rut = Input::post('rut');
     $usuario = (New Alumnos)->find_by_rut($rut);
     $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
+  public function encontrar_usuario()
+  {
     View::select(null, 'json');
   }
 

@@ -13,24 +13,36 @@
         data: {"rut":rut},
         success: function(result){
           console.log(result);
-          $("#nombre"+numero).attr("value", result['nombre']);
-          $("#nombre"+numero).prop("disabled", true);
-          if(result['email'] != ""){
-            $('#email'+numero).attr("value", result['email']);
-            $("#email"+numero).prop("disabled", true);
+          if(result == 2){
+            $("#enviar").prop("disabled", true);
+            swal(
+                  'Ha ocurrido un error',
+                  'Usted no es el apoderado de este alumno',
+                  'error'
+                );
+          }else{
+            $("#enviar").prop("disabled", false);
+            $("#nombre"+numero).attr("value", result['nombre']);
+            $("#nombre"+numero).prop("disabled", true);
+            if(result['email'] != ""){
+              $('#email'+numero).attr("value", result['email']);
+              $("#email"+numero).prop("disabled", true);
+            }
+            $("#curso"+numero+ " option").each(function(){
+               //console.log('opcion '+$(this).text()+' valor '+ $(this).attr('value'))
+               curso = $(this).attr('value');
+               if(curso == result['curso']){
+                 $(this).prop("selected", true);
+               }
+            });
           }
-          $("#curso"+numero+ " option").each(function(){
-             //console.log('opcion '+$(this).text()+' valor '+ $(this).attr('value'))
-             curso = $(this).attr('value');
-             if(curso == result['curso']){
-               $(this).prop("selected", true);
-             }
-          });
           if(!result){
             $("#enviar").prop("disabled", true);
-          }
-          else{
-            $("#enviar").prop("disabled", false);
+            swal(
+                  'Ha ocurrido un error',
+                  'El RUT ingresa no existe en nuestros registros',
+                  'error'
+                );
           }
         },
         error: function (xhr, ajaxOptions, thrownError) {

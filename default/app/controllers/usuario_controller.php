@@ -56,8 +56,20 @@ class UsuarioController extends AppController
   public function buscar_alumno()
   {
     $rut = Input::post('rut');
+    $user = Session::get('iduser');
     $usuario = (New Alumnos)->find_by_rut($rut);
-    $this->data = $usuario;
+    if(!empty($usuario)){
+      if($user == $usuario->apoderado_id){
+        $this->data = $usuario;
+      }
+      else{
+        $this->data = 2;
+      }
+    }
+    else{
+      $this->data = false;
+    }
+
     View::select(null, 'json');
   }
 

@@ -1,29 +1,57 @@
 <script>
   $(document).ready(function(){
+    var rutv;
     $('#volver').click(function(){
       $('#cap').empty().load('usuario/principal');
     });
-    $('#rut').blur(function(){
-      var rut = $('#rut').val();
-      $.ajax({
-        url: 'usuario/buscar',
-        type: 'POST',
-        cache: false,
-        data: {"rut":rut},
-        success: function(result){
-          console.log(result);
-          //console.log(result['nombre'] +' '+result['correo']);
-          $("#nombre").attr("value", result['nombre']);
-          $("#nombre").prop("disabled", true);
-          $('.email').attr("value", result['email']);
-          $(".email").prop("disabled", true);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          console.log(xhr.status);
-          console.log(thrownError);
-        }
+    $("#rut")
+      .rut({formatOn: 'keyup', validateOn: 'change', minimumLength: 7})
+      .on('rutInvalido', function(){
+        $(this).parents(".form-group").addClass("has-danger");
+        $(this).addClass("is-invalid");
+        rutv = '';
+        //$("#validar").prop("disabled", true);
       })
-    });
+      .on('rutValido', function(){
+        $(this).parents(".form-group").removeClass("has-danger");
+        $(this).removeClass("is-invalid");
+      })
+      .on('rutValido', function(e, rut){
+        rutv = rut;
+      });
+
+      $('#rut').blur(function(){
+        var rut = rutv;
+        if(rut == undefined){
+          $("#validar").prop("disabled", true);
+        }
+        $.ajax({
+          url: 'usuario/buscar',
+          type: 'POST',
+          cache: false,
+          data: {"rut":rut},
+          success: function(result){
+            if(result != false){
+              $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
+              $("#nombre").prop("disabled", true);
+              $('.email').attr("value", result['email']);
+              $(".email").prop("disabled", true);
+              $("#validar").prop("disabled", false);
+            }
+            else{
+              $(".form-group").parents(".form-group").append('<div class="invalid-feedback">Este RUT es inválido</div>')
+              $("#validar").prop("disabled", true);
+            }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(thrownError);
+          }
+        })
+      });
+      $("#validar").click(function(){
+        $('#cap').empty().load('usuario/alumno');
+      });
   })
 </script>
     <div class="card bg-light mb-12 cont-sombra">
@@ -35,23 +63,23 @@
             <legend>Identificación del <?php echo $tipo ?></legend>
             <div class="form-group">
               <label class="col-form-label" for="inputDefault">RUT</label>
-              <input id="rut" name="rut" required type="text" class="form-control" placeholder="11.111.111-1" id="inputDefault">
+              <input id="rut" name="rut" required type="text" class="form-control" placeholder="11.111.111-1">
             </div>
             <div class="form-group">
               <label class="col-form-label" for="inputDefault">NOMBRE COMPLETO</label>
-              <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Papelucho Paletin" id="inputDefault">
+              <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Papelucho Paletin">
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">CORREO ELECTRÓNICO</label>
-              <input type="email" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
+              <input name="correo" type="email" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
               <small id="emailHelp" class="form-text text-muted">No compartiremos tu correo.</small>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">CONFIMAR CORREO ELECTRÓNICO</label>
-              <input type="email" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
+              <input name="correo2" type="email" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
             </div>
             <button id="volver" type="button" name="anterior" class="btn btn-primary">Anterior</button>
-            <button type="submit" class="btn btn-primary">Siguiente</button>
+            <button id="validar" type="button" class="btn btn-primary">Siguiente</button>
           </fieldset>
         </form>
       </div>

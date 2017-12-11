@@ -65,9 +65,9 @@ class CarritoController extends AppController
       $this->data = $alumnos;
       View::select(null,"json");
   }
-  
+
   public function comprar(){
-      
+
   }
 }
 

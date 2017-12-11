@@ -15,6 +15,8 @@ class CarritoController extends AppController
     $alumnos = Input::post('alumno');
     foreach ($alumnos as $key => $valor) {
       $alumno = (New Alumnos)->find_by_rut($valor['rut']);
+      var_dump($alumno->nombre, $alumno->id);
+      echo '<br>';
     }
     $this->apoderado = Session::get('iduser');
     $this->alumno = $alumno;

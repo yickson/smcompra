@@ -34,6 +34,12 @@ class UsuarioController extends AppController
   public function tipo()
   {
     $tipo = Session::set('tipo', Input::post('tipo'));
+    if($tipo == 'apoderado'){
+      $tipo = 1;
+    }
+    else{
+      $tipo = 2;
+    }
     $this->data = $tipo;
     View::select(null, 'json');
   }

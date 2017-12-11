@@ -6,30 +6,78 @@ $hijos = array(array("id" => "2315", "nombre" => "Francia Alvarez"),
 
 <script>
    $(document).ready(function(){
-        var id_profesor = 689;
+        var id_usuario = 689;
         var carrito = [];
-        var productos_ini = "";
+        var productos_ini  = "";
+	var productos_item = "";
+	var productos_fin  = "";
+	var productos_full = "";
+	var productos = [];
 	$.ajax({
 	    type  : "POST",
 	    cache : false,
 	    url   : "carrito/getProductos",
-	    data  : {"id_profesor": id_profesor},
+	    data  : {"id_usuario": id_usuario},
 	    success: function(data){
-		console.log(data);	
+		//Carga productos
+		var hijos = $("#hijos").data("info");
+		var cantidad_productos = data.length;
+		var display = 0;
+		var mostrar = "block";
+		$("#cantidad_productos").text(cantidad_productos);
+		$.each( hijos, function( key, val ) {
+		    productos_ini  = "";
+		    productos_item = "";
+		    productos_fin  = "";
+		    if(display === 0){
+			mostrar = "block";
+			dataAlumno(val.id);
+		    }else{
+			mostrar = "none";
+		    }
+		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style='background-color: #FFF; display:"+mostrar+"'>"+
+			            "<div class='row'>";
+		
+		    $.each(data, function(indice, valor){
+			if(val.id === valor.id_alumno){
+			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 producto' data-rel='"+valor.id_producto+"' data-agregado='0' style='border: 0px solid'>"+
+						    "<div class='col-md-12 img-hover' style='cursor:pointer;'>"+
+							"<div class='row'>"+
+							    "<div id='agregado"+valor.id_producto+"' class='col-md-6' style='padding:10px'>"+
+								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+	
+							    "</div>"+
+							    "<div class='col-md-6' style='padding:10px'>"+
+								"<h5 class='mt-0'>Asignatura:</h5>"+
+								"<p class='card-text'>"+valor.asignatura+"</p>"+
+								"<h5>Proyecto:</h5>"+
+								"<p class='card-text'>"+valor.proyecto+"</p>"+
+								"<p><span><b>Curso: </b></span><span class='card-text'>"+valor.nivel+"</span></p>"+
+								"<h5>Tipo Material:</h5>"+
+								"<span class='card-text'> "+valor.tipo+" </span>"+
+								"<span class='card-text'>$"+valor.valor+"</span>"+
+							    "</div>"+
+							"</div>"+
+						    "</div>"+
+						"</div>";
+			}
+		    });
+		    productos_fin = "</div></div>";
+		    productos_full = productos_ini + productos_item + productos_fin;
+		    productos.push(productos_full);
+		    display++;
+		});
+		
+		var  productos_html = "";
+		$.each(productos, function(i,val){
+		    productos_html += val;
+		});
+		$("#alumno_productos").html(productos_html);
 	    },
 	    error: function(data){
-		
 	    }
 	});
-        // Carga productos
-//	var hijos = $("#hijos").data("info");
-//        $.each( hijos, function( key, val ) {
-//	    productos_ini ="<div id='alumno"+val.id+"' class='cont-productos col-md-10' style='background-color: #FFF; display:block'>";
-//	    
-//	    console.log(productos_ini);
-//        });
-       
-       $(".producto").on("click", function(e){
+	
+       $("#alumno_productos").on("click",".producto", function(e){
 	    var id = $(this).data("rel");
 	    var agregado_estado = $(this).data("agregado");
 	    if(agregado_estado == 0){
@@ -46,24 +94,29 @@ $hijos = array(array("id" => "2315", "nombre" => "Francia Alvarez"),
        
        $(".alumno").on("click",function(e){
 	    var id = $(this).data("rel");
-	    $.ajax({
-		type : "POST",
-		cache: false,
-		url  : "carrito/getAlumno",
-		dataType: 'json',
-		data : {"id" : id},
-		success: function(data){
-		    $("#nombre_alumno").text(data.nombre);
-		    $("#colegio_alumno").text(data.establecimiento_nombre);
-		    $("#curso_alumno").text(data.curso);
-		    $(".cont-productos").css("display", "none");
-		    $("#alumno"+data.id).css("display", "block");
-		},
-		error: function(data){
-		    console.log("err");
-		}
-	    });
+	    dataAlumno(id);
+	    $(".cont-productos").css("display", "none");
+	    $("#alumno"+id).css("display", "block");
        });
+       
+       function dataAlumno(id){
+	$.ajax({
+	      type : "POST",
+	      cache: false,
+	      url  : "carrito/getAlumno",
+	      dataType: 'json',
+	      data : {"id" : id},
+	      success: function(data){
+		  $("#nombre_alumno").text(data.nombre);
+		  $("#colegio_alumno").text(data.establecimiento_nombre);
+		  $("#curso_alumno").text(data.curso);
+		  
+	      },
+	      error: function(data){
+		  console.log("err");
+	      }
+	  }); 
+       }
    });
 </script>
 
@@ -123,7 +176,7 @@ $hijos = array(array("id" => "2315", "nombre" => "Francia Alvarez"),
 		</select>
 	    </div>
 	    <div class="col-md-5">
-		<span class="text-success"> <strong>6 productos encontrados </strong></span>
+		<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
 	    </div>
 	</div>
 	
@@ -142,253 +195,8 @@ $hijos = array(array("id" => "2315", "nombre" => "Francia Alvarez"),
 		    </div>
 		</div>
 	    </div>
-	    <div id="alumno_productos">
+	    <div id="alumno_productos" class="col-md-10" style="padding: 0px">
 		
-	    </div>
-	    <div id="alumno1" class="cont-productos col-md-10" style="background-color: #FFF; display:block">
-		Cristian
-		<div class="row">
-		    <div id="1" class="col-md-4 producto" data-rel="1" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer;">
-			    <div class="row">
-				<div  id="agregado1" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%;; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div id="2" class="col-md-4 producto" data-rel="2" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado2" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="3"  data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado3" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-		
-		<div class="row">
-		     <div class="col-md-4 producto" data-rel="4" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado4" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="5"  data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado5" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="6" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado6" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-	    </div>
-	    
-	    <div id="alumno2" class="cont-productos col-md-10" style="background-color: #FFF; display:none">
-		yessica
-		<div class="row">
-		    <div id="7" class="col-md-4 producto" data-rel="7" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div  id="agregado7" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%;; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div id="8" class="col-md-4 producto" data-rel="8" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado8" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="9"  data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado9" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-		
-		<div class="row">
-		     <div class="col-md-4 producto" data-rel="10" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado10" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="11"  data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado11" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		     <div class="col-md-4 producto" data-rel="12" data-agregado="0" style="border: 0px solid">
-			<div class="col-md-12 img-hover" style="cursor:pointer">
-			    <div class="row">
-				<div id="agregado12" class="col-md-6" style="padding:10px">
-				    <?php echo Html::img('productos/Aprendo_a_pensar/len_3.jpg', 'producto', 'style="width:70%; position: absolute"'); ?>
-				</div>
-				<div class="col-md-6" style="padding:10px">
-				    <h5 class="mt-0">Asignatura:</h5>
-				    <p class="card-text">Ciencias Sociales</p>
-				    <h5>Proyecto:</h5>
-				    <p class="card-text">Sé protagonista</p>
-				    <p><span><b>Curso: </b></span><span class="card-text"> 4º Medio</span></p>
-				    <h5>Tipo Material:</h5>
-				    <span class="card-text">Licencia</span>
-				    <span class="card-text">$19.000</span>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
 	    </div>
 	    <div class="col-md-1" style="border: 0px solid">
 		<div class="row">

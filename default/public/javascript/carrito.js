@@ -14,7 +14,7 @@ var Carrito = function(option){
         $.extend($this , options);
     };
 
-    this.cargarProductos = function(usuario){
+    this.cargarProductos = function(usuario, tipo){
         var id_usuario = usuario;
         var productos_ini  = "";
 	var productos_item = "";
@@ -25,7 +25,8 @@ var Carrito = function(option){
 	    type  : "POST",
 	    cache : false,
 	    url   : "carrito/getProductos",
-	    data  : {"id_usuario": id_usuario},
+	    data  : {"id_usuario": id_usuario,
+                     "tipo": tipo},
 	    success: function(data){
 		//Carga productos
 		var hijos = $("#hijos").data("info");

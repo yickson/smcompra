@@ -18,7 +18,7 @@ class UsuarioController extends AppController
   {
     //Identidad del apoderado
     View::template(null);
-    $this->tipo = Session::get('tipo');
+    $this->tipo = Session::get('descripcion');
     if($this->tipo == '' or !isset($this->tipo))
     {
       Redirect::to('index/index');
@@ -35,9 +35,11 @@ class UsuarioController extends AppController
   {
     $tipo = Input::post('tipo');
     if($tipo == 'apoderado'){
+      Session::set('descripcion', $tipo);
       Session::set('tipo', 1);
     }
     else{
+      Session::set('descripcion', $tipo);
       Session::set('tipo', 2);
     }
     $this->data = $tipo;
@@ -62,7 +64,13 @@ class UsuarioController extends AppController
       if($user == $usuario->apoderado_id){
         $this->data = $usuario;
       }
-      else{
+      if($usuario->apoderado_id == 0){
+        $datos = (New Alumnos)->find($usuario->id); //Inyeccion de datos
+        $datos->apoderado_id = $user; //Asigno el nuevo ID del apoderado/profesor
+        $datos->save();
+        $this->data = $usuario;
+      }
+      if($user != $usuario->apoderado_id){
         $this->data = 2;
       }
     }
@@ -70,6 +78,28 @@ class UsuarioController extends AppController
       $this->data = false;
     }
 
+    View::select(null, 'json');
+  }
+
+  public function verificar_usuario()
+  {
+    $rut = Input::post('rut');
+    $usuario = (New Usuarios)->find_by_rut($rut);
+    $tipo = Session::get('tipo');
+    if($tipo == $usuario->tipo){
+      $this->data = 1;
+    }
+    else{
+      switch ($tipo) {
+        case 1:
+          $this->data = 3;
+          break;
+
+        case 2:
+          $this->data = 2;
+          break;
+      }
+    }
     View::select(null, 'json');
   }
 

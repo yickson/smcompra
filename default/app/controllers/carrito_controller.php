@@ -14,14 +14,15 @@ class CarritoController extends AppController
   {
     //Esta vista no debería cargar nada
     $alumnos = Input::post('alumno');
+    $datos = (New Alumnos)->verificar($alumnos);
     foreach ($alumnos as $key => $valor) {
-      $alumno[] = (New Alumnos)->find_by_rut($valor['rut']);
+      $alumno[] = (New Alumnos)->find_by_rut($valor['rut']); //Metodo para verificar un vacío
     }
     $this->usuario = Session::get('iduser');
     $this->tipo = Session::get('tipo');
-    $this->alumno = $alumno;
-    //var_dump($this->apoderado);
-    //View::select(null, "json");
+    $this->alumno = $alumno
+    var_dump($datos);
+    View::select(null, null);
   }
 
   /**

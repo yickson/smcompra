@@ -1,4 +1,5 @@
 <?php
+require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
 
 /**
  * Controlador para gestionar el carrito de compra
@@ -46,7 +47,7 @@ class CarritoController extends AppController
       $id_usuario = $_POST["id_usuario"];
       $tipo = $_POST["tipo"];
       $alumnos = "";
-      print_r($tipo);die();
+      
       switch($tipo):
 	  case 1:
 	        $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,
@@ -69,7 +70,38 @@ class CarritoController extends AppController
   }
 
   public function comprar(){
-
+    $productos_arr = $_POST["productos_arr"];
+    $this->arr = $productos_arr;
+  }
+  
+  public function dataTableComprar(){
+    $productos_sql = new Productos;
+    $productos = array();
+    $result = null;
+    $productos_format = array();
+    $total_format = null;
+    $productos_arr = explode(",", $_POST["arr"]);
+    $i=0;
+    foreach($productos_arr as $producto):
+	$result = $productos_sql->find($producto);
+	$productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
+	$productos_format[$i]["descripcion"] = $result->descripcion;
+	$productos_format[$i]["cantidad"] = 1;
+	$productos_format[$i]["total"] = $result->valor;
+	$productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
+	$total_format += $result->valor;
+	
+	$i++;
+    endforeach;
+    
+    $subtotal = round($total_format / 1.19);
+    $iva = round($subtotal * 0.19);
+    $iva = number_format($iva);
+    $total = number_format($total_format);
+    $pagar = "";
+    $productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
+    $this->data = $productos;
+    View::select( null , 'json' );
   }
 }
 

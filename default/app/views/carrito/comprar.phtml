@@ -1,3 +1,29 @@
+<script>
+    $(document).ready(function(){
+	var arr = $("#productos").val();
+	var table = $('#tabla_compra').DataTable( {
+	    "ajax": {
+		     "url": "dataTableComprar",
+		     "type" : "post",
+		     "dataType": "json",
+		     "cache": false,
+		     "data" : {"arr": arr},
+		   },
+	    dom: 'Bfrtip',
+	    "buttons": [
+	    ],
+	    "columns": [
+		{ "data": "imagen", "width":"10%"},
+		{ "data": "descripcion", "width":"30%" },
+		{ "data": "cantidad", "width":"10%" },
+		{ "data": "total","width":"20%"  },
+	        { "data": "boton","width":"20%"  }
+	    ]
+	  });
+    })
+    
+</script>
+
 <!-- header info alumno y seleccion hijos -->
 <div class="row">
     <div class="col-md-1" style="border: 0px solid">
@@ -7,13 +33,7 @@
 	    </div>
 	</div>
     </div>
-    <div class="col-md-6" style="border: 0px solid; background-color: #FFF; padding: 15px">
-	
-    </div>
-    <div class="col-md-2" style="border: 0px solid; background-color: #FFF; padding: 15px ">
-	
-    </div>
-    <div class="col-md-2" style="border:0px solid; background-color: #FFF; padding: 15px  ">
+    <div class="col-md-10" style="border: 0px solid; background-color: #FFF; padding: 15px">
 	
     </div>
     <div class="col-md-1" style="border: 0px solid">
@@ -29,28 +49,12 @@
 <div class="row" >
     <div class="col-md-1"></div>
     <div class="col-md-10" style="background-color: #FFF; padding:15px">
-	<h4>Filtros de busqueda</h4>
-	<div class="row">
-	    <div class="col-md-2">
-		<select class="form-control">
-		    <option>Seleccione asignatura</option>
-		</select>
-	    </div>
-	    <div class="col-md-2">
-		<select class="form-control">
-		    <option>Seleccione proyecto</option>
-		</select>
-	    </div>
-	    <div class="col-md-5">
-		<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
-	    </div>
-	</div>
 	
     </div>
     <div class="col-md-1"></div>
 </div>
 
-<!-- Lista de productos -->
+<!-- contenido -->
 <div class="row">
     <div class="col-md-12" style="border: 0px solid">
 	<div class="row">
@@ -61,9 +65,20 @@
 		    </div>
 		</div>
 	    </div>
-	    <div id="alumno_productos" class="col-md-10" style="padding: 0px">
-		
-	    </div>
+	    <div class="table-responsive col-md-10" style="background-color: #FFF;">
+		<h4>Mi Carrito</h4>
+		<table id="tabla_compra" class="display" cellspacing="0" width="100%">
+		  <thead>
+		      <tr>
+			  <th>Imagen</th>
+			  <th>Descripcion</th>
+			  <th>Cantidad</th>
+			  <th>Total</th> 
+			  <th>Opciones</th>
+		      </tr>
+		  </thead>
+		</table>
+	      </div>
 	    <div class="col-md-1" style="border: 0px solid">
 		<div class="row">
 		    <div class="col-md-4">
@@ -71,14 +86,10 @@
 		    </div>
 		</div>
 	    </div>
-	    <div class="col-md-12" style="background-color: #FFF; padding:15px">
-			    <?php echo Html::link("carrito/comprar", "Comprar", "class='btn btn-success'");?>
-
-	    </div>
 	</div>
     </div>
 </div>	
-
+<input type="hidden" id="productos" value="<?php echo $arr?>">
 
 <!-- Boton Añadir a carrito -->
 

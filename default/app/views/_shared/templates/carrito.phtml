@@ -7,8 +7,14 @@
     <?php Tag::css('minty') ?>
     <?php Tag::css('font') ?>
     <?php Tag::css('smcompra') ?>
+    <?php Tag::css('datatable') ?>
     <?= Html::IncludeCss() ?>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <?php echo Tag::js('../javascript/jquery.dataTables.min') ?>
+    <?php echo Tag::js('../javascript/dataTables.bootstrap.min') ?>
+    <?php echo Tag::js('../javascript/dataTables_buttons.min') ?>
+    <?php echo Tag::js('../javascript/jszip.min') ?>
+    <?php echo Tag::js('../javascript/buttons_html5.min') ?>
   </head>
   <body>
     <?php echo Html::img('fondo.jpg', 'Logo ediciones SM', 'style="width:100%; height: 100%; position:absolute"') ?></a>
@@ -34,7 +40,7 @@
 	<div class="col-md-2"></div>
     </nav>
     <br><br>
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-bottom: 120px">
       <?php View::content() ?>
     </div>
     <?php View::partial('pie') ?>

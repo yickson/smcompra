@@ -20,7 +20,7 @@
 	        { "data": "boton","width":"20%"  }
 	    ]
 	  });
-	  
+
 	  $(".table-responsive").on("click", ".pagar", function(e){
 	    $.ajax({
 	      type: "POST",
@@ -28,7 +28,16 @@
 	      url : "datatableValidarPago",
 	      data : {"arr": arr},
 	      success: function(result){
-		  console.log(result);
+		      $.ajax({
+            type: "POST",
+            cache: false,
+            url: "prueba",
+            data: {"total": result},
+            success: function(result){
+              console.log(result);
+              window.location = "pasarela";
+            }
+          })
 	      },
 	      error: function(result){
 		  console.log("error");
@@ -36,7 +45,7 @@
 	    });
 	  });
     })
-    
+
 </script>
 
 <!-- header info alumno y seleccion hijos -->
@@ -49,7 +58,7 @@
 	</div>
     </div>
     <div class="col-md-10" style="border: 0px solid; background-color: #FFF; padding: 15px">
-	
+
     </div>
     <div class="col-md-1" style="border: 0px solid">
 	<div class="row">
@@ -64,7 +73,7 @@
 <div class="row" >
     <div class="col-md-1"></div>
     <div class="col-md-10" style="background-color: #FFF; padding:15px">
-	
+
     </div>
     <div class="col-md-1"></div>
 </div>
@@ -88,7 +97,7 @@
 			  <th>Imagen</th>
 			  <th>Descripcion</th>
 			  <th>Cantidad</th>
-			  <th>Total</th> 
+			  <th>Total</th>
 			  <th>Opciones</th>
 		      </tr>
 		  </thead>
@@ -103,7 +112,7 @@
 	    </div>
 	</div>
     </div>
-</div>	
+</div>
 <input type="hidden" id="productos" value="<?php echo $arr?>">
 
 <!-- Boton Añadir a carrito -->

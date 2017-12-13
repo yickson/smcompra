@@ -49,8 +49,8 @@ class Carrito extends ActiveRecord
 
 	$subtotal = round($total / 1.19);
 	$iva = round($subtotal * 0.19);
-	$iva = number_format($iva, 0 , ' , ' ,  '.');
-	$total = number_format($total, 0 , ' , ' ,  '.');
+	$iva = $this->formatNumeros($iva);
+	$total = $this->formatNumeros($total);
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
 
 	return  $productos;
@@ -70,6 +70,11 @@ class Carrito extends ActiveRecord
 	    break;
 	endswitch;
 	return $total_format;
+    }
+    
+    public function formatNumeros($valor){
+	$numero = number_format($valor, 0 , ' , ' ,  '.');
+	return $numero;
     }
 }
 

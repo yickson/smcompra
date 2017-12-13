@@ -1,6 +1,7 @@
 <?php 
 $hijos = array();
 $i=0;
+//print_r($alumno);die();
 foreach($alumno as $al):
     $hijos[$i]["id"] = $al->id;
     $hijos[$i]["nombre"] = $al->nombre;
@@ -95,12 +96,27 @@ endforeach;
 		    </div>
 		</div>
 	    </div>
-	    <div class="col-md-12" style="background-color: #FFF; padding:15px">
+	    <div class="col-md-1" style="border: 0px solid">
+		<div class="row">
+		    <div class="col-md-4">
+			<!--aqui columna izquierda de algun texto-->
+		    </div>
+		</div>
+	    </div>
+	    <div class="col-md-10" style="background-color: #FFF; padding:15px">
 		<form method="post" action="carrito/comprar" style="display:none">
 		    <input id="productos_arr" name="productos_arr" value="" class="hidden">
+		    <input id="id_usuario" name="id_usuario" value="" class="hidden">
 		    <input id="productos_submit" type="submit" class="hidden">
 		</form>
 		<button id="continuar_comprar" class="btn btn-success">Continuar</button>
+	    </div>
+	    <div class="col-md-1" style="border: 0px solid">
+		<div class="row">
+		    <div class="col-md-4">
+			<!--aqui columna derecha de algun texto-->
+		    </div>
+		</div>
 	    </div>
 	</div>
     </div>

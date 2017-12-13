@@ -3,7 +3,8 @@
 	var arr = $("#productos").val();
 	var table = $('#tabla_compra').DataTable( {
 	    "ajax": {
-		     "url": "dataTableComprar",
+		     "url": "dataTableListarCarrito",
+		     "dataSrc": "data",
 		     "type" : "post",
 		     "dataType": "json",
 		     "cache": false,
@@ -19,6 +20,21 @@
 		{ "data": "total","width":"20%"  },
 	        { "data": "boton","width":"20%"  }
 	    ]
+	  });
+	  
+	  $(".table-responsive").on("click", ".pagar", function(e){
+	    $.ajax({
+	      type: "POST",
+	      cache: false,
+	      url : "datatableValidarPago",
+	      data : {"arr": arr},
+	      success: function(result){
+		  console.log(result);
+	      },
+	      error: function(result){
+		  console.log("error");
+	      }
+	    });
 	  });
     })
     

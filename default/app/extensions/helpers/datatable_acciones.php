@@ -41,18 +41,20 @@ class datatableAcciones
 	 for($j=$i; $j<$items; $j++):
 	    $array[$j]["imagen"] = " ";
 	    $array[$j]["descripcion"] = " ";
-	    $array[$j]["cantidad"] = "Sub-Total";
 	    switch($j):
 		case $i+0:
-		     $array[$j]["total"] = $subtotal;
+		     $array[$j]["cantidad"] = "Sub-Total";
+		     $array[$j]["total"] = "$".$subtotal;
 		     $array[$j]["boton"] = " ";
 
 		break;
 		case $i+1:
-		     $array[$j]["total"] = $iva;
+		     $array[$j]["cantidad"] = "IVA";
+		     $array[$j]["total"] = "$".$iva;
 		     $array[$j]["boton"] = " ";
 		break;
 		case $i+2:
+		     $array[$j]["cantidad"] = "Total";
 		     $array[$j]["total"] = "$".$total;
 		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
 					     Pagar <i class=''></i>
@@ -66,8 +68,6 @@ class datatableAcciones
 		break;
 	    endswitch;
 	 endfor;
-	 
-	 
          return $array;
      }
 }

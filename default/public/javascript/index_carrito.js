@@ -18,6 +18,7 @@ $(document).ready(function(){
     $("#continuar_comprar").on("click",function(e){
         var productos = carrito_compra.almacenCarrito();
         $("#productos_arr").val(productos);
+        $("#tipo_usuario").val(tipo);
         $("#productos_submit").trigger("click");
     });
 });

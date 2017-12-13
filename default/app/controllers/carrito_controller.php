@@ -78,7 +78,7 @@ class CarritoController extends AppController
     $this->arr = $productos_arr;
     $this->tipo = $tipo;
   }
-  
+
   public function dataTableListarCarrito(){
     $carrito = New Carrito();
     $productos = $carrito->getListaProductos();
@@ -107,8 +107,8 @@ class CarritoController extends AppController
     //var_dump($configuration);
     $webpay = new Webpay($configuration);
 
-    $amount    = 10990; //Input::post('total');
-    $buyOrder  = 1234567; //Generarorden();
+    $amount    = Session::get('total');//10990; //Input::post('total');
+    $buyOrder  = SMP24680; //Generarorden();
     $sessionId = uniqid().rand(0,99999); //Random
     $urlReturn = 'http://localhost/smcompras/carrito/retorno';
     $urlFinal  = 'http://localhost/smcompras/carrito/fin';
@@ -162,6 +162,14 @@ class CarritoController extends AppController
   public function error()
   {
     //Vista para los errores de WebPay
+  }
+
+  public function prueba()
+  {
+    $total = Input::post('total');
+    Session::set('total', $total);
+    $this->data = true;
+    View::select(null, 'json');
   }
 }
 

@@ -17,12 +17,8 @@ class CarritoController extends AppController
   {
     //Esta vista no debería cargar nada
     $alumnos = Input::post('alumno');
-<<<<<<< HEAD
-    $l = New Alumnos;
-=======
     //print_r($alumnos);die();
     $l = new Alumnos;
->>>>>>> 3ec89cf7e1bdc1590085c893cad4ebb3dcb14128
     $datos = (New Alumnos)->verificar($alumnos);
     foreach ($alumnos as $key => $valor) {
       $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
@@ -31,10 +27,6 @@ class CarritoController extends AppController
     $this->usuario = Session::get('iduser');
     $this->tipo = Session::get('tipo');
     $this->alumno = $alumno;
-<<<<<<< HEAD
-=======
-    //View::select(null, null);
->>>>>>> 3ec89cf7e1bdc1590085c893cad4ebb3dcb14128
   }
 
   /**
@@ -87,13 +79,8 @@ class CarritoController extends AppController
     $this->arr = $productos_arr;
     $this->tipo = $tipo;
   }
-<<<<<<< HEAD
 
-  public function dataTableComprar(){
-=======
-  
   public function dataTableListarCarrito(){
->>>>>>> 3ec89cf7e1bdc1590085c893cad4ebb3dcb14128
     $productos_sql = new Productos;
     $productos = array();
     $result = null;
@@ -116,12 +103,7 @@ class CarritoController extends AppController
 	    break;
 	endswitch;
 	$productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
-<<<<<<< HEAD
-	$total_format += $result->valor;
-
-=======
 	$total_format += $productos_format[$i]["total"];
->>>>>>> 3ec89cf7e1bdc1590085c893cad4ebb3dcb14128
 	$i++;
     endforeach;
 
@@ -135,7 +117,7 @@ class CarritoController extends AppController
     $this->data  = $productos;
     View::select( null , 'json_carrito' );
   }
-  
+
   public function datatableValidarPago(){
     $productos_sql = new Productos;
     $result = null;

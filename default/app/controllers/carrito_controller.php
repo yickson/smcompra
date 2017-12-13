@@ -14,15 +14,17 @@ class CarritoController extends AppController
   {
     //Esta vista no debería cargar nada
     $alumnos = Input::post('alumno');
+    //print_r($alumnos);die();
+    $l = new Alumnos;
     $datos = (New Alumnos)->verificar($alumnos);
     foreach ($alumnos as $key => $valor) {
-      $alumno[] = (New Alumnos)->find_by_rut($valor['rut']); //Metodo para verificar un vacío
+      $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
     }
+
     $this->usuario = Session::get('iduser');
     $this->tipo = Session::get('tipo');
-    $this->alumno = $alumno
-    var_dump($datos);
-    View::select(null, null);
+    $this->alumno = $alumno;
+    //View::select(null, null);
   }
 
   /**
@@ -50,14 +52,14 @@ class CarritoController extends AppController
       $alumnos = "";
       
       switch($tipo):
-	  case 1:
+	  case 1: //Apoderado
 	        $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,
 							  (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, li.alumno_id as id_alumno
 							   FROM productos as p
-							   INNER JOIN licences li ON (li.producto_id = p.id and li.usuario_id = 1280)
+							   INNER JOIN licences li ON (li.producto_id = p.id and li.usuario_id = $id_usuario)
 							   ORDER BY li.alumno_id ASC");
 	  break;
-	  case 2:
+	  case 2: //Profesor
 	        $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,
 							   (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, pa.alumno_id as id_alumno
 							    FROM productos as p
@@ -73,9 +75,10 @@ class CarritoController extends AppController
   public function comprar(){
     $productos_arr = $_POST["productos_arr"];
     $this->arr = $productos_arr;
+    $this->tipo = $tipo;
   }
   
-  public function dataTableComprar(){
+  public function dataTableListarCarrito(){
     $productos_sql = new Productos;
     $productos = array();
     $result = null;
@@ -88,21 +91,50 @@ class CarritoController extends AppController
 	$productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
 	$productos_format[$i]["descripcion"] = $result->descripcion;
 	$productos_format[$i]["cantidad"] = 1;
-	$productos_format[$i]["total"] = $result->valor;
+	//if($tipo_usuario == 1){
+	switch(Session::get('tipo')):
+	    case 1:
+		    $productos_format[$i]["total"] = $result->valor;
+	    break;
+	    case 2:
+		    $productos_format[$i]["total"] = $result->valor * 0.5;
+	    break;
+	endswitch;
 	$productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
-	$total_format += $result->valor;
-	
+	$total_format += $productos_format[$i]["total"];
 	$i++;
     endforeach;
     
     $subtotal = round($total_format / 1.19);
     $iva = round($subtotal * 0.19);
-    $iva = number_format($iva);
-    $total = number_format($total_format);
+    $iva = number_format($iva, 0 , ' , ' ,  '.');
+    $total = number_format($total_format, 0 , ' , ' ,  '.');
     $pagar = "";
     $productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
-    $this->data = $productos;
-    View::select( null , 'json' );
+    $productos["total"] = $total_format;
+    $this->data  = $productos;
+    View::select( null , 'json_carrito' );
+  }
+  
+  public function datatableValidarPago(){
+    $productos_sql = new Productos;
+    $result = null;
+    $total_format = null;
+    $productos_arr = explode(",", $_POST["arr"]);
+    foreach($productos_arr as $producto):
+	$result = $productos_sql->find($producto);
+	switch(Session::get('tipo')):
+	    case 1:
+		   $total_format += $result->valor;
+	    break;
+	    case 2:
+		   $total_format += $result->valor * 0.5;
+	    break;
+	endswitch;
+    endforeach;
+    $total = $total_format;
+    $this->total  = $total;
+    View::select( null , 'json_carrito' );
   }
 }
 

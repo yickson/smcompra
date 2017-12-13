@@ -1,4 +1,5 @@
 var Carrito = function(option){
+        
 
   var $this = {
         carrito    : [],
@@ -29,8 +30,10 @@ var Carrito = function(option){
                      "tipo": tipo},
 	    success: function(data){
 		//Carga productos
+                console.log("pase");
 		var hijos = $("#hijos").data("info");
 		var cantidad_productos = 0;
+                var product_x_alumno   = 0;
 		var display = 0;
 		var mostrar = "block";
 		$.each( hijos, function( key, val ) {
@@ -46,9 +49,11 @@ var Carrito = function(option){
 		    }
 		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style='background-color: #FFF; display:"+mostrar+"'>"+
 			            "<div class='row'>";
-		
+                     console.log("pase2");
 		    $.each(data, function(indice, valor){
+                        console.log(val.id +"==="*valor.id_alumno);
 			if(val.id === valor.id_alumno){
+                            
 			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 producto' data-rel='"+valor.id_producto+"' data-agregado='0' style='border: 0px solid'>"+
 						    "<div class='col-md-12 img-hover' style='cursor:pointer;'>"+
 							"<div class='row'>"+
@@ -69,8 +74,12 @@ var Carrito = function(option){
 						    "</div>"+
 						"</div>";
                             cantidad_productos++;
+                            product_x_alumno++;
 			}
 		    });
+                    if(product_x_alumno < 1){
+                        productos_item += "<div class='col-md-12'>No existen productos asociados a este alumno</div>";
+                    }
 		    productos_fin = "</div></div>";
 		    productos_full = productos_ini + productos_item + productos_fin;
 		    productos.push(productos_full);
@@ -84,8 +93,9 @@ var Carrito = function(option){
 		$("#alumno_productos").html(productos_html);
                 $("#cantidad_productos").text(cantidad_productos);
 	    },
-	    error: function(data){
+	    error: function(xhr, textStatus, errorThrown){
                 console.log("error");
+                console.log(xhr);
 	    }
 	});
     };

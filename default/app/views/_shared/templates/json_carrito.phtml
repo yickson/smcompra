@@ -1,0 +1,9 @@
+<?php
+/*mime type para el contenido*/
+header('Content-type: application/json');
+if(isset($data)){
+  echo json_encode($data);
+}
+if(isset($total)){
+  echo json_encode($total);
+}

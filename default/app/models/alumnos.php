@@ -8,7 +8,7 @@ class Alumnos extends ActiveRecord
   public function verificar($datos)
   {
     //Ingreso todo por rut
-    foreach ($datos as $key => $valor) {
+     foreach ($datos as $key => $valor) {
       $alumno = (New Alumnos)->find_by_rut($this->verificador($valor['rut']));
       if($alumno->email == ''){
         $alumno->email = $valor['correo'];
@@ -16,7 +16,6 @@ class Alumnos extends ActiveRecord
         return true;
       }
     }
-    return $alumno;
   }
 
   public function limpia_rut($rut)

@@ -79,60 +79,15 @@ class CarritoController extends AppController
   }
   
   public function dataTableListarCarrito(){
-    $productos_sql = new Productos;
-    $productos = array();
-    $result = null;
-    $productos_format = array();
-    $total_format = null;
-    $productos_arr = explode(",", $_POST["arr"]);
-    $i=0;
-    foreach($productos_arr as $producto):
-	$result = $productos_sql->find($producto);
-	$productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
-	$productos_format[$i]["descripcion"] = $result->descripcion;
-	$productos_format[$i]["cantidad"] = 1;
-	//if($tipo_usuario == 1){
-	switch(Session::get('tipo')):
-	    case 1:
-		    $productos_format[$i]["total"] = $result->valor;
-	    break;
-	    case 2:
-		    $productos_format[$i]["total"] = $result->valor * 0.5;
-	    break;
-	endswitch;
-	$productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
-	$total_format += $productos_format[$i]["total"];
-	$i++;
-    endforeach;
-    
-    $subtotal = round($total_format / 1.19);
-    $iva = round($subtotal * 0.19);
-    $iva = number_format($iva, 0 , ' , ' ,  '.');
-    $total = number_format($total_format, 0 , ' , ' ,  '.');
-    $pagar = "";
-    $productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
-    $productos["total"] = $total_format;
+    $carrito = New Carrito();
+    $productos = $carrito->getListaProductos();
     $this->data  = $productos;
     View::select( null , 'json_carrito' );
   }
   
   public function datatableValidarPago(){
-    $productos_sql = new Productos;
-    $result = null;
-    $total_format = null;
-    $productos_arr = explode(",", $_POST["arr"]);
-    foreach($productos_arr as $producto):
-	$result = $productos_sql->find($producto);
-	switch(Session::get('tipo')):
-	    case 1:
-		   $total_format += $result->valor;
-	    break;
-	    case 2:
-		   $total_format += $result->valor * 0.5;
-	    break;
-	endswitch;
-    endforeach;
-    $total = $total_format;
+    $carrito = New Carrito();
+    $total = $carrito->getTotalByTipoUsuario();
     $this->total  = $total;
     View::select( null , 'json_carrito' );
   }

@@ -62,6 +62,7 @@ class datatableAcciones
 					    </button>";
 		break;
 		case $i+3:
+		     $array[$j]["cantidad"] = " ";
 		     $array[$j]["total"] = " ";
 		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
 					     Pagar <i class=''></i>

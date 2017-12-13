@@ -89,6 +89,7 @@ class CarritoController extends AppController
   public function datatableValidarPago(){
     $carrito = New Carrito();
     $total = $carrito->getTotalByTipoUsuario();
+    $total = $carrito->valorDespacho($total);
     $this->total  = $total;
     View::select( null , 'json_carrito' );
   }
@@ -110,8 +111,8 @@ class CarritoController extends AppController
     $amount    = Session::get('total');//10990; //Input::post('total');
     $buyOrder  = SMP24680; //Generarorden();
     $sessionId = uniqid().rand(0,99999); //Random
-    $urlReturn = 'http://localhost/smcompras/carrito/retorno';
-    $urlFinal  = 'http://localhost/smcompras/carrito/fin';
+    $urlReturn = 'http://localhost/smcompra/carrito/retorno';
+    $urlFinal  = 'http://localhost/smcompra/carrito/fin';
 
     $this->result = $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
     //var_dump($this->result);

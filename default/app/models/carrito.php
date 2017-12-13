@@ -7,6 +7,7 @@ class Carrito extends ActiveRecord
 {
   const APODERADO = 1;
   const PROFESOR  = 2;
+  const VALOR_DESPACHO = 3090;
   
    /*
     * @return $total_format int Devuelve total segun tipo de usuario APODERADO / PROFESOR
@@ -41,18 +42,19 @@ class Carrito extends ActiveRecord
 	    $productos_format[$i]["descripcion"] = $result->descripcion;
 	    $productos_format[$i]["cantidad"] = 1;
 	    $total_format = $this->total($result->valor);
-	    $productos_format[$i]["total"] = $total_format;
+	    $productos_format[$i]["total"] = $this->formatNumeros($total_format);
 	    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
 	    $total += $total_format;
 	    $i++;
 	endforeach;
 
-	$subtotal = round($total / 1.19);
-	$iva = round($subtotal * 0.19);
+	$subtotal_decimal = round($total / 1.19);
+	$subtotal = $this->formatNumeros($subtotal_decimal);
+	$iva = round($subtotal_decimal * 0.19);
 	$iva = $this->formatNumeros($iva);
+	$total = $this->valorDespacho($total);
 	$total = $this->formatNumeros($total);
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
-
 	return  $productos;
     }
     
@@ -75,6 +77,19 @@ class Carrito extends ActiveRecord
     public function formatNumeros($valor){
 	$numero = number_format($valor, 0 , ' , ' ,  '.');
 	return $numero;
+    }
+    
+    public function valorDespacho($monto){
+	switch(Session::get('tipo')):
+	    case $this::APODERADO:
+	       $monto = $monto;
+	    break;
+	    case $this::PROFESOR:
+		$monto = $monto + $this::VALOR_DESPACHO;
+	    break;
+	endswitch;
+	
+	return $monto;
     }
 }
 

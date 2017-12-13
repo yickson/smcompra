@@ -7,7 +7,6 @@
  */
 class datatableAcciones
 {
-
     /**
      * Visualiza sugerencia en base a lo escrito
      *
@@ -38,7 +37,8 @@ class datatableAcciones
      */
      public static function getTotal($i, $array,$subtotal,$iva,$total)
      {
-	 $items = $i+3;
+	 $items = $i+4;
+	 $despacho = 3090;
 	 for($j=$i; $j<$items; $j++):
 	    $array[$j]["imagen"] = " ";
 	    $array[$j]["descripcion"] = " ";
@@ -55,17 +55,17 @@ class datatableAcciones
 		     $array[$j]["boton"] = " ";
 		break;
 		case $i+2:
+		    if(Session::get('tipo') == 2){
+			$array[$j]["cantidad"] = "Despacho";
+			$array[$j]["total"] = "$".number_format($despacho, 0 , ' , ' ,  '.');
+			$array[$j]["boton"] = " ";
+		    }
+		break;
+		case $i+3:
 		     $array[$j]["cantidad"] = "Total";
 		     $array[$j]["total"] = "$".$total;
 		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
-					     Pagar <i class=''></i>
-					    </button>";
-		break;
-		case $i+3:
-		     $array[$j]["cantidad"] = " ";
-		     $array[$j]["total"] = " ";
-		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
-					     Pagar <i class=''></i>
+					     Ir a entrega y pago de productos <i class=''></i>
 					    </button>";
 		break;
 	    endswitch;

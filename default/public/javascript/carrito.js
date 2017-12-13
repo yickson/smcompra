@@ -63,8 +63,7 @@ var Carrito = function(option){
 								"<p><span><b>Curso: </b></span><span class='card-text'>"+valor.nivel+"</span></p>"+
 								"<h5>Tipo Material:</h5>"+
 								"<span class='card-text' style='color: red;'> <strong>"+valor.tipo+"</strong> </span><br>"+
-								"<span class='card-text' style='text-decoration: line-through'>$"+valor.valor+"</span><br>"+
-								"<span class='card-text'>$"+(valor.valor * 0.5)+"<strong> (-50%)</strong></span>"+
+                                                                descuentoTipo(valor.tipo, valor.valor)+
 							    "</div>"+
 							"</div>"+
 						    "</div>"+
@@ -110,6 +109,11 @@ var Carrito = function(option){
 	    $("#alumno"+id).css("display", "block");
     }
     
+    this.almacenCarrito = function(){
+        console.log(this.construct($this.carrito));
+        return $this.carrito;
+    }
+    
     function dataAlumno(id){
 	$.ajax({
 	      type : "POST",
@@ -128,4 +132,20 @@ var Carrito = function(option){
 	      }
 	  }); 
        };
+    
+    function descuentoTipo(tipo, valor){
+        var descuento = "";
+        switch(tipo){
+            case "Licencia":
+                            descuento = "<span class='card-text'>$"+valor+"</span><br>";
+
+            break;
+            
+            case "Texto":
+                            descuento = "<span class='card-text' style='text-decoration: line-through'>$"+valor+"</span><br>"+
+                                      "<span class='card-text'>$"+(valor * 0.5)+"<strong> (-50%)</strong></span>";
+            break;
+        }
+        return descuento;
+    }
 };

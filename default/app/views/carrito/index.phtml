@@ -96,8 +96,11 @@ endforeach;
 		</div>
 	    </div>
 	    <div class="col-md-12" style="background-color: #FFF; padding:15px">
-			    <?php echo Html::link("carrito/comprar", "Comprar", "class='btn btn-success'");?>
-
+		<form method="post" action="carrito/comprar" style="display:none">
+		    <input id="productos_arr" name="productos_arr" value="" class="hidden">
+		    <input id="productos_submit" type="submit" class="hidden">
+		</form>
+		<button id="continuar_comprar" class="btn btn-success">Continuar</button>
 	    </div>
 	</div>
     </div>

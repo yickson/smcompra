@@ -15,8 +15,10 @@ class Alumnos extends ActiveRecord
         $alumno->save();
         return true;
       }
+      else{
+        return true;
+      }
     }
-    return $alumno;
   }
 
   public function limpia_rut($rut)

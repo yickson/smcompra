@@ -27,7 +27,8 @@ class datatableAcciones
      */
      public static function getImagen($imagen)
      {
-        $img = "<img src='/smcompra/img/productos/$imagen'/ width='70'>";
+	 
+        $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='70'>";
          return $img;
      }
      

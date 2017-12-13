@@ -80,7 +80,6 @@ class CarritoController extends AppController
   }
   
   public function dataTableListarCarrito(){
-
     $carrito = New Carrito();
     $productos = $carrito->getListaProductos();
     $this->data  = $productos;

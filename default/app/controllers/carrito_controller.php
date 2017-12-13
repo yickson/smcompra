@@ -157,7 +157,7 @@ class CarritoController extends AppController
     $buyOrder  = 1234567; //Generarorden();
     $sessionId = uniqid().rand(0,99999); //Random
     $urlReturn = 'http://localhost/smcompras/carrito/retorno';
-    $urlFinal  = 'http://localhost/smcompras/carrito/final';
+    $urlFinal  = 'http://localhost/smcompras/carrito/fin';
 
     $this->result = $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
     //var_dump($this->result);
@@ -193,7 +193,7 @@ class CarritoController extends AppController
     //View::select(null, null);
   }
 
-  public function final()
+  public function fin()
   {
     //Final
     $this->token = $_POST['token_ws'];

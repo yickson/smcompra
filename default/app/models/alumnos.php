@@ -15,6 +15,9 @@ class Alumnos extends ActiveRecord
         $alumno->save();
         return true;
       }
+      else{
+        return true;
+      }
     }
   }
 

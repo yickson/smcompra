@@ -1,6 +1,6 @@
 <?php
 require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
-Load::lib('libwebpay/webpay');
+//Load::lib('libwebpay/webpay');
 
 /**
  * Controlador para gestionar el carrito de compra
@@ -80,50 +80,21 @@ class CarritoController extends AppController
 
   public function pasarela()
   {
-
-    $certificate = Load::lib('libwebpay/cert-normal');
-    //Carro de compra
-    $configuration = new configuration();
-    $configuration->setEnvironment($certificate->environment);
-    $configuration->setCommerceCode($certificate->commerce_code);
-    $configuration->setPrivateKey($certificate->private_key);
-    $configuration->setPublicCert($certificate->public_cert);
-    $configuration->setWebpayCert($certificate->webpay_cert);
-    //var_dump($configuration);
-    $webpay = new Webpay($configuration);
-
-    $amount    = Session::get('total');//10990; //Input::post('total');
-    $buyOrder  = Carrito::generarOrden(10); //Generarorden();
-    $sessionId = uniqid().rand(0,99999); //Random
-    $urlReturn = 'http://localhost/smcompras/carrito/retorno';
-    $urlFinal  = 'http://localhost/smcompras/carrito/fin';
-
-    $this->result = $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
-    ///var_dump($this->result, $buyOrder);
+    Load::lib('webpago');
+    $webpay = New Webpago;
+    $this->result = $webpay->inicioWebpay();
     View::template(null);
   }
 
   public function retorno()
   {
-    //Load::lib('libwebpay/webpay');
-    $certificate = Load::lib('libwebpay/cert-normal');
-    //Retorno
-    $configuration = new configuration();
-    $configuration->setEnvironment($certificate->environment);
-    $configuration->setCommerceCode($certificate->commerce_code);
-    $configuration->setPrivateKey($certificate->private_key);
-    $configuration->setPublicCert($certificate->public_cert);
-    $configuration->setWebpayCert($certificate->webpay_cert);
-
+    Load::lib('webpago');
+    $webpay = New Webpago;
     $this->token = $_POST['token_ws'];
-
-    $webpay = new Webpay($configuration);
     try {
-      $this->result = $webpay->getNormalTransaction()->getTransactionResult($this->token);
-      //var_dump($this->result->detailOutput->responseCode);
+      $this->result = $webpay->retornoWebpay($this->token);
       if($this->result->detailOutput->responseCode != 0) {
         Redirect::to('carrito/error');
-        //var_dump($this->result->detailOutput->responseCode, $this->errorpay);
       }else{
         View::template(null);
       }
@@ -131,7 +102,6 @@ class CarritoController extends AppController
     catch(Exception $ex) {
       die('Error inesperado en transkbank: ' . $ex->getMessage());
     }
-    //View::select(null, null);
   }
 
   public function fin()

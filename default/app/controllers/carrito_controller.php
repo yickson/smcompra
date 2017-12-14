@@ -115,8 +115,8 @@ class CarritoController extends AppController
     $urlFinal  = 'http://localhost/smcompras/carrito/fin';
 
     $this->result = $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
-    var_dump($this->result, $buyOrder);
-    View::select(null, null);
+    //var_dump($this->result, $buyOrder);
+    //View::select(null, null);
   }
 
   public function retorno()

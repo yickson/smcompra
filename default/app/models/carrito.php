@@ -19,7 +19,7 @@ class Carrito extends ActiveRecord
 	$productos_arr = explode(",", $_POST["arr"]);
 	foreach($productos_arr as $producto):
 	    $result = $productos_sql->find($producto);
-	    $total = $this->total($result->valor);
+	    $total += $this->total($result->valor);
 	endforeach;
 	return $total;
     }

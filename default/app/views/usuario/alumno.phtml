@@ -1,84 +1,3 @@
-<?php echo Tag::js('agregar') ?>
-<script>
-  $(document).ready(function(){
-    var rutv;
-    var curso;
-    $("#enviar").prop("disabled", true);
-    $(document).on("keyup", '.rut', function(){
-      $(".rut")
-        .rut({formatOn: 'keyup', validateOn: 'change', minimumLength: 8})
-        .on('rutInvalido', function(){
-          $(this).parents(".form-group").addClass("has-danger");
-          $(this).addClass("is-invalid");
-          rutv = '';
-        })
-        .on('rutValido', function(){
-          $(this).parents(".form-group").removeClass("has-danger");
-          $(this).removeClass("is-invalid");
-        })
-        .on('rutValido', function(e, rut){
-          rutv = rut;
-        });
-    });
-    $(document).on("blur", ".rut", function(){
-      var numero = $(this).attr('id');
-      console.log("Este es un valor antes del ajax "+rutv);
-      if(rutv !== undefined){
-        $.ajax({
-          url: window.location.href + 'usuario/buscar_alumno',
-          type: 'POST',
-          cache: false,
-          data: {"rut":rutv},
-          success: function(result){
-            console.log(result);
-            if(result == 2){
-              $("#enviar").prop("disabled", true);
-              swal(
-                    'Ha ocurrido un error',
-                    'Usted no es el apoderado de este alumno',
-                    'error'
-                  );
-            }else{
-              $("#enviar").prop("disabled", false);
-              $("#nombre"+numero).attr("value", result['nombre']);
-              $("#nombre"+numero).prop("disabled", true);
-              if(result['email'] != ""){
-                $('#email'+numero).attr("value", result['email']);
-                $("#email"+numero).prop("disabled", true);
-              }
-              $("#curso"+numero+ " option").each(function(){
-                 curso = $(this).attr('value');
-                 if(curso == result['curso']){
-                   $(this).prop("selected", true);
-                 }
-              });
-            }
-            if(!result){
-              $("#enviar").prop("disabled", true);
-              $("#nombre"+numero).attr("value", '');
-              $("#nombre"+numero).prop("disabled", false);
-              $('#email'+numero).attr("value", '');
-              $("#email"+numero).prop("disabled", false);
-              swal(
-                    'Ha ocurrido un error',
-                    'Este RUT de alumno no existe en nuestros registros',
-                    'error'
-                  );
-            }
-          }
-        });
-      }
-    });
-    $("#enviar").submit(function(){
-      var c = $("#email").val();
-      console.log(c);
-      if(c == ''){
-        //console.log('Previne el submit de este form');
-        return false;
-      }
-    })
-  })
-</script>
 <br>
 <div class="card bg-light mb-12">
   <div class="card-header">Identificación del alumno - Ediciones SM</div>
@@ -87,29 +6,29 @@
     <?php echo Form::open('carrito') ?>
       <div class="row">
         <div class="col-xs-12 col-sm-6">
-          <div class="form-group">
-            <label class="col-form-label" for="inputDefault">RUT</label>
-            <input id="0" name="alumno[0][rut]" type="text" class="form-control rut" placeholder="11.111.111-1" id="inputDefault">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3">RUT</label>
+            <input id="0" name="alumno[0][rut]" type="text" class="form-control rut col-sm-8" placeholder="11.111.111-1" id="inputDefault">
           </div>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <div class="form-group">
-            <label class="col-form-label" for="inputDefault">NOMBRE COMPLETO</label>
-            <input id="nombre0" name="alumno[0][nombre]" type="text" class="form-control" placeholder="Papelucho Paletin" id="inputDefault">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3">NOMBRE</label>
+            <input id="nombre0" name="alumno[0][nombre]" type="text" class="form-control col-sm-8" placeholder="Papelucho Paletin" id="inputDefault">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-6">
-          <div class="form-group">
-            <label for="exampleInputEmail1">CORREO</label>
-            <input id="email0"type="email" name="alumno[0][correo]" class="form-control email" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
+          <div class="form-group row">
+            <label class="col-sm-3">CORREO</label>
+            <input id="email0" type="email" name="alumno[0][correo]" class="form-control email col-sm-8" aria-describedby="emailHelp" placeholder="papelucho@correo.com">
           </div>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <div class="form-group">
-            <label for="exampleSelect1">CURSO</label>
-            <select name="alumno[0][curso]" class="form-control" id="curso0">
+          <div class="form-group row">
+            <label class="col-sm-3">CURSO</label>
+            <select name="alumno[0][curso]" class="form-control col-sm-8" id="curso0">
               <option value="1">Primero Básico</option>
               <option value="2">Segundo Básico</option>
               <option value="3">Tercero Básico</option>
@@ -135,3 +54,5 @@
     </form>
   </div>
 </div>
+<?php echo Tag::js('agregar') ?>
+<?php echo Tag::js('validarusuario') ?>

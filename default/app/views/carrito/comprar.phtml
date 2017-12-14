@@ -29,15 +29,15 @@
 	      data : {"arr": arr},
 	      success: function(result){
 		      $.ajax({
-            type: "POST",
-            cache: false,
-            url: "prueba",
-            data: {"total": result},
-            success: function(result){
-              console.log(result);
-              window.location = "pasarela";
-            }
-          })
+			type: "POST",
+			cache: false,
+			url: "prueba",
+			data: {"total": result},
+			success: function(data){
+			  console.log(data);
+			  window.location = "pasarela";
+			}
+		      })
 	      },
 	      error: function(result){
 		  console.log("error");

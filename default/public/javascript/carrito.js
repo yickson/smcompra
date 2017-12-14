@@ -30,7 +30,6 @@ var Carrito = function(option){
                      "tipo": tipo},
 	    success: function(data){
 		//Carga productos
-                console.log("pase");
 		var hijos = $("#hijos").data("info");
 		var cantidad_productos = 0;
                 var product_x_alumno   = 0;
@@ -49,16 +48,14 @@ var Carrito = function(option){
 		    }
 		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style='background-color: #FFF; display:"+mostrar+"'>"+
 			            "<div class='row'>";
-                     console.log("pase2");
 		    $.each(data, function(indice, valor){
-                        console.log(val.id +"==="*valor.id_alumno);
 			if(val.id === valor.id_alumno){
 
 			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 producto' data-rel='"+valor.id_producto+"' data-agregado='0' style='border: 0px solid'>"+
 						    "<div class='col-md-12 img-hover' style='cursor:pointer;'>"+
 							"<div class='row'>"+
 							    "<div id='agregado"+valor.id_producto+"' class='col-md-6' style='padding:10px'>"+
-								"<img src='/smcompras/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+	
+								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+	
 							    "</div>"+
 							    "<div class='col-md-6' style='padding:10px'>"+
 								"<h5 class='mt-0'>Asignatura:</h5>"+
@@ -95,7 +92,6 @@ var Carrito = function(option){
 	    },
 	    error: function(xhr, textStatus, errorThrown){
                 console.log("error");
-                console.log(xhr);
 	    }
 	});
     };

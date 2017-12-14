@@ -7,6 +7,10 @@
  */
 class datatableAcciones
 {
+   
+    public function __construct() {
+
+    }
     /**
      * Visualiza sugerencia en base a lo escrito
      *
@@ -37,31 +41,30 @@ class datatableAcciones
      */
      public static function getTotal($i, $array,$subtotal,$iva,$total)
      {
-	 $items = $i+4;
+	 (Session::get('tipo')==1)?$items = $i+3:$items = $i+4;
 	 $despacho = 3090;
+	 $tabla = array();
 	 for($j=$i; $j<$items; $j++):
-	    $array[$j]["imagen"] = " ";
-	    $array[$j]["descripcion"] = " ";
-	    switch($j):
+	    if(Session::get('tipo') == 1){
+	     switch($j):
 		case $i+0:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["cantidad"] = "Sub-Total";
 		     $array[$j]["total"] = "$".$subtotal;
 		     $array[$j]["boton"] = " ";
 
 		break;
 		case $i+1:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["cantidad"] = "IVA";
 		     $array[$j]["total"] = "$".$iva;
 		     $array[$j]["boton"] = " ";
 		break;
 		case $i+2:
-		    if(Session::get('tipo') == 2){
-			$array[$j]["cantidad"] = "Despacho";
-			$array[$j]["total"] = "$".number_format($despacho, 0 , ' , ' ,  '.');
-			$array[$j]["boton"] = " ";
-		    }
-		break;
-		case $i+3:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["cantidad"] = "Total";
 		     $array[$j]["total"] = "$".$total;
 		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
@@ -69,6 +72,41 @@ class datatableAcciones
 					    </button>";
 		break;
 	    endswitch;
+	 }else{
+	     switch($j):
+		case $i+0:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
+		     $array[$j]["cantidad"] = "Sub-Total";
+		     $array[$j]["total"] = "$".$subtotal;
+		     $array[$j]["boton"] = " ";
+
+		break;
+		case $i+1:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
+		     $array[$j]["cantidad"] = "IVA";
+		     $array[$j]["total"] = "$".$iva;
+		     $array[$j]["boton"] = " ";
+		break;
+		case $i+2:
+			$array[$j]["imagen"] = " ";
+		        $array[$j]["descripcion"] = " ";
+			$array[$j]["cantidad"] = "Despacho";
+			$array[$j]["total"] = "$".number_format($despacho, 0 , ' , ' ,  '.');
+			$array[$j]["boton"] = " ";
+		break;
+		case $i+3:
+		     $array[$j]["imagen"] = " ";
+		     $array[$j]["descripcion"] = " ";
+		     $array[$j]["cantidad"] = "Total";
+		     $array[$j]["total"] = "$".$total;
+		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
+					     Ir a entrega y pago de productos <i class=''></i>
+					    </button>";
+		break;
+	    endswitch;
+	 }
 	 endfor;
          return $array;
      }

@@ -41,8 +41,9 @@ class Carrito extends ActiveRecord
 	    $productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
 	    $productos_format[$i]["descripcion"] = $result->descripcion;
 	    $productos_format[$i]["cantidad"] = 1;
-	    $total_format = $this->total($result->valor);
-	    $productos_format[$i]["total"] = $this->formatNumeros($total_format);
+	    $total = $this->total($result->valor);
+	    $total_format += $total;
+	    $productos_format[$i]["total"] = $this->formatNumeros($total);
 	    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
 	    $total += $total_format;
 	    $i++;
@@ -52,8 +53,8 @@ class Carrito extends ActiveRecord
 	$subtotal = $this->formatNumeros($subtotal_decimal);
 	$iva = round($subtotal_decimal * 0.19);
 	$iva = $this->formatNumeros($iva);
-	$total = $this->valorDespacho($total);
-	$total = $this->formatNumeros($total);
+	$total = $this->valorDespacho($total_format);
+	$total = $this->formatNumeros($total_format);
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
 	return  $productos;
     }

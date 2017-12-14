@@ -15,6 +15,27 @@ endforeach;
 <?php echo Tag::js('index_carrito') ?>
 <!-- header info alumno y seleccion hijos -->
 <div class="row">
+     <div class="col-md-1" style="border: 0px solid">
+	<div class="row">
+	    <div class="col-md-4">
+		<!--aqui columna derecha de algun texto-->
+	    </div>
+	</div>
+    </div>
+     <div class="col-md-10" style="border: 0px solid; background-color: #FFF; padding: 15px">
+	    <span style="font-size:32px">Paso 3/5:</span> <em style="font-size:18px">Lista de productos</em>
+	    <hr>
+    </div>
+     <div class="col-md-1" style="border: 0px solid">
+	<div class="row">
+	    <div class="col-md-4">
+		<!--aqui columna derecha de algun texto-->
+	    </div>
+	</div>
+    </div>
+    
+</div>
+<div class="row">
     <div class="col-md-1" style="border: 0px solid">
 	<div class="row">
 	    <div class="col-md-4">
@@ -22,6 +43,7 @@ endforeach;
 	    </div>
 	</div>
     </div>
+    
     <div class="col-md-6" style="border: 0px solid; background-color: #FFF; padding: 15px">
 	<h4>Alumno</h4>
 	<p><label>Nombre  : </label><label id="nombre_alumno"></label></p>
@@ -54,23 +76,14 @@ endforeach;
 <div class="row" >
     <div class="col-md-1"></div>
     <div class="col-md-10" style="background-color: #FFF; padding:15px">
-	<h4>Filtros de busqueda</h4>
+	<h4>Lista de Productos</h4>
 	<div class="row">
-	    <div class="col-md-2">
-		<select class="form-control">
-		    <option>Seleccione asignatura</option>
-		</select>
-	    </div>
-	    <div class="col-md-2">
-		<select class="form-control">
-		    <option>Seleccione proyecto</option>
-		</select>
-	    </div>
+
 	    <div class="col-md-5">
 		<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
 	    </div>
 	</div>
-	
+	<hr>
     </div>
     <div class="col-md-1"></div>
 </div>

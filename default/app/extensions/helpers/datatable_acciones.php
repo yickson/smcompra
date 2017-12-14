@@ -30,7 +30,6 @@ class datatableAcciones
      */
      public static function getImagen($imagen)
      {
-	 
         $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='70'>";
          return $img;
      }
@@ -50,7 +49,7 @@ class datatableAcciones
 		case $i+0:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "Sub-Total";
+		     $array[$j]["tipo"] = "Sub-Total";
 		     $array[$j]["total"] = "$".$subtotal;
 		     $array[$j]["boton"] = " ";
 
@@ -58,14 +57,14 @@ class datatableAcciones
 		case $i+1:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "IVA";
+		     $array[$j]["tipo"] = "IVA";
 		     $array[$j]["total"] = "$".$iva;
 		     $array[$j]["boton"] = " ";
 		break;
 		case $i+2:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "Total";
+		     $array[$j]["tipo"] = "Total";
 		     $array[$j]["total"] = "$".$total;
 		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
 					    Pagar <i class=''></i>
@@ -77,7 +76,7 @@ class datatableAcciones
 		case $i+0:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "Sub-Total";
+		     $array[$j]["tipo"] = "Sub-Total";
 		     $array[$j]["total"] = "$".$subtotal;
 		     $array[$j]["boton"] = " ";
 
@@ -85,21 +84,21 @@ class datatableAcciones
 		case $i+1:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "IVA";
+		     $array[$j]["tipo"] = "IVA";
 		     $array[$j]["total"] = "$".$iva;
 		     $array[$j]["boton"] = " ";
 		break;
 		case $i+2:
 			$array[$j]["imagen"] = " ";
 		        $array[$j]["descripcion"] = " ";
-			$array[$j]["cantidad"] = "Despacho";
+			$array[$j]["tipo"] = "Despacho";
 			$array[$j]["total"] = "$".number_format($despacho, 0 , ' , ' ,  '.');
 			$array[$j]["boton"] = " ";
 		break;
 		case $i+3:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["cantidad"] = "Total";
+		     $array[$j]["tipo"] = "Total";
 		     $array[$j]["total"] = "$".$total;
 		     $array[$j]["boton"] = "<button  class='btn btn-primary despacho' data-toggle='modal'>
 					     Verifica tu Dirección <i class=''></i>

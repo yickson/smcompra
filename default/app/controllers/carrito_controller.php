@@ -108,7 +108,7 @@ class CarritoController extends AppController
     //var_dump($configuration);
     $webpay = new Webpay($configuration);
 
-    $amount    = Session::get('total');//10990; //Input::post('total');
+    $amount    = Input::post('total');//10990; //Input::post('total');
     $buyOrder  = SMP24680; //Generarorden();
     $sessionId = uniqid().rand(0,99999); //Random
     $urlReturn = 'http://localhost/smcompra/carrito/retorno';

@@ -10,6 +10,7 @@
 		     "data" : {"arr": arr},
 		   },
 	    dom: 'Bfrtip',
+	    "bFilter": false,
 	    "buttons": [
 	    ],
 	    "columns": [
@@ -76,7 +77,14 @@
     })
 
 </script>
-
+<style>
+    #tabla_compra_info{
+	display:none;
+    }
+    #tabla_compra_paginate{
+	visibility: hidden;
+    }
+</style>
 <!-- header info alumno y seleccion hijos -->
 <div class="row">
     <div class="col-md-1" style="border: 0px solid">
@@ -102,7 +110,8 @@
 <div class="row" >
     <div class="col-md-1"></div>
     <div class="col-md-10" style="background-color: #FFF; padding:15px">
-
+	<span style="font-size:32px">Paso 4/5:</span> <em style="font-size:18px">Carro de compra</em>
+	<hr>
     </div>
     <div class="col-md-1"></div>
 </div>
@@ -111,6 +120,7 @@
 <div class="row">
     <div class="col-md-12" style="border: 0px solid">
 	<div class="row">
+	    
 	    <div class="col-md-1" style="border: 0px solid">
 		<div class="row">
 		    <div class="col-md-4">
@@ -119,6 +129,7 @@
 		</div>
 	    </div>
 	    <div class="table-responsive col-md-10" style="background-color: #FFF;">
+		
 		<h4>Mi Carrito</h4>
 		<table id="tabla_compra" class="display" cellspacing="0" width="100%">
 		  <thead>

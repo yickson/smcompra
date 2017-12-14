@@ -8,7 +8,7 @@ class Carrito extends ActiveRecord
   const APODERADO = 1;
   const PROFESOR  = 2;
   const VALOR_DESPACHO = 3090;
-  
+
    /*
     * @return $total_format int Devuelve total segun tipo de usuario APODERADO / PROFESOR
     */
@@ -23,7 +23,7 @@ class Carrito extends ActiveRecord
 	endforeach;
 	return $total;
     }
-    
+
     /*
     * @return $productos array Devuelve Lista de productos
     */
@@ -57,9 +57,9 @@ class Carrito extends ActiveRecord
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
 	return  $productos;
     }
-    
+
     /**
-     * 
+     *
      **/
     public function total($result){
 	$total_format = null;
@@ -73,12 +73,12 @@ class Carrito extends ActiveRecord
 	endswitch;
 	return $total_format;
     }
-    
+
     public function formatNumeros($valor){
 	$numero = number_format($valor, 0 , ' , ' ,  '.');
 	return $numero;
     }
-    
+
     public function valorDespacho($monto){
 	switch(Session::get('tipo')):
 	    case $this::APODERADO:
@@ -88,8 +88,30 @@ class Carrito extends ActiveRecord
 		$monto = $monto + $this::VALOR_DESPACHO;
 	    break;
 	endswitch;
-	
+
 	return $monto;
+    }
+
+    public function generarOrden($n = 10)
+    {
+      //Generamos la orden de la compra
+      //SM1701281611
+      $caracteres = "1234567890"; //posibles caracteres a usar
+    	$numerodeletras=$n; //numero de letras para generar el texto
+    	$cadena = ""; //variable para almacenar la cadena generada
+    	for($i=0;$i<$numerodeletras;$i++)
+    	{
+    	    $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres
+    	entre el rango 0 a Numero de letras que tiene la cadena */
+    	}
+      $cadena = 'SM'.$cadena;
+      $orden = (New Pedidos)->find_by_orden_compra($cadena);
+      if(empty($orden)){
+        return $cadena;
+      }
+      else{
+        $this->generarOrden($n);
+      }
     }
 }
 

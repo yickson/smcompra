@@ -71,7 +71,10 @@ class CarritoController extends AppController
     $carrito = New Carrito();
     $total = $carrito->getTotalByTipoUsuario();
     $total = $carrito->valorDespacho($total);
-    $this->total  = $total;
+    Session::set('total', $total);
+    $data["tipo"]  = Session::get('tipo');
+    $data["total"] = $total;
+    $this->data   = $data;
     View::select( null , 'json_carrito' );
   }
 
@@ -146,12 +149,15 @@ class CarritoController extends AppController
     //Vista para los errores de WebPay
   }
 
-  public function prueba()
+  public function consultarDireccion()
   {
-    $total = Input::post('total');
-    Session::set('total', $total);
-    $this->data = true;
-    View::select(null, 'json');
+      $direccion = (New Direcciones)->getDireccion();
+      $comuna_nombre = (New Comunas)->getNombre($direccion->id_comuna);
+      $region_nombre = (New Regiones)->getNombre($direccion->id_region);
+      $direccion->nombre_comuna = $comuna_nombre;
+      $direccion->nombre_region = $region_nombre;
+      $this->data = $direccion;
+      View::select(null,"json");
   }
 }
 

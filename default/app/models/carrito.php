@@ -54,7 +54,7 @@ class Carrito extends ActiveRecord
 	$iva = round($subtotal_decimal * 0.19);
 	$iva = $this->formatNumeros($iva);
 	$total = $this->valorDespacho($total_format);
-	$total = $this->formatNumeros($total_format);
+	$total = $this->formatNumeros($total);
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
 	return  $productos;
     }

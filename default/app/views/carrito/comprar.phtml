@@ -22,19 +22,21 @@
 	  });
 
 	  $(".table-responsive").on("click", ".pagar", function(e){
+      console.log(arr);
 	    $.ajax({
 	      type: "POST",
 	      cache: false,
 	      url : "datatableValidarPago",
 	      data : {"arr": arr},
 	      success: function(result){
+          console.log(result);
 		      $.ajax({
 			type: "POST",
 			cache: false,
 			url: "prueba",
 			data: {"total": result},
-			success: function(data){
-			  console.log(data);
+			success: function(result){
+			  console.log(result);
 			  window.location = "pasarela";
 			}
 		      })

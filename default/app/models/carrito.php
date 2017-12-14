@@ -92,25 +92,21 @@ class Carrito extends ActiveRecord
 	return $monto;
     }
 
-    public function generarOrden($n = 10)
+    public static function generarOrden($n)
     {
       //Generamos la orden de la compra
       //SM1701281611
-      $caracteres = "1234567890"; //posibles caracteres a usar
-    	$numerodeletras=$n; //numero de letras para generar el texto
-    	$cadena = ""; //variable para almacenar la cadena generada
-    	for($i=0;$i<$numerodeletras;$i++)
-    	{
-    	    $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres
-    	entre el rango 0 a Numero de letras que tiene la cadena */
-    	}
-      $cadena = 'SM'.$cadena;
+      $key = '';
+      $pattern = '1234567890';
+      $max = strlen($pattern)-1;
+      for($i=0;$i < $n;$i++) $key .= $pattern{mt_rand(0,$max)};
+      $cadena = 'SM'.$key;
       $orden = (New Pedidos)->find_by_orden_compra($cadena);
       if(empty($orden)){
         return $cadena;
       }
       else{
-        $this->generarOrden($n);
+        self::generarOrden($n);
       }
     }
 }

@@ -101,8 +101,8 @@ class datatableAcciones
 		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["cantidad"] = "Total";
 		     $array[$j]["total"] = "$".$total;
-		     $array[$j]["boton"] = "<button  class='btn btn-primary pagar'>
-					     Ir a entrega y pago de productos <i class=''></i>
+		     $array[$j]["boton"] = "<button  class='btn btn-primary despacho' data-toggle='modal'>
+					     Verifica tu Dirección <i class=''></i>
 					    </button>";
 		break;
 	    endswitch;

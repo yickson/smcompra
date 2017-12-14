@@ -49,7 +49,7 @@ class Carrito extends ActiveRecord
 	    $i++;
 	endforeach;
 
-	$subtotal_decimal = round($total / 1.19);
+	$subtotal_decimal = round($total_format / 1.19);
 	$subtotal = $this->formatNumeros($subtotal_decimal);
 	$iva = round($subtotal_decimal * 0.19);
 	$iva = $this->formatNumeros($iva);

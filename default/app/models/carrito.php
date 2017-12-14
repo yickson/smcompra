@@ -23,7 +23,7 @@ class Carrito extends ActiveRecord
 	endforeach;
 	return $total;
     }
-
+    
     /*
     * @return $productos array Devuelve Lista de productos
     */

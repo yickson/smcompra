@@ -1,5 +1,5 @@
 var Carrito = function(option){
-        
+
 
   var $this = {
         carrito    : [],
@@ -43,7 +43,7 @@ var Carrito = function(option){
 		    if(display === 0){
 			mostrar = "block";
 			dataAlumno(val.id);
-                        
+
 		    }else{
 			mostrar = "none";
 		    }
@@ -53,12 +53,12 @@ var Carrito = function(option){
 		    $.each(data, function(indice, valor){
                         console.log(val.id +"==="*valor.id_alumno);
 			if(val.id === valor.id_alumno){
-                            
+
 			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 producto' data-rel='"+valor.id_producto+"' data-agregado='0' style='border: 0px solid'>"+
 						    "<div class='col-md-12 img-hover' style='cursor:pointer;'>"+
 							"<div class='row'>"+
 							    "<div id='agregado"+valor.id_producto+"' class='col-md-6' style='padding:10px'>"+
-								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+	
+								"<img src='/smcompras/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+	
 							    "</div>"+
 							    "<div class='col-md-6' style='padding:10px'>"+
 								"<h5 class='mt-0'>Asignatura:</h5>"+
@@ -85,7 +85,7 @@ var Carrito = function(option){
 		    productos.push(productos_full);
 		    display++;
 		});
-		
+
 		var  productos_html = "";
 		$.each(productos, function(i,val){
 		    productos_html += val;
@@ -99,7 +99,7 @@ var Carrito = function(option){
 	    }
 	});
     };
-    
+
     this.agregar = function(id, agregado_estado){
         if(agregado_estado == 0){
             $this.carrito.push(id);
@@ -112,18 +112,18 @@ var Carrito = function(option){
         }
         $("#carrito_txt").text($this.carrito.length);
     };
-    
+
     this.alumnos = function(id){
 	    dataAlumno(id);
 	    $(".cont-productos").css("display", "none");
 	    $("#alumno"+id).css("display", "block");
     }
-    
+
     this.almacenCarrito = function(){
         console.log(this.construct($this.carrito));
         return $this.carrito;
     }
-    
+
     function dataAlumno(id){
 	$.ajax({
 	      type : "POST",
@@ -135,14 +135,14 @@ var Carrito = function(option){
 		  $("#nombre_alumno").text(data.nombre);
 		  $("#colegio_alumno").text(data.establecimiento_nombre);
 		  $("#curso_alumno").text(data.curso);
-		  
+
 	      },
 	      error: function(data){
 		  console.log("err");
 	      }
-	  }); 
+	  });
        };
-    
+
     function descuentoTipo(tipo, valor){
         var descuento = "";
         switch(tipo){
@@ -150,7 +150,7 @@ var Carrito = function(option){
                             descuento = "<span class='card-text'>$"+valor+"</span><br>";
 
             break;
-            
+
             case "Texto":
                             descuento = "<span class='card-text' style='text-decoration: line-through'>$"+valor+"</span><br>"+
                                       "<span class='card-text'>$"+(valor * 0.5)+"<strong> (-50%)</strong></span>";

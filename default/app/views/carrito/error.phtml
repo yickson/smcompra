@@ -1,9 +1,14 @@
-<div class="alert alert-dismissible alert-danger">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Error</strong> en la transacción con Transbank por las siguientes razones:
-  <ul>
-    <li>Cupo superado</li>
-    <li>Rechazo de transacción por la entidad bancaria</li>
-  </ul>
+<div class="alert alert-info">
+  <!--<button type="button" class="close" data-dismiss="alert">&times;</button>-->
+  <strong>Error en la transacción con Transbank por alguna de las siguientes razones:
+  <p>
+    <ul>
+      <li>Cupo superado.</li>
+      <li>Rechazo de transacción por la entidad bancaria.</li>
+      <li>Excede límite diario por transacción.</li>
+    </ul>
+  </p>
+  </strong>
+  <br>
   <?php echo Html::link('#', 'Inicio de plataforma', 'class="btn btn-success"') ?>
 </div>

@@ -49,7 +49,7 @@ class CarritoController extends AppController
    **/
   public function getProductos(){
       $productos = New Productos();
-      $alumnos_productos  = $productos->getProductosByUsuario(); 
+      $alumnos_productos  = $productos->getProductosByUsuario();
       $this->data = $alumnos_productos;
       View::select(null,"json");
   }
@@ -99,8 +99,8 @@ class CarritoController extends AppController
     $urlFinal  = 'http://localhost/smcompras/carrito/fin';
 
     $this->result = $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
-    var_dump($this->result, $buyOrder);
-    View::select(null, null);
+    ///var_dump($this->result, $buyOrder);
+    View::template(null);
   }
 
   public function retorno()
@@ -124,6 +124,8 @@ class CarritoController extends AppController
       if($this->result->detailOutput->responseCode != 0) {
         Redirect::to('carrito/error');
         //var_dump($this->result->detailOutput->responseCode, $this->errorpay);
+      }else{
+        View::template(null);
       }
     }
     catch(Exception $ex) {

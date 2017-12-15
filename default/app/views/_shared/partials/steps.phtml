@@ -1,0 +1,71 @@
+<?php 
+$estado1 = "disabled";
+$estado2 = "disabled";
+$estado3 = "disabled";
+$estado4 = "disabled";
+$estado5 = "disabled";
+$completado = "";
+switch($etapa){
+    case 1:
+	$estado1 = "active";
+    break;
+    case 2:
+	$estado1 = "complete finish";
+	$estado2 = "active";
+    break;
+    case 3:
+	$estado1 = "complete finish";
+	$estado2 = "complete finish";
+	$estado3 = "active";
+    break;
+    case 4:
+	$estado1 = "complete finish";
+	$estado2 = "complete finish";
+	$estado3 = "complete finish";
+	$estado4 = "active";
+    break;
+    case 5:
+	$estado1 = "complete finish";
+	$estado2 = "complete finish";
+	$estado3 = "complete finish";
+	$estado4 = "complete finish";
+	$estado5 = "active";
+    break;
+}
+?>
+<div class="row bs-wizard" style="border-bottom:0;">
+    <div class="col-xs-3 col-sm-2 bs-wizard-step <?php echo $estado1 ?>"><!-- Datos del usuario -->
+      <div class="text-center bs-wizard-stepnum">Paso 1</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <a href="#" class="bs-wizard-dot"></a>
+      <div class="bs-wizard-info text-center">Datos del apoderado</div>
+    </div>
+
+    <div class="col-xs-3 col-sm-3 bs-wizard-step <?php echo $estado2 ?>"><!-- Datos del alumno -->
+      <div class="text-center bs-wizard-stepnum">Paso 2</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <a href="#" class="bs-wizard-dot"></a>
+      <div class="bs-wizard-info text-center">Datos del alumno</div>
+    </div>
+
+    <div class="col-xs-3 col-sm-2 bs-wizard-step <?php echo $estado3 ?>"><!-- Selección de productos -->
+      <div class="text-center bs-wizard-stepnum">Paso 3</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <a href="#" class="bs-wizard-dot"></a>
+      <div class="bs-wizard-info text-center">Selección de productos</div>
+    </div>
+
+    <div class="col-xs-3 col-sm-3 bs-wizard-step <?php echo $estado4 ?>"><!-- Confirmación de compra -->
+      <div class="text-center bs-wizard-stepnum">Paso 4</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <a href="#" class="bs-wizard-dot"></a>
+      <div class="bs-wizard-info text-center">Confirmación de compra</div>
+    </div>
+    
+    <div class="col-xs-3 col-sm-2 bs-wizard-step <?php echo $estado5 ?>"><!-- Datos de la compra -->
+      <div class="text-center bs-wizard-stepnum">Paso 5</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <a href="#" class="bs-wizard-dot"></a>
+      <div class="bs-wizard-info text-center">Datos de la compra</div>
+    </div>
+</div>

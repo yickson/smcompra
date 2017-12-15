@@ -13,130 +13,111 @@ endforeach;
 <div id="tipo" data-info='<?php echo json_encode($tipo); ?>'></div>
 <?php echo Tag::js('carrito') ?>
 <?php echo Tag::js('index_carrito') ?>
+
 <!-- header info alumno y seleccion hijos -->
-<div class="row">
-     <div class="col-md-1" style="border: 0px solid">
+<div class="card bg-light mb-12">
+    <div class="card-header">Selección de productos - Ediciones SM</div>
+    <div class="card-body text-dark">
+	<div class="col-xs-12 col-sm-12">
+	    <?php
+		View::partial("steps", "", $step); 
+	    ?>
+	</div>
+<!--	<h2 class="card-title">Paso 3 / 5</h2>-->
 	<div class="row">
-	    <div class="col-md-4">
-		<!--aqui columna derecha de algun texto-->
+	    <div class="col-xs-12 col-sm-6">
+		<i class="fa fa-user fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> Alumno </label>
+		<div class="form-group row">
+		    <label class="col-form-label col-sm-2" >Nombre  :</label><label class="col-form-label col-sm-10" id="nombre_alumno"></label>
+		    <label class="col-form-label col-sm-2" >Colegio : </label><label class="col-form-label col-sm-10" id="colegio_alumno"></label>
+		    <label class="col-form-label col-sm-2" >Curso   : </label><label class="col-form-label col-sm-10" id="curso_alumno"></label>
+		</div>
+	    </div>
+	    <div class="col-xs-12 col-sm-4">
+		<i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline"> Hijos </label>
+		<div class="form-group row">
+		<?php 
+		    foreach($hijos as $hijo):
+			echo '<div class="alumno col-sm-12" data-rel="'.$hijo["id"].'"><label class="col-form-label alumno_select"  style="cursor: pointer"><i class="fa fa-user" aria-hidden="true"></i> '.$hijo["nombre"].'</label></div>';
+		    endforeach;
+		?>
+		</div>
+	    </div>
+	    <div class="col-xs-12 col-sm-2">
+		<div class="form-group row">
+		    <div class="col-md-12" style="">
+		    <h4>Carrito</h4>
+		    <i class="carrito_compra fa fa-shopping-cart fa-5x" aria-hidden="true"></i>
+		    <span id="carrito_txt" class="badge badge-dark">0</span>
+		    </div>
+		</div>
 	    </div>
 	</div>
-    </div>
-     <div class="col-md-10" style="border: 0px solid; background-color: #FFF; padding: 15px">
-	    <span style="font-size:32px">Paso 3/5:</span> <em style="font-size:18px">Lista de productos</em>
-	    <hr>
-    </div>
-     <div class="col-md-1" style="border: 0px solid">
-	<div class="row">
-	    <div class="col-md-4">
-		<!--aqui columna derecha de algun texto-->
-	    </div>
-	</div>
-    </div>
-    
-</div>
-<div class="row">
-    <div class="col-md-1" style="border: 0px solid">
-	<div class="row">
-	    <div class="col-md-4">
-		<!--aqui columna derecha de algun texto-->
-	    </div>
-	</div>
-    </div>
-    
-    <div class="col-md-6" style="border: 0px solid; background-color: #FFF; padding: 15px">
-	<i class="fa fa-user fa-2x" aria-hidden="true"></i><label style="font-size: 28px; margin-left:5px; text-decoration: underline"> Alumno</label>
-	<p><label>Nombre  : </label><label id="nombre_alumno"></label></p>
-	<p><label>Colegio : </label><label id="colegio_alumno"></label></p>
-	<p><label>Curso   : </label><label id="curso_alumno"></label></p>
-    </div>
-    <div class="col-md-2" style="border: 0px solid; background-color: #FFF; padding: 15px ">
-	<div class="col-md-12" style="">
-	<h4>Carrito</h4>
-	<i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i>
-	<span id="carrito_txt" class="badge badge-dark">0</span>
-	</div>
-    </div>
-    <div class="col-md-2" style="border:0px solid; background-color: #FFF; padding: 15px  ">
-	<div class="col-md-12" style="">
-	<i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline"> Hijos </label>
-	<?php 
-	    foreach($hijos as $hijo):
-		echo '<div class="alumno" data-rel="'.$hijo["id"].'" style="cursor: pointer"><p><i class="fa fa-user" aria-hidden="true"></i> '.$hijo["nombre"].'</p></div>';
-	    endforeach;
-	?>
-	</div>
-    </div>
-    <div class="col-md-1" style="border: 0px solid">
-	<div class="row">
-	    <div class="col-md-4">
-		<!--aqui columna derecha de algun texto-->
-	    </div>
-	</div>
-    </div>
-</div>
 
 <!-- Lienzo separador -->
-<div class="row" >
-    <div class="col-md-1"></div>
-    <div class="col-md-10" style="background-color: #FFF; padding:15px">
-	<h4>Lista de Productos</h4>
-	<div class="row">
-	    <div class="col-md-5">
-		<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
+	<div class="row" >
+	    <div class="col-md-1"></div>
+	    <div class="col-md-10" style="background-color: #FFF; padding:15px">
+		<h4>Lista de Productos</h4>
+		<div class="row">
+		    <div class="col-md-5">
+			<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
+		    </div>
+		</div>
+		<hr>
 	    </div>
+	    <div class="col-md-1"></div>
 	</div>
-	<hr>
-    </div>
-    <div class="col-md-1"></div>
-</div>
 
 <!-- Lista de productos -->
-<div class="row">
-    <div class="col-md-12" style="border: 0px solid">
 	<div class="row">
-	    <div class="col-md-1" style="border: 0px solid">
+	    <div class="col-md-12" style="border: 0px solid">
 		<div class="row">
-		    <div class="col-md-4">
-			<!--aqui columna izquierda de algun texto-->
+		    <div class="col-md-1" style="border: 0px solid">
+			<div class="row">
+			    <div class="col-md-4">
+				<!--aqui columna izquierda de algun texto-->
+			    </div>
+			</div>
 		    </div>
-		</div>
-	    </div>
-	    <div id="alumno_productos" class="col-md-10" style="padding: 0px">
-		
-	    </div>
-	    <div class="col-md-1" style="border: 0px solid">
-		<div class="row">
-		    <div class="col-md-4">
-			<!--aqui columna derecha de algun texto-->
+		    <div id="alumno_productos" class="col-md-10" style="padding: 0px">
+
 		    </div>
-		</div>
-	    </div>
-	    <div class="col-md-1" style="border: 0px solid">
-		<div class="row">
-		    <div class="col-md-4">
-			<!--aqui columna izquierda de algun texto-->
+		    <div class="col-md-1" style="border: 0px solid">
+			<div class="row">
+			    <div class="col-md-4">
+				<!--aqui columna derecha de algun texto-->
+			    </div>
+			</div>
 		    </div>
-		</div>
-	    </div>
-	    <div class="col-md-10" style="background-color: #FFF; padding:15px">
-		<form method="post" action="carrito/comprar" style="display:none">
-		    <input id="productos_arr" name="productos_arr" value="" class="hidden">
-		    <input id="id_usuario" name="id_usuario" value="" class="hidden">
-		    <input id="productos_submit" type="submit" class="hidden">
-		</form>
-		<button id="continuar_comprar" class="btn btn-success">Continuar</button>
-	    </div>
-	    <div class="col-md-1" style="border: 0px solid">
-		<div class="row">
-		    <div class="col-md-4">
-			<!--aqui columna derecha de algun texto-->
+		    <div class="col-md-1" style="border: 0px solid">
+			<div class="row">
+			    <div class="col-md-4">
+				<!--aqui columna izquierda de algun texto-->
+			    </div>
+			</div>
+		    </div>
+		    <div class="col-md-10" style="background-color: #FFF; padding:15px">
+			<form method="post" action="carrito/comprar" style="display:none">
+			    <input id="productos_arr" name="productos_arr" value="" class="hidden">
+			    <input id="id_usuario" name="id_usuario" value="" class="hidden">
+			    <input id="productos_submit" type="submit" class="hidden">
+			</form>
+			<hr>
+			<button id="continuar_comprar" class="btn btn-success">Continuar</button>
+		    </div>
+		    <div class="col-md-1" style="border: 0px solid">
+			<div class="row">
+			    <div class="col-md-4">
+				<!--aqui columna derecha de algun texto-->
+			    </div>
+			</div>
 		    </div>
 		</div>
 	    </div>
 	</div>
     </div>
-</div>	
+</div>
 
 
 <!-- Boton Añadir a carrito -->

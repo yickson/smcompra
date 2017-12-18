@@ -23,15 +23,16 @@ class CarritoController extends AppController
   public function index()
   {
     //Esta vista no debería cargar nada
-    if(empty(Session::get('alumno'))){
-	$alumnos = Input::post('alumno');
-	$l = new Alumnos;
-	$datos = (New Alumnos)->verificar($alumnos);
-	foreach ($alumnos as $key => $valor) {
-	  $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
+	if(Input::post('alumno')){
+	    $alumnos = Input::post('alumno');
+	    $l = new Alumnos;
+	    $datos = (New Alumnos)->verificar($alumnos);
+	    foreach ($alumnos as $key => $valor) {
+	      $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
+	    }
+	    Session::set('alumno', $alumno );
 	}
-	Session::set('alumno', $alumno );
-    }
+
 
     $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');

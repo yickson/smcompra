@@ -56,9 +56,10 @@ var Carrito = function(option){
 		    $.each(data, function(indice, valor){
                         imagen_asignada = '';
                         rel_asignada    = 0;
+                        console.log(val.id + "===" + valor.id_alumno);
 			if(val.id === valor.id_alumno){
-                            console.log($this.carrito);
-                            if($this.carrito.indexOf(valor.id_producto) > -1){
+                            
+                            if($this.carrito.indexOf(parseInt(valor.id_producto)) > -1){
                                 imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>';
                                 rel_asignada    = 1;
                             }
@@ -113,20 +114,21 @@ var Carrito = function(option){
     };
 
     this.agregar = function(id, agregado_estado){
+        console.log(id+"=="+ agregado_estado);
         if(agregado_estado == 0){
-            $this.carrito.push(id);
+            $this.carrito.push(parseInt(id));
             $("#agregado"+id).append('<img id="img'+id+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>');
-            console.log("pase 0"+"#agregado"+id);
             $("#"+id).data("agregado","1");
         }else if(agregado_estado == 1){
-            console.log("pase 1");
-            $this.carrito.splice($.inArray(id, $this.carrito),1);
+            var carrito_modificado = eliminarItemDeCarrito( $this.carrito, id );
+            $this.carrito = carrito_modificado;
             $("#img"+id).remove();
             $("#"+id).data("agregado","0");
         }
         $("#carrito_txt").text($this.carrito.length);
+        console.log($this.carrito)
     };
-
+    
     this.alumnos = function(id){
 	    dataAlumno(id);
 	    $(".cont-productos").css("display", "none");
@@ -137,7 +139,13 @@ var Carrito = function(option){
         console.log(this.construct($this.carrito));
         return $this.carrito;
     }
-
+    
+    function eliminarItemDeCarrito( arr, item ) {
+        return arr.filter( function( e ) {
+            return e !== item;
+        } );
+    };
+            
     function dataAlumno(id){
 	$.ajax({
 	      type : "POST",

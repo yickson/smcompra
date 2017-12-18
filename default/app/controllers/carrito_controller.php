@@ -7,14 +7,15 @@ require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
  */
 class CarritoController extends AppController
 {
-  //Constantes  
+  //Constantes
   const STEP_3 = array("etapa" => 3);
   const STEP_4 = array("etapa" => 4);
-  
+  const STEP_5 = array("etapa" => 5);
+
   //publicas
   public $errorpay;
   public $mensaje;
-  
+
   function before_filter()
   {
     View::template('carrito');
@@ -31,7 +32,7 @@ class CarritoController extends AppController
 	}
 	Session::set('alumno', $alumno );
     }
-    
+
     $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');
     $this->tipo    = Session::get('tipo');
@@ -112,26 +113,29 @@ class CarritoController extends AppController
     try {
       $this->result = $webpay->retornoWebpay($this->token);
       if($this->result->detailOutput->responseCode != 0) {
+        $transaccion = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
+        $transaccion = (New WebpayTransaccion)->ingresar($this->result);
+        $pedido = (New Pedidos)->ingresar($pedido, $transaccion);
+        $productos = (New PedidosProductos)->almacenar($producto, $pedido);
         View::template(null);
       }
     }
     catch(Exception $ex) {
       die('Error inesperado en transkbank: ' . $ex->getMessage());
     }
+    //View::select(null, null);
   }
 
   public function fin()
   {
     //Final
     $this->token = $_POST['token_ws'];
-
+    $this->step = $this::STEP_5;
     if($this->token == '' or $this->token == null){
       $this->mensaje = true;
     }
-    //var_dump($this->token, $this->mensaje);
-    //View::select(null, null);
   }
 
   public function error()

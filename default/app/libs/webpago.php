@@ -3,7 +3,7 @@
 /**
  * Librería que retorna el resultado
  */
-
+Load::lib('libwebpay/webpay');
 class Webpago
 {
   public $urlR = 'http://localhost/smcompras/carrito/retorno'; //URL de llamada de Retorno
@@ -11,7 +11,7 @@ class Webpago
 
   public function inicioWebpay()
   {
-    Load::lib('libwebpay/webpay');
+    //Load::lib('libwebpay/configuration');
     $certificate = Load::lib('libwebpay/cert-normal');
     $configuration = new configuration();
     $configuration->setEnvironment($certificate->environment);
@@ -31,7 +31,8 @@ class Webpago
 
   public function retornoWebpay($token)
   {
-    Load::lib('libwebpay/webpay');
+
+    //Load::lib('libwebpay/configuration');
     $certificate = Load::lib('libwebpay/cert-normal');
     //Retorno
     $configuration = new configuration();
@@ -40,8 +41,6 @@ class Webpago
     $configuration->setPrivateKey($certificate->private_key);
     $configuration->setPublicCert($certificate->public_cert);
     $configuration->setWebpayCert($certificate->webpay_cert);
-
-    //$this->token = $_POST['token_ws'];
     $webpay = new Webpay($configuration);
     return $webpay->getNormalTransaction()->getTransactionResult($token);;
   }

@@ -5,6 +5,9 @@
  */
 class UsuarioController extends AppController
 {
+  //Constantes
+  const STEP_1 = array("etapa" => 1);
+  const STEP_2 = array("etapa" => 2);
   function before_filter()
   {
     View::template('main');
@@ -19,6 +22,7 @@ class UsuarioController extends AppController
     //Identidad del apoderado
     View::template(null);
     $this->tipo = Session::get('descripcion');
+    $this->step = $this::STEP_1;
     if($this->tipo == '' or !isset($this->tipo))
     {
       Redirect::to('index/index');
@@ -28,6 +32,7 @@ class UsuarioController extends AppController
   public function alumno()
   {
     //Identidad del alumno
+    $this->step = $this::STEP_2;
     View::template(null);
   }
 

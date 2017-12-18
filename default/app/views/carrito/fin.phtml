@@ -1,15 +1,17 @@
-<?php if($mensaje): ?>
+<?php //if($mensaje): ?>
   <div class="alert alert-info">
     <strong>Compra anulada por el usuario</strong>
   </div>
-<?php else: ?>
+<?php //else: ?>
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
       <div class="card bg-light mb-12" style="max-width: 100%">
         <div class="card-header">Detalle de la compra realizada:</div>
         <div class="card-body text-dark" style="margin:0px, padding-top:0px">
-          <h2 class="card-title">Paso 5 / 5</h2>
+          <div class="col-xs-12 col-sm-12">
+        	    <?php View::partial("steps", "", $step); ?>
+        	</div>
           <p><b>Número de orden: SM91213564320</b></p>
           <p><b>Fecha de la compra: 2017-12-14 18:31:27</b></p>
           <p><b>Código de autorización: 1213</b></p>
@@ -66,4 +68,4 @@
     </div>
     <div class="col-sm-2"></div>
   </div>
-<?php endif ?>
+<?php //endif ?>

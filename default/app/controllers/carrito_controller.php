@@ -22,17 +22,20 @@ class CarritoController extends AppController
   public function index()
   {
     //Esta vista no debería cargar nada
-    $alumnos = Input::post('alumno');
-    $l = new Alumnos;
-    $datos = (New Alumnos)->verificar($alumnos);
-    foreach ($alumnos as $key => $valor) {
-      $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
+    if(empty(Session::get('alumno'))){
+	$alumnos = Input::post('alumno');
+	$l = new Alumnos;
+	$datos = (New Alumnos)->verificar($alumnos);
+	foreach ($alumnos as $key => $valor) {
+	  $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
+	}
+	Session::set('alumno', $alumno );
     }
     
     $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');
     $this->tipo    = Session::get('tipo');
-    $this->alumno  = $alumno;
+    $this->alumno  = Session::get('alumno');
   }
 
   /**
@@ -62,9 +65,9 @@ class CarritoController extends AppController
   }
 
   public function comprar(){
-    $productos_arr = $_POST["productos_arr"];
+    Session::set("carrito", $_POST["productos_arr"]);
     $this->step = $this::STEP_4;
-    $this->arr  = $productos_arr;
+    $this->arr  =  Session::get("carrito");
     $this->tipo = $tipo;
   }
 
@@ -76,13 +79,20 @@ class CarritoController extends AppController
   }
 
   public function datatableValidarPago(){
-    $carrito = New Carrito();
-    $total = $carrito->getTotalByTipoUsuario();
-    $total = $carrito->valorDespacho($total);
-    Session::set('total', $total);
-    $data["tipo"]  = Session::get('tipo');
-    $data["total"] = $total;
-    $this->data   = $data;
+    $datos_direccion = Input::post("datos_direccion");
+    $direccion = (New Direcciones)->getDireccion();
+    $direccion->actualizarDireccion($direccion, $datos_direccion);
+    if($direccion){
+	$carrito = New Carrito();
+	$total = $carrito->getTotalByTipoUsuario();
+	$total = $carrito->valorDespacho($total);
+	Session::set('total', $total);
+	$data["tipo"]  = Session::get('tipo');
+	$data["total"] = $total;
+	$this->data   = $data;
+    }else{
+	$this->data   = null;
+    }
     View::select( null , 'json_carrito' );
   }
 

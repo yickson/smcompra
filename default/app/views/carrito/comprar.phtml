@@ -43,28 +43,68 @@
 	     });
 	 });
 	 
+	 //Profesor
 	  $("#direccion").on("click", ".pagar", function(e){
-		$.ajax({
-		  type: "POST",
-		  cache: false,
-		  url : "datatableValidarPago",
-		  data : {"arr" : arr},
-		  success: function(data){
-		    window.location = "pasarela";
-		  },
-		  error: function(result){
-		      console.log("error");
-		  }
-		});
+	      swal({
+		title: '¿Estás seguro que quieres ir a pagar?',
+		text: "si aceptas, serás redireccionado a webpay",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Si, ir a pagar',
+		cancelButtonText: 'Canelar!',
+		confirmButtonClass: 'btn btn-success',
+		cancelButtonClass: 'btn btn-danger',
+		buttonsStyling: true,
+		reverseButtons: true
+	      }).then((result) => {
+		if (result.value) {
+		    var datos_direccion = $("#direccion").find("#datos_despacho").serializeArray();
+		    var arr = $("#productos").val();
+		    $.ajax({
+		      type: "POST",
+		      cache: false,
+		      url : "datatableValidarPago",
+		      data : {"arr" : arr,
+			      "datos_direccion" : datos_direccion},
+		      success: function(data){
+			    if(data != null){
+				swal({
+				      title: "Datos Actualizados!",
+				      text: "Serás redirigido a WebPay en pocos segundos...",
+				      type: 'success',
+				      button: false,
+				      timer: 3000
+				});
+				setTimeout(function(){
+					window.location = "pasarela";
+				}, 3000);
+			      }else{
+				  
+			      };
+			    },
+		      error: function(result){
+			    swal(
+				'Ha ocurrido un error...',
+				'Favor verificar información ingresada, no deben existir campos vacios',
+				'error',
+			    );
+		      }
+		    });
+		} else if (result.dismiss === 'cancel') {
+		
+		}
+	      });
+
 	  });
 	  
+	  //Apoderado
 	  $(".table-responsive").on("click", ".pagar", function(e){
-	    console.log(arr);
 	    $.ajax({
 	      type: "POST",
 	      cache: false,
 	      url : "datatableValidarPago",
-	      data : {"arr": arr},
 	      success: function(data){
 		    window.location = "pasarela";
 		    
@@ -73,6 +113,10 @@
 		  console.log("error");
 	      }
 	    });
+	  });
+	  
+	  $("#volver").on("click", function(e){
+	      window.location = "../carrito";
 	  });
     })
 
@@ -120,6 +164,7 @@
 				  </tr>
 			      </thead>
 			    </table>
+			    <button id="volver" class="btn btn-primary" style="margin:20px; cursor:pointer">Volver</button>
 			  </div>
 			<div class="col-md-1" style="border: 0px solid">
 			    <div class="row">
@@ -131,6 +176,7 @@
 		    </div>
 		</div>
 	    </div>
+	    
 	    <input type="hidden" id="productos" value="<?php echo $arr?>">
 	    <!-- Modal Verificar Direccion -->
 	    <div class="modal fade" id="direccion" tabindex="-1" role="dialog" aria-labelledby="direccionModalLabel" aria-hidden="true">
@@ -155,7 +201,7 @@
 								<label  class="control-label">* Calle</label>
 							    </div>
 							    <div class="col-md-10">
-								<input type="text" id="calle"  placeholder="Ingresar Calle... " class="form-control form-sm"><br>
+								<input type="text" id="calle" name="calle" placeholder="Ingresar Calle... " class="form-control form-sm"><br>
 							    </div>
 							</div>
 						    </div>
@@ -165,7 +211,7 @@
 								<label class="control-label">* Tipo Domicilio</label>
 							    </div>
 							    <div class="col-md-4">
-								<select id="tipo" class="form-control form-sm">
+								<select id="tipo" name="tipo" class="form-control form-sm">
 								    <option value="0" disabled >Seleccione...</option>
 								    <option value="1">Casa</option>
 								    <option value="2">Depto.</option>
@@ -176,7 +222,7 @@
 								<label for="inputEmail3" class="control-label">N°</label>
 							    </div>
 							    <div class="col-md-3">
-								<input type="text" id="numero" required onkeypress="return solonumeros(event);"  title="Ingrese Numero" class="form-control form-sm"><br>
+								<input type="text" id="numero" name="numero" required   title="Ingrese Numero" class="form-control form-sm"><br>
 							    </div>
 							 </div>
 						    </div>
@@ -193,7 +239,7 @@
 							    <label for="inputEmail3" class="control-label">Comuna</label>
 							</div>
 							<div class="col-md-12">
-							    <input type="text" id="id_comuna" placeholder="Comuna..." class="form-control form-sm" disabled><br>
+							    <input type="text" id="id_comuna" name="id_comuna" placeholder="Comuna..." class="form-control form-sm" readonly><br>
 							</div>
 						    </div>
 						    <div class="col-md-12">
@@ -201,7 +247,7 @@
 							    <label for="inputEmail3" class="control-label">Región</label>
 							</div>
 							<div class="col-md-12">
-							    <input type="text" id="id_region" name="region" value="" placeholder="Region..." class="rut form-control form-sm" disabled><br>
+							    <input type="text" id="id_region" name="id_region" value="" placeholder="Region..." class="rut form-control form-sm" readonly><br>
 							</div>
 						    </div>
 						    <div class="col-md-12">
@@ -209,7 +255,7 @@
 							    <label for="inputEmail3" class="control-label">Información adicional despacho(opcional)</label>
 							</div>
 							<div class="col-md-10">
-							    <textarea type="text" maxlength="255" id="adicional"  class="form-control form-sm"></textarea><br>
+							    <textarea type="text" maxlength="255" id="adicional" name="adicional" class="form-control form-sm"></textarea><br>
 							</div>
 						    </div>
 						</div>

@@ -11,6 +11,7 @@ endforeach;
 <div id="hijos" data-info='<?php echo json_encode($hijos); ?>'></div>
 <div id="usuario" data-info='<?php echo json_encode($usuario); ?>'></div>
 <div id="tipo" data-info='<?php echo json_encode($tipo); ?>'></div>
+<div id="carrito" data-info='<?php echo (!empty(Session::get("carrito")))? json_encode(Session::get("carrito")):  ""; ?>'></div>
 <?php echo Tag::js('carrito') ?>
 <?php echo Tag::js('index_carrito') ?>
 

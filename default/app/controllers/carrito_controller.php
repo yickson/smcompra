@@ -7,14 +7,15 @@ require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
  */
 class CarritoController extends AppController
 {
-  //Constantes  
+  //Constantes
   const STEP_3 = array("etapa" => 3);
   const STEP_4 = array("etapa" => 4);
-  
+  const STEP_5 = array("etapa" => 5);
+
   //publicas
   public $errorpay;
   public $mensaje;
-  
+
   function before_filter()
   {
     View::template('carrito');
@@ -28,7 +29,7 @@ class CarritoController extends AppController
     foreach ($alumnos as $key => $valor) {
       $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
     }
-    
+
     $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');
     $this->tipo    = Session::get('tipo');
@@ -99,19 +100,15 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $this->token = $_POST['token_ws'];
-    //$this->result = $webpay->retornoWebpay($this->token);
-    //var_dump($this->result->detailOutput->sharesNumber, $this->result->detailOutput->responseCode, $this->result->detailOutput->buyOrder); die();
-    //$this->result->cardDetail->cardNumber;
-    //$this->result->detailOutput->paymentTypeCode;
-    //$this->result->detailOutput->amount;
-    //$this->result->detailOutput->sharesNumber;
-    //$this->result->detailOutput->buyOrder;
     try {
       $this->result = $webpay->retornoWebpay($this->token);
       if($this->result->detailOutput->responseCode != 0) {
-        $trans = (New WebpayTransaccion)->ingresar($this->result);
+        $transaccion = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
+        $transaccion = (New WebpayTransaccion)->ingresar($this->result);
+        $pedido = (New Pedidos)->ingresar($pedido, $transaccion);
+        $productos = (New PedidosProductos)->almacenar($producto, $pedido);
         View::template(null);
       }
     }
@@ -125,7 +122,7 @@ class CarritoController extends AppController
   {
     //Final
     $this->token = $_POST['token_ws'];
-
+    $this->step = $this::STEP_5;
     if($this->token == '' or $this->token == null){
       $this->mensaje = true;
     }

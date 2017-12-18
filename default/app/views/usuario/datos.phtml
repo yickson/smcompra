@@ -1,7 +1,9 @@
     <div class="card bg-light mb-12 cont-sombra">
       <div class="card-header">Identificación del <?php echo $tipo ?> - Ediciones SM</div>
       <div class="card-body text-dark">
-        <h2 class="card-title">Paso 1 / 5</h2>
+        <div class="col-xs-12 col-sm-12">
+      	    <?php View::partial("steps", "", $step); ?>
+      	</div>
         <form id="identidad">
           <fieldset>
             <div class="form-group row">

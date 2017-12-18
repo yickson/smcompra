@@ -7,8 +7,14 @@ require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
  */
 class CarritoController extends AppController
 {
+  //Constantes  
+  const STEP_3 = array("etapa" => 3);
+  const STEP_4 = array("etapa" => 4);
+  
+  //publicas
   public $errorpay;
   public $mensaje;
+  
   function before_filter()
   {
     View::template('carrito');
@@ -22,10 +28,11 @@ class CarritoController extends AppController
     foreach ($alumnos as $key => $valor) {
       $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
     }
-
+    
+    $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');
-    $this->tipo = Session::get('tipo');
-    $this->alumno = $alumno;
+    $this->tipo    = Session::get('tipo');
+    $this->alumno  = $alumno;
   }
 
   /**
@@ -56,7 +63,8 @@ class CarritoController extends AppController
 
   public function comprar(){
     $productos_arr = $_POST["productos_arr"];
-    $this->arr = $productos_arr;
+    $this->step = $this::STEP_4;
+    $this->arr  = $productos_arr;
     $this->tipo = $tipo;
   }
 

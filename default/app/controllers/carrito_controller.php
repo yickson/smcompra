@@ -96,7 +96,13 @@ class CarritoController extends AppController
 	    $this->data   = null;
 	}
     }else{
-	    $this->data   = null;
+	    $carrito = New Carrito();
+	    $total = $carrito->getTotalByTipoUsuario();
+	    $total = $carrito->valorDespacho($total);
+	    Session::set('total', $total);
+	    $data["tipo"]  = Session::get('tipo');
+	    $data["total"] = $total;
+	    $this->data   = $data;
     }
     View::select( null , 'json_carrito' );
   }

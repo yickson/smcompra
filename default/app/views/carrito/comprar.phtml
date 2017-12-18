@@ -102,10 +102,12 @@
 	  
 	  //Apoderado
 	  $(".table-responsive").on("click", ".pagar", function(e){
+	    var arr = $("#productos").val();
 	    $.ajax({
 	      type: "POST",
 	      cache: false,
 	      url : "datatableValidarPago",
+	      data: {"arr": arr},
 	      success: function(data){
 		    window.location = "pasarela";
 		    

@@ -91,9 +91,17 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $this->token = $_POST['token_ws'];
+    //$this->result = $webpay->retornoWebpay($this->token);
+    //var_dump($this->result->detailOutput->sharesNumber, $this->result->detailOutput->responseCode, $this->result->detailOutput->buyOrder); die();
+    //$this->result->cardDetail->cardNumber;
+    //$this->result->detailOutput->paymentTypeCode;
+    //$this->result->detailOutput->amount;
+    //$this->result->detailOutput->sharesNumber;
+    //$this->result->detailOutput->buyOrder;
     try {
       $this->result = $webpay->retornoWebpay($this->token);
       if($this->result->detailOutput->responseCode != 0) {
+        $trans = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
         View::template(null);
@@ -102,6 +110,7 @@ class CarritoController extends AppController
     catch(Exception $ex) {
       die('Error inesperado en transkbank: ' . $ex->getMessage());
     }
+    //View::select(null, null);
   }
 
   public function fin()
@@ -112,8 +121,6 @@ class CarritoController extends AppController
     if($this->token == '' or $this->token == null){
       $this->mensaje = true;
     }
-    //var_dump($this->token, $this->mensaje);
-    //View::select(null, null);
   }
 
   public function error()

@@ -12,13 +12,13 @@ require_once(__DIR__ . '/soap/soap-wsse.php');
 require_once(__DIR__ . '/soap/soap-validation.php');
 require_once(__DIR__ . '/soap/soapclient.php');
 
-include('configuration.php');
-include('webpay-normal.php');
-include('webpay-mall-normal.php');
-include('webpay-nullify.php');
-include('webpay-capture.php');
-include('webpay-oneclick.php');
-include('webpay-complete.php');
+include_once('configuration.php');
+include_once('webpay-normal.php');
+include_once('webpay-mall-normal.php');
+include_once('webpay-nullify.php');
+include_once('webpay-capture.php');
+include_once('webpay-oneclick.php');
+include_once('webpay-complete.php');
 
 class Webpay {
 
@@ -74,7 +74,7 @@ class Webpay {
 }
 
 class baseBean {
-    
+
 }
 
 class getTransactionResult {

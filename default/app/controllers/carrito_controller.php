@@ -81,18 +81,21 @@ class CarritoController extends AppController
 
   public function datatableValidarPago(){
     $datos_direccion = Input::post("datos_direccion");
-    $direccion = (New Direcciones)->getDireccion();
-    $direccion->actualizarDireccion($direccion, $datos_direccion);
-    if($direccion){
-	$carrito = New Carrito();
-	$total = $carrito->getTotalByTipoUsuario();
-	$total = $carrito->valorDespacho($total);
-	Session::set('total', $total);
-	$data["tipo"]  = Session::get('tipo');
-	$data["total"] = $total;
-	$this->data   = $data;
+    $usuario = (New Usuarios)->getDireccion();
+    if($usuario != null){
+	if($usuario->actualizarDireccion($usuario, $datos_direccion)){
+	    $carrito = New Carrito();
+	    $total = $carrito->getTotalByTipoUsuario();
+	    $total = $carrito->valorDespacho($total);
+	    Session::set('total', $total);
+	    $data["tipo"]  = Session::get('tipo');
+	    $data["total"] = $total;
+	    $this->data   = $data;
+	}else{
+	    $this->data   = null;
+	}
     }else{
-	$this->data   = null;
+	    $this->data   = null;
     }
     View::select( null , 'json_carrito' );
   }

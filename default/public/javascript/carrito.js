@@ -57,6 +57,7 @@ var Carrito = function(option){
                         imagen_asignada = '';
                         rel_asignada    = 0;
 			if(val.id === valor.id_alumno){
+                            console.log($this.carrito);
                             if($this.carrito.indexOf(valor.id_producto) > -1){
                                 imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>';
                                 rel_asignada    = 1;

@@ -4,10 +4,8 @@ $(document).ready(function(){
     var tipo    = $("#tipo").data("info");
     //Completar carrito si existe sesion
     var carrito = $("#carrito").data("info").replace(/['"]+/g, '').split(',');
-    console.log(carrito);
     if(carrito != ""){
         $.each(carrito, function(i,id){
-            //$('div.producto').trigger("click");
             carrito_compra.agregar(id,0);
         });
     }
@@ -26,9 +24,6 @@ $(document).ready(function(){
     });
     
     $("#continuar_comprar").on("click",function(e){
-        var productos = carrito_compra.almacenCarrito();
-        $("#productos_arr").val(productos);
-        $("#tipo_usuario").val(tipo);
-        $("#productos_submit").trigger("click");
+        carrito_compra.carritoVacio()
     });
 });

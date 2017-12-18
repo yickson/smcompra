@@ -92,6 +92,7 @@ class CarritoController extends AppController
 	    $data["tipo"]  = Session::get('tipo');
 	    $data["total"] = $total;
 	    $this->data   = $data;
+	    $licencia = (New Licences)->DesactivarLicencia();
 	}else{
 	    $this->data   = null;
 	}
@@ -103,8 +104,9 @@ class CarritoController extends AppController
 	    $data["tipo"]  = Session::get('tipo');
 	    $data["total"] = $total;
 	    $this->data   = $data;
+	    $licencia = (New Licences)->DesactivarLicencia();
     }
-    View::select( null , 'json_carrito' );
+    View::select( null , null );
   }
 
   public function pasarela()

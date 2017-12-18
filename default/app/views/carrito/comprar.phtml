@@ -103,6 +103,7 @@
 	  //Apoderado
 	  $(".table-responsive").on("click", ".pagar", function(e){
 	    var arr = $("#productos").val();
+	    console.log(arr);
 	    $.ajax({
 	      type: "POST",
 	      cache: false,

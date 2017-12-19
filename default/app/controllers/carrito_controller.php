@@ -115,20 +115,6 @@ class CarritoController extends AppController
     $webpay = New Webpago;
     $this->result = $webpay->inicioWebpay();
     View::template(null);
-    /*$carro = explode(",", Session::get('carrito'));
-    //return $carro;
-    foreach ($carro as $key => $valor) {
-      $producto = (New Productos)->find($valor); //Encontrar producto
-      var_dump($producto->valor);
-      /*$productos = New PedidosProductos;
-      $productos->producto_id = $valor->id;
-      $productos->cantidad = $producto->valor;
-      $productos->usuario_id = Session::get('iduser');
-      $productos->pedido_id = $idpedido;
-      $productos->fecha = date("Y-m-d H:i:s");
-      $productos->save();
-    }*/
-    //View::select(null, null);
   }
 
   public function retorno()
@@ -164,8 +150,20 @@ class CarritoController extends AppController
     //Final
     $this->token = $_POST['token_ws'];
     $this->step = $this::STEP_5;
+    $id = Session::get('iduser');
     if($this->token == '' or $this->token == null){
       $this->mensaje = true;
+    }
+    else{
+      $this->comprapay = (New WebpayTransaccion)->find("conditions: usuario_id = $id", "order: id desc");
+      $pedido = (New Pedidos)->find_by_transaccion_id($this->comprapay->id);
+      $this->pedido = $pedido;
+      $productos = (New PedidosProductos)->find_all_by_pedido_id($pedido->id);
+      foreach ($productos as $key => $valor) {
+        $this->detalles[] = (New Productos)->find_all_by_sql("SELECT p.proyecto as proyecto, p.nombre as nombre, p.valor as valor, c.nombre as curso, l.codigo as codigo
+                                                              FROM productos p, cursos c, licences l
+                                                              WHERE p.nivel_id = c.id AND p.id = '".$valor->producto_id."' AND l.usuario_id = 1280 AND l.producto_id = '".$valor->producto_id."'");
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 $(document).ready(function(){
   var rutv;
+  var rutc;
   $('#volver').click(function(){
     $('#cap').empty().load('usuario/principal');
   });
@@ -28,7 +29,7 @@ $(document).ready(function(){
           url: window.location.href+'usuario/buscar',
           type: 'POST',
           cache: false,
-          data: {"rut":rut},
+          data: {"rut":rut, "rutc":rutc},
           success: function(result){
             if(result != false){
               $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);

@@ -131,11 +131,6 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
         $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
         $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
-        /*foreach ($productos as $key => $value) {
-          $producto[] = (New Productos)->find($value['id']);
-          var_dump($producto);
-        }
-        View::select(null, null);*/
         View::template(null);
       }
     }
@@ -151,18 +146,19 @@ class CarritoController extends AppController
     $this->token = $_POST['token_ws'];
     $this->step = $this::STEP_5;
     $id = Session::get('iduser');
+    $this->tipo = Session::get('tipo');
     if($this->token == '' or $this->token == null){
       $this->mensaje = true;
     }
     else{
-      $this->comprapay = (New WebpayTransaccion)->find("conditions: usuario_id = $id", "order: id desc");
-      $pedido = (New Pedidos)->find_by_transaccion_id($this->comprapay->id);
-      $this->pedido = $pedido;
-      $productos = (New PedidosProductos)->find_all_by_pedido_id($pedido->id);
+      $comprapay = (New WebpayTransaccion)->find_by_sql("SELECT * FROM webpay_Transaccion WHERE usuario_id = ".$id." ORDER BY id DESC LIMIT 1");
+      $this->comprapay = $comprapay; //id de comprapay
+      $pedido = (New Pedidos)->find_by_sql("SELECT id FROM pedidos WHERE transaccion_id = $comprapay->id");
+      $productos = (New PedidosProductos)->find_all_by_sql("SELECT producto_id FROM pedidos_productos WHERE pedido_id = ".$pedido->id."");
       foreach ($productos as $key => $valor) {
         $this->detalles[] = (New Productos)->find_all_by_sql("SELECT p.proyecto as proyecto, p.nombre as nombre, p.valor as valor, c.nombre as curso, l.codigo as codigo
                                                               FROM productos p, cursos c, licences l
-                                                              WHERE p.nivel_id = c.id AND p.id = '".$valor->producto_id."' AND l.usuario_id = 1280 AND l.producto_id = '".$valor->producto_id."'");
+                                                              WHERE p.nivel_id = c.id AND p.id = '".$valor->producto_id."' AND l.usuario_id = ".$id." AND l.producto_id = '".$valor->producto_id."'");
       }
     }
   }
@@ -182,7 +178,7 @@ class CarritoController extends AppController
       $this->data = $direccion;
       View::select(null,"json");
   }
-  
+
   public function setCarrito(){
       $carro = implode(",", $_POST["carro"]);
       Session::delete("carrito");

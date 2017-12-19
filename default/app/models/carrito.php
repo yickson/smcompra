@@ -34,6 +34,7 @@ class Carrito extends ActiveRecord
 	$total_format = null;
 	$total = null;
 	$productos_format = array();
+	Session::set("carrito", $_POST["arr"]);
 	$productos_arr = explode(",", $_POST["arr"]);
 	$i=0;
 	foreach($productos_arr as $producto):

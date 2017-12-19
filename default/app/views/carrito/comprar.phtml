@@ -79,7 +79,7 @@
 		      type: "POST",
 		      cache: false,
 		      url : "datatableValidarPago",
-		      data : {"arr" : arr,
+		      data : {"arr" : $this.carro,
 			      "datos_direccion" : datos_direccion},
 		      success: function(data){
 			    if(data != null){
@@ -115,12 +115,11 @@
 	  //Apoderado
 	  $(".table-responsive").on("click", ".pagar", function(e){
 	    var arr = $("#productos").val();
-	    console.log(arr);
 	    $.ajax({
 	      type: "POST",
 	      cache: false,
 	      url : "datatableValidarPago",
-	      data: {"arr": arr},
+	      data: {"arr": $this.carro},
 	      success: function(data){
 		    window.location = "pasarela";
 		    

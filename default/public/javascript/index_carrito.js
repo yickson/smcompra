@@ -18,12 +18,17 @@ $(document).ready(function(){
 
     });
     
-    $(".alumno").on("click",function(e){
+    $(".alumno").on("click", function(e){
          var id = $(this).data("rel");
          carrito_compra.alumnos(id);
     });
     
-    $("#continuar_comprar").on("click",function(e){
+    $("#continuar_comprar").on("click", function(e){
         carrito_compra.carritoVacio()
+    });
+    
+    $('#lienzo').on('click',".todos", function(e){
+        console.log("pase");
+        carrito_compra.marcarTodos(usuario, tipo)
     });
 });

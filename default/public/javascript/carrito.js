@@ -10,7 +10,7 @@ var Carrito = function(params){
 
     /**
      * Constructor
-     * @param {string} options
+     * @param {string} params
      * @returns {array}
      */
     this.construct = function(params){
@@ -150,7 +150,6 @@ var Carrito = function(params){
             $("#"+id).data("agregado","0");
         }
         $("#carrito_txt").text($this.carrito.length);
-        console.log($this.carrito)
     };
     
     /**
@@ -169,7 +168,6 @@ var Carrito = function(params){
      * @returns {array}
      */
     this.almacenCarrito = function(){
-        console.log(this.construct($this.carrito));
         return $this.carrito;
     }
     
@@ -184,6 +182,12 @@ var Carrito = function(params){
         return $this.carrito;
     }
     
+    /**
+     * Metodo para ejecutar la eliminacion de un item en el carrito
+     * @param {array} arr
+     * @param {integer} item
+     * @returns {array $this.carrito}
+     */
     this.eliminarItem = function(arr, item){
         var carrito = eliminarItemDeCarrito(arr, item.toString());
         return $this.carrito = carrito;
@@ -194,7 +198,6 @@ var Carrito = function(params){
      * @returns {html}
      */
     this.carritoVacio = function(){
-        console.log($this.carrito);
         if($this.carrito.length != 0){
             var productos = $this.carrito;
             $("#productos_arr").val(productos);
@@ -206,6 +209,34 @@ var Carrito = function(params){
                 'warning',
             );
         }
+    }
+    
+    this.marcarTodos = function(id_usuario, tipo){
+        $.ajax({
+	    type  : "POST",
+	    cache : false,
+	    url   : "carrito/getProductos",
+	    data  : {"id_usuario": id_usuario,
+                     "tipo": tipo},
+	    success: function(data){
+                $.each(data, function(i,val){
+                    console.log(i+" - "+val.id_producto);
+                    if(val.estado == false){
+                        if($this.carrito.indexOf(parseInt(val.id_producto)) > -1){
+                            //existe indice no se vuelve a agregar
+                        }else{
+                            $this.carrito.push(parseInt(val.id_producto));
+                            $("#agregado"+val.id_producto).append('<img id="img'+val.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>');
+                            $("#"+val.id_producto).data("agregado","1");
+                            $("#carrito_txt").text($this.carrito.length);
+                        }
+                    }
+                })
+            },
+            error: function(xhr){
+                console.log("err");
+            }
+        });
     }
     
     /**

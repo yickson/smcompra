@@ -7,6 +7,9 @@ class PedidosProductos extends ActiveRecord
 {
   public function almacenar($carro, $idpedido)
   {
+    foreach ($carro as $key => $valor) {
+      $producto[] = (New Productos)->find($valor);
+    }
     foreach ($producto as $key => $valor) {
       $productos = New PedidosProductos;
       $productos->producto_id = $valor->producto_id;

@@ -23,7 +23,7 @@ class Carrito extends ActiveRecord
 	endforeach;
 	return $total;
     }
-    
+
     /*
     * @return $productos array Devuelve Lista de productos
     */
@@ -48,7 +48,7 @@ class Carrito extends ActiveRecord
 	    $total += $total_format;
 	    $i++;
 	endforeach;
-	
+
 	$total = $this->valorDespacho($total_format);
 	$subtotal_decimal = round($total / 1.19);
 	$subtotal = $this->formatNumeros($subtotal_decimal);
@@ -102,7 +102,7 @@ class Carrito extends ActiveRecord
       $max = strlen($pattern)-1;
       for($i=0;$i < $n;$i++) $key .= $pattern{mt_rand(0,$max)};
       $cadena = 'SM'.$key;
-      $orden = (New Pedidos)->find_by_orden_compra($cadena);
+      $orden = (New WebpayTransaccion)->find_by_BuyOrder($cadena);
       if(empty($orden)){
         return $cadena;
       }

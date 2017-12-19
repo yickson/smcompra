@@ -182,6 +182,14 @@ class CarritoController extends AppController
       $this->data = $direccion;
       View::select(null,"json");
   }
+  
+  public function setCarrito(){
+      $carro = implode(",", $_POST["carro"]);
+      Session::delete("carrito");
+      Session::set("carrito", $carro);
+      $this->data = Session::get("carrito");
+      View::select(null, 'json_carrito');
+  }
 }
 
 ?>

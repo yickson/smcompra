@@ -18,7 +18,7 @@ class datatableAcciones
      */
      public static function getBtnCarrito($id)
      {
-       $botones = "<button  data-id='$id' class='btn btn-danger ver' data-toggle='modal' data-target='#Buscar'>
+       $botones = "<button  data-id='$id' class='btn btn-danger eliminar' data-toggle='modal' data-target='#Buscar'>
                      Eliminar <i class='fa fa-trash'></i>
                    </button>";
          return $botones;

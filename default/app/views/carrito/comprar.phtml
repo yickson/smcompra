@@ -1,13 +1,25 @@
+<?php echo Tag::js('carrito') ?>
 <script>
     $(document).ready(function(){
+	
+	var $this = {
+	    carro : '<?php echo Session::get("carrito")?>'
+	}
+	
+	 this.construct = function(){
+	    $.extend($this);
+	};
 	var arr = $("#productos").val();
+	
+	console.log($this.carro);
+	var carrito = new Carrito();
 	var table = $('#tabla_compra').DataTable( {
 	    "ajax": {
 		     "url": "dataTableListarCarrito",
 		     "type" : "post",
 		     "dataType": "json",
 		     "cache": false,
-		     "data" : {"arr": arr},
+		     "data" : {"arr": $this.carro},
 		   },
 	    dom: 'Bfrtip',
 	    "bFilter": false,
@@ -122,6 +134,52 @@
 	  $("#volver").on("click", function(e){
 	      window.location = "../carrito";
 	  });
+	  
+	  $(".table-responsive").on("click", ".eliminar", function(e){
+	      var producto = $(this).data("id");
+	      $this.carro = carrito.preCargarCarritoSession({"productos" : $this.carro});
+	      $this.carro = carrito.eliminarItem($this.carro, producto);
+	      console.log( $this.carro);
+	      $.ajax({
+		  type  : "post",
+		  cache : false,
+		  url   : "setCarrito",
+		  data  : {"carro": $this.carro},
+		  success : function(data){
+		      $this.carro = data;
+		      table.destroy();
+		      $('#tabla_compra').empty();
+		      createTable();
+		  },
+		  error   : function(){
+		      console.log("error")
+		  }
+	      });
+	  });
+	  
+	  function createTable(){
+	       table = $('#tabla_compra').DataTable( {
+		    "ajax": {
+			     "url": "dataTableListarCarrito",
+			     "type" : "post",
+			     "dataType": "json",
+			     "cache": false,
+			     "data" : {"arr": $this.carro},
+			   },
+		    dom: 'Bfrtip',
+		    "bFilter": false,
+		    "buttons": [
+		    ],
+		    "iDisplayLength": -1,
+		    "columns": [
+			{ "data": "imagen", "width":"10%"},
+			{ "data": "descripcion", "width":"30%" },
+			{ "data": "tipo", "width":"10%" },
+			{ "data": "total","width":"20%"  },
+			{ "data": "boton","width":"20%"  }
+		    ]
+		  });
+	  }
     })
 
 </script>

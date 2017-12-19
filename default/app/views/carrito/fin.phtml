@@ -12,13 +12,13 @@
           <div class="col-xs-12 col-sm-12">
         	    <?php View::partial("steps", "", $step); ?>
         	</div>
-          <p><b>Número de orden: SM91213564320</b></p>
-          <p><b>Fecha de la compra: 2017-12-14 18:31:27</b></p>
-          <p><b>Código de autorización: 1213</b></p>
-          <p><b>Tipo de Pago: Débito</b></p>
-          <p><b>Tipo de Cuotas: 0</b></p>
-          <p><b>Número de Cuotas: 0</b></p>
-          <p><b>Tarjeta Terminada en: 6623</b></p>
+          <?php foreach($comprapay as $key => $valor): ?>
+            <p><b>Número de orden: <?php echo $valor->buyOrder ?></b></p>
+            <p><b>Fecha de la compra: <?php echo $valor->fecha ?></b></p>
+            <p><b>Tipo de Pago: <?php echo $valor->tipoPago ?></b></p>
+            <p><b>Número de Cuotas: <?php echo $valor->cuotas ?></b></p>
+            <p><b>Tarjeta Terminada en: <?php echo $valor->cardNumber ?></b></p>
+          <?php endforeach ?>
           <p>¡Le agradecemos su preferencia!</p>
           <p>Usted ha adquirido los siguientes productos:</p>
           <div class="well">
@@ -32,24 +32,16 @@
                   <td><b>VALOR</b></td>
                 </tr>
               </thead>
-              <tr>
-                <td>Sé protagonista</td>
-                <td>Biología - 1° Medio</td>
-                <td>D33X3-Q4KCL-ASS8U</td>
-                <td>CLP $19.000</td>
-              </tr>
-              <tr>
-                <td>Sé protagonista</td>
-                <td>Ciencias Sociales - 1° Medio</td>
-                <td>YJAA8-HJKLO-F782Y</td>
-                <td>CLP $19.000</td>
-              </tr>
-              <tr>
-                <td>Sé protagonista</td>
-                <td>Física - 1° Medio</td>
-                <td>A331J-QKERL-ASRTU</td>
-                <td>CLP $19.000</td>
-              </tr>
+              <?php foreach ($detalles as $key => $valor): ?>
+                <?php foreach ($valor as $key => $value): ?>
+                  <tr>
+                    <td><?php echo $value->proyecto ?></td>
+                    <td><?php echo $value->nombre .' - '.$value->curso ?></td>
+                    <td><?php echo $value->codigo ?></td>
+                    <td><?php echo 'CLP '.number_format($value->valor, 0, ' ', '.'); ?></td>
+                  </tr>
+                <?php endforeach ?>
+              <?php endforeach ?>
               <tr>
                 <td></td>
                 <td></td>
@@ -61,6 +53,7 @@
             llámenos al 600 381 13 12.</p>
             <p>Atentamente,</p>
             <p>Ediciones SM</p>
+            <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
           </div>
           </div>
       </div>

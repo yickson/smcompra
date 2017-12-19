@@ -7,7 +7,7 @@ class PedidosProductos extends ActiveRecord
 {
   public function almacenar($idpedido)
   {
-    $carro = explode(",", Session::get('carrito'));
+    $carro = explode(",", Session::get('carrito')); //La sesion es un string
     foreach ($carro as $key => $valor) {
       $producto = (New Productos)->find($valor); //Encontrar producto
 

@@ -1,4 +1,4 @@
-var Carrito = function(option){
+var Carrito = function(params){
 
 
   var $this = {
@@ -8,13 +8,21 @@ var Carrito = function(option){
         legenda    : ""
     };
 
-    /*
+    /**
      * Constructor
+     * @param {string} options
+     * @returns {array}
      */
-    this.construct = function(options){
-        $.extend($this , options);
+    this.construct = function(params){
+        $.extend($this , params);
     };
-
+    
+    /**
+     * Metodo para cargar lista de productos disponibles para hijos de usuarios.
+     * @param integer usuario
+     * @param integer tipo
+     * @returns html 
+     */
     this.cargarProductos = function(usuario, tipo){
         var id_usuario = usuario;
         var productos_ini   = "";
@@ -123,7 +131,13 @@ var Carrito = function(option){
 	    }
 	});
     };
-
+    
+    /**
+     * Metodo para guardar id de productos en un array de productos almacenado en sesion
+     * @param {integer} id
+     * @param {integer} agregado_estado
+     * @returns {html}
+     */
     this.agregar = function(id, agregado_estado){
         if(agregado_estado == 0){
             $this.carrito.push(parseInt(id));
@@ -139,17 +153,46 @@ var Carrito = function(option){
         console.log($this.carrito)
     };
     
+    /**
+     * Metodo para obtener datos del alumno
+     * @param {integer} id
+     * @returns {html}
+     */
     this.alumnos = function(id){
 	    dataAlumno(id);
 	    $(".cont-productos").css("display", "none");
 	    $("#alumno"+id).css("display", "block");
     }
-
+    
+    /**
+     * Metodo que devuelve el contenido del carrito
+     * @returns {array}
+     */
     this.almacenCarrito = function(){
         console.log(this.construct($this.carrito));
         return $this.carrito;
     }
     
+    /**
+     * Metodo que devuelve el carrito precargado con items de session
+     * @param {string} params
+     * @returns {Array}
+     */
+    this.preCargarCarritoSession = function(params){
+        var productos = params.productos.replace(/['"]+/g, "").split(",");
+        $this.carrito = productos;
+        return $this.carrito;
+    }
+    
+    this.eliminarItem = function(arr, item){
+        var carrito = eliminarItemDeCarrito(arr, item.toString());
+        return $this.carrito = carrito;
+    }
+    
+    /**
+     * Metodo para verificar si el carrito esta vacio o no.
+     * @returns {html}
+     */
     this.carritoVacio = function(){
         console.log($this.carrito);
         if($this.carrito.length != 0){
@@ -165,12 +208,23 @@ var Carrito = function(option){
         }
     }
     
+    /**
+     * Funcion que elimina un item dentro del arreglo
+     * @param {array} arr
+     * @param {integer} item
+     * @returns {array}
+     */
     function eliminarItemDeCarrito( arr, item ) {
         return arr.filter( function( e ) {
             return e !== item;
         } );
     };
-            
+    
+    /**
+     * Funcion para obtener alumnos asociados al usuario logeado
+     * @param {integer} id
+     * @returns {html}
+     */
     function dataAlumno(id){
 	$.ajax({
 	      type : "POST",
@@ -189,7 +243,13 @@ var Carrito = function(option){
 	      }
 	  });
        };
-
+    
+    /**
+     * Funcion que devuelve html con descuento segun tipo de usuario Profesor/Alumno
+     * @param {integer} tipo
+     * @param {integer} valor
+     * @returns {html}
+     */
     function descuentoTipo(tipo, valor){
         var descuento = "";
         switch(tipo){

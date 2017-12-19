@@ -5,7 +5,7 @@
  */
 class Pedidos extends ActiveRecord
 {
-  public function ingresar($pedido, $idtransaccion)
+  public function ingresar($idtransaccion)
   {
     //Datos del pedido
     $datos = New Pedidos;

@@ -115,6 +115,20 @@ class CarritoController extends AppController
     $webpay = New Webpago;
     $this->result = $webpay->inicioWebpay();
     View::template(null);
+    /*$carro = explode(",", Session::get('carrito'));
+    //return $carro;
+    foreach ($carro as $key => $valor) {
+      $producto = (New Productos)->find($valor); //Encontrar producto
+      var_dump($producto->valor);
+      /*$productos = New PedidosProductos;
+      $productos->producto_id = $valor->id;
+      $productos->cantidad = $producto->valor;
+      $productos->usuario_id = Session::get('iduser');
+      $productos->pedido_id = $idpedido;
+      $productos->fecha = date("Y-m-d H:i:s");
+      $productos->save();
+    }*/
+    //View::select(null, null);
   }
 
   public function retorno()
@@ -129,9 +143,13 @@ class CarritoController extends AppController
         Redirect::to('carrito/error');
       }else{
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
-        $carrito = Session::get('carrito');
-        $pedido = (New Pedidos)->ingresar($pedido, $transaccion); // Pedidos Master
-        $productos = (New PedidosProductos)->almacenar($carrito, $pedido); //Productos de ese pedido
+        $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
+        $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
+        /*foreach ($productos as $key => $value) {
+          $producto[] = (New Productos)->find($value['id']);
+          var_dump($producto);
+        }
+        View::select(null, null);*/
         View::template(null);
       }
     }

@@ -24,8 +24,15 @@ class UsuarioController extends AppController
     $this->tipo = Session::get('descripcion');
     $this->step = $this::STEP_1;
     $id = Session::get('iduser');
-    if(!empty($id)){
+    if($id != null){
       $this->usuario = (New Usuarios)->find($id);
+    }
+    else{
+      $usuario = New stdClass;
+      $usuario->rut = '';
+      $usuario->nombre = '';
+      $usuario->email = '';
+      $this->usuario = $usuario;
     }
     if($this->tipo == '' or !isset($this->tipo))
     {

@@ -97,8 +97,7 @@ var Carrito = function(params){
 								"<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
 								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Proyecto: </strong><span class='card-text'>"+valor.proyecto+"</span></p>"+
 								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Curso: </strong><span class='card-text'>"+valor.nivel+"</span></p>"+
-								"<span class='card-text' style='color: red; float:right'> <strong>"+valor.tipo+"</strong> </span>"+
-                                                                "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio: </strong><span class='card-text'>"+descuentoTipo(valor.tipo, valor.valor)+"</span></p>"+
+								descuentoTipo(valor.tipo, valor.valor)+
 							    "</div>"+
 							"</div>"+
 						    "</div>"+
@@ -287,13 +286,16 @@ var Carrito = function(params){
         var descuento = "";
         switch(tipo){
             case "Licencia":
-                            descuento = "<span class='card-text'>$"+valor+"</span><br>";
+                            descuento = "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio: </strong></p>"+"<span class='card-text'>$"+valor+"</span>"+
+                                        "<span class='card-text' style='color: red; float:right'> <strong>"+tipo+"</strong> </span>";
 
             break;
 
             case "Texto":
-                            descuento = "<span class='card-text' style='text-decoration: line-through'>$"+valor+"</span><br>"+
-                                      "<span class='card-text'>$"+(valor * 0.5)+"<strong> (-50%)</strong></span>";
+                            descuento = "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio</strong></p>"+
+                                      "<span class='card-text' style='text-decoration: line-through'><i>Antes</i> $"+valor+"</span><br>"+
+                                      "<span class='card-text'><i>Ahora <strong>50%</strong> de descuento! </i>$"+(valor * 0.5)+"</span>"+
+                                      "<span class='card-text' style='color: red; float:right'> <strong>"+tipo+"</strong> </span>";;
             break;
         }
         return descuento;

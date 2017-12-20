@@ -6,8 +6,8 @@
 Load::lib('libwebpay/webpay');
 class Webpago
 {
-  public $urlR = 'http://localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
-  public $urlF = 'http://localhost/smcompra/carrito/fin'; //URL de vista final segun caso
+  public $urlR = 'https://serviciosm.cl/smcompra/carrito/retorno'; //URL de llamada de Retorno
+  public $urlF = 'https://serviciosm.cl/smcompra/carrito/fin'; //URL de vista final segun caso
 
   public function inicioWebpay()
   {

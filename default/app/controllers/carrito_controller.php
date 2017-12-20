@@ -150,7 +150,7 @@ class CarritoController extends AppController
       $this->mensaje = true;
     }
     else{
-      $comprapay = (New WebpayTransaccion)->find_by_sql("SELECT * FROM webpay_Transaccion WHERE usuario_id = ".$id." ORDER BY id DESC LIMIT 1");
+      $comprapay = (New WebpayTransaccion)->find_by_sql("SELECT * FROM webpay_transaccion WHERE usuario_id = ".$id." ORDER BY id DESC LIMIT 1");
       $this->comprapay = $comprapay; //id de comprapay
       $pedido = (New Pedidos)->find_by_sql("SELECT id FROM pedidos WHERE transaccion_id = $comprapay->id");
       $productos = (New PedidosProductos)->find_all_by_sql("SELECT producto_id FROM pedidos_productos WHERE pedido_id = ".$pedido->id."");

@@ -3,6 +3,7 @@ var Carrito = function(params){
 
   var $this = {
         carrito    : [],
+        hijos      : $("#hijos").data("info"),
         sucursales : "",
         canvas     : "",
         legenda    : ""
@@ -38,16 +39,16 @@ var Carrito = function(params){
 	    cache : false,
 	    url   : "carrito/getProductos",
 	    data  : {"id_usuario": id_usuario,
-                     "tipo": tipo},
+                     "tipo": tipo,
+                     "hijos" : $this.hijos},
 	    success: function(data){
                 try{
 		//Carga productos
-		var hijos = $("#hijos").data("info");
 		var cantidad_productos = 0;
                 var product_x_alumno   = 0;
 		var display = 0;
 		var mostrar = "block";
-		$.each( hijos, function( key, val ) {
+		$.each($this.hijos, function( key, val ) {
 		    productos_ini   = "";
 		    productos_item  = "";
 		    productos_fin   = "";
@@ -217,7 +218,8 @@ var Carrito = function(params){
 	    cache : false,
 	    url   : "carrito/getProductos",
 	    data  : {"id_usuario": id_usuario,
-                     "tipo": tipo},
+                     "tipo": tipo,
+                     "hijos": $this.hijos},
 	    success: function(data){
                 $.each(data, function(i,val){
                     console.log(i+" - "+val.id_producto);

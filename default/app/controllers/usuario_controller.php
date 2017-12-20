@@ -32,6 +32,11 @@ class UsuarioController extends AppController
   public function alumno()
   {
     //Identidad del alumno
+      Session::delete("hijos");
+//    if(!empty(Session::get("hijos"))){
+//	print_r("se elimino sesion hijos");die();
+//	Session::delete("hijos");
+//    }
     $this->step = $this::STEP_2;
     View::template(null);
   }

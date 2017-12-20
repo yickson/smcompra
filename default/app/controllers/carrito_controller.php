@@ -61,6 +61,7 @@ class CarritoController extends AppController
    **/
   public function getProductos(){
       $productos = New Productos();
+      Session::set("hijos", $_POST["hijos"]);
       $alumnos_productos  = $productos->getProductosByUsuario();
       $this->data = $alumnos_productos;
       View::select(null,"json");

@@ -60,7 +60,7 @@ var Carrito = function(params){
 		    }else{
 			mostrar = "none";
 		    }
-		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style='background-color: #FFF; display:"+mostrar+"'>"+
+		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style=' display:"+mostrar+"'>"+
 			            "<div class='row'>";
                     
 		    $.each(data, function(indice, valor){
@@ -69,36 +69,36 @@ var Carrito = function(params){
                         licencia_ocupada = 0;
 			if(val.id === valor.id_alumno){
                             if($this.carrito.indexOf(parseInt(valor.id_producto)) > -1){
-                                imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>';
+                                imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style=" margin-left:-70%""/>';
                                 rel_asignada    = 1;
                             }
                             if(valor.estado == 1){
                                 licencia_ocupada = "";
                                 var clickeable = "";
                                 var estilo = "style='border: 0px solid; opacity: 0.6'";
-                                imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/comprado.png" width="70%" style="position:absolute"/>';
+                                imagen_asignada = '<img id="img'+valor.id_producto+'" src="/smcompra/img/productos/comprado.png" width="70%" style=" margin-left:-70%"/>';
                                 rel_asignada    = 1;
                             }else{
                                 licencia_ocupada = "producto";
                                 var clickeable = "style='cursor: pointer'";
                                 var estilo = "style='border: 0px solid'";
                             }
-			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 "+licencia_ocupada+"' data-rel='"+valor.id_producto+"' data-agregado='"+rel_asignada+"' "+estilo+">"+
+			    productos_item +=   "<div id='"+valor.id_producto+"' class='col-md-4 "+licencia_ocupada+" cont-items-prod' data-rel='"+valor.id_producto+"' data-agregado='"+rel_asignada+"' "+estilo+">"+
 						    "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
 							"<div class='row'>"+
-							    "<div id='agregado"+valor.id_producto+"' class='col-md-6' style='padding:10px'>"+
-								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; position: absolute' />"+
+							    "<div id='agregado"+valor.id_producto+"' class='col-md-6' style='padding:10px; margin: 0 auto;'>"+
+								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; ' />"+
                                                                 imagen_asignada+
 							    "</div>"+
-							    "<div class='col-md-6' style='padding:10px'>"+
-								"<h5 class='mt-0'>Asignatura:</h5>"+
-								"<p class='card-text'>"+valor.asignatura+"</p>"+
-								"<h5>Proyecto:</h5>"+
-								"<p class='card-text'>"+valor.proyecto+"</p>"+
-								"<p><span><b>Curso: </b></span><span class='card-text'>"+valor.nivel+"</span></p>"+
-								"<h5>Tipo Material:</h5>"+
-								"<span class='card-text' style='color: red;'> <strong>"+valor.tipo+"</strong> </span><br>"+
-                                                                descuentoTipo(valor.tipo, valor.valor)+
+                                                        "</div>"+
+                                                        "<div class='row' style='border-top:1px solid #BBBBBB; background-color: #FFF;'>"+
+							    "<div class='col-md-12' style='padding:10px'>"+
+//								"<h5 class='mt-0'>Asignatura:</h5>"+
+								"<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
+								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Proyecto: </strong><span class='card-text'>"+valor.proyecto+"</span></p>"+
+								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Curso: </strong><span class='card-text'>"+valor.nivel+"</span></p>"+
+								"<span class='card-text' style='color: red; float:right'> <strong>"+valor.tipo+"</strong> </span>"+
+                                                                "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio: </strong><span class='card-text'>"+descuentoTipo(valor.tipo, valor.valor)+"</span></p>"+
 							    "</div>"+
 							"</div>"+
 						    "</div>"+
@@ -142,7 +142,7 @@ var Carrito = function(params){
     this.agregar = function(id, agregado_estado){
         if(agregado_estado == 0){
             $this.carrito.push(parseInt(id));
-            $("#agregado"+id).append('<img id="img'+id+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>');
+            $("#agregado"+id).append('<img id="img'+id+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
             $("#"+id).data("agregado","1");
         }else if(agregado_estado == 1){
             var carrito_modificado = eliminarItemDeCarrito( $this.carrito, id );
@@ -228,7 +228,7 @@ var Carrito = function(params){
                             //existe indice no se vuelve a agregar
                         }else{
                             $this.carrito.push(parseInt(val.id_producto));
-                            $("#agregado"+val.id_producto).append('<img id="img'+val.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="position:absolute"/>');
+                            $("#agregado"+val.id_producto).append('<img id="img'+val.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
                             $("#"+val.id_producto).data("agregado","1");
                             $("#carrito_txt").text($this.carrito.length);
                         }
@@ -266,7 +266,7 @@ var Carrito = function(params){
 	      dataType: 'json',
 	      data : {"id" : id},
 	      success: function(data){
-		  $("#nombre_alumno").text(data.nombre);
+		  $(".nombre_alumno").text(data.nombre);
 		  $("#colegio_alumno").text(data.establecimiento_nombre);
 		  $("#curso_alumno").text(data.curso);
 

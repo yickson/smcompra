@@ -23,6 +23,10 @@ class UsuarioController extends AppController
     View::template(null);
     $this->tipo = Session::get('descripcion');
     $this->step = $this::STEP_1;
+    $id = Session::get('iduser');
+    if(!empty($id)){
+      $this->usuario = (New Usuarios)->find($id);
+    }
     if($this->tipo == '' or !isset($this->tipo))
     {
       Redirect::to('index/index');
@@ -120,6 +124,7 @@ class UsuarioController extends AppController
 
   public function principal()
   {
+    Session::delete('iduser'); //Limpia la variable del id del usuario
     View::template(null);
   }
 }

@@ -12,13 +12,14 @@
           <div class="col-xs-12 col-sm-12">
         	    <?php View::partial("steps", "", $step); ?>
         	</div>
-          <?php foreach($comprapay as $key => $valor): ?>
-            <p><b>Número de orden: <?php echo $valor->buyOrder ?></b></p>
-            <p><b>Fecha de la compra: <?php echo $valor->fecha ?></b></p>
-            <p><b>Tipo de Pago: <?php echo $valor->tipoPago ?></b></p>
-            <p><b>Número de Cuotas: <?php echo $valor->cuotas ?></b></p>
-            <p><b>Tarjeta Terminada en: <?php echo $valor->cardNumber ?></b></p>
-          <?php endforeach ?>
+          <?php //foreach($comprapay as $key => $valor): ?>
+            <p><b>Número de orden: <?php echo $comprapay->buyOrder ?></b></p>
+            <p><b>Fecha de la compra: <?php echo $comprapay->fecha ?></b></p>
+            <p><b>Tipo de Pago: <?php echo $comprapay->tipoPago ?></b></p>
+            <p><b>Número de Cuotas: <?php echo $comprapay->cuotas ?></b></p>
+            <p><b>Tarjeta Terminada en: <?php echo $comprapay->cardNumber ?></b></p>
+            <?php $monto = $comprapay->monto ?>
+          <?php //endforeach ?>
           <p>¡Le agradecemos su preferencia!</p>
           <p>Usted ha adquirido los siguientes productos:</p>
           <div class="well">
@@ -38,15 +39,15 @@
                     <td><?php echo $value->proyecto ?></td>
                     <td><?php echo $value->nombre .' - '.$value->curso ?></td>
                     <td><?php echo $value->codigo ?></td>
-                    <td><?php echo 'CLP '.number_format($value->valor, 0, ' ', '.'); ?></td>
+                    <td><?php echo 'CLP $'.number_format($value->valor, 0, ' ', '.'); ?></td>
                   </tr>
                 <?php endforeach ?>
               <?php endforeach ?>
               <tr>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td><b>TOTAL</b> CLP $57.000</td>
+                <td><b>TOTAL</b></td>
+                <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
               </tr>
             </table>
             <p>Este email contiene información personal --- Por favor, no lo reenvíe. Si tiene alguna

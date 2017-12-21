@@ -15,5 +15,7 @@ class IndexController extends AppController
     {
 	    Session::set("carrito", "");
       Session::delete('iduser'); //Limpia la variable del id del usuario
+      Session::delete('rutc');
+      Session::delete('rt');
     }
 }

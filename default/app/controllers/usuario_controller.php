@@ -26,6 +26,7 @@ class UsuarioController extends AppController
     $id = Session::get('iduser');
     if($id != null){
       $this->usuario = (New Usuarios)->find($id);
+      $this->usuario->rut = Session::get('rutc');
     }
     else{
       $usuario = New stdClass;
@@ -70,9 +71,19 @@ class UsuarioController extends AppController
   public function buscar()
   {
     $rut = Input::post('rut');
+    $rutc = Input::post('rutc');
     $usuario = (New Usuarios)->find_by_rut($rut);
     Session::set('iduser', $usuario->id);
+    Session::set('rutc', $rutc);
+    Session::set('rt', $rut);
     $this->data = $usuario;
+    View::select(null, 'json');
+  }
+
+  public function rut()
+  {
+    $rut = Session::get('rt');
+    $this->data = $rut;
     View::select(null, 'json');
   }
 
@@ -80,6 +91,7 @@ class UsuarioController extends AppController
   {
     $rut = Input::post('rut');
     $user = Session::get('iduser');
+    $rut = (New Usuarios)->verificador($rut);
     $usuario = (New Alumnos)->find_by_rut($rut);
     if(!empty($usuario)){
       if($user == $usuario->apoderado_id){
@@ -98,7 +110,6 @@ class UsuarioController extends AppController
     else{
       $this->data = false;
     }
-
     View::select(null, 'json');
   }
 
@@ -120,6 +131,9 @@ class UsuarioController extends AppController
           $this->data = 2;
           break;
       }
+      //if(empty($usuario) or is_null($usuario)){
+        $this->data = $usuario;
+      //}
     }
     View::select(null, 'json');
   }

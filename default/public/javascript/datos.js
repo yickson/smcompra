@@ -20,6 +20,7 @@ $(document).ready(function(){
     });
     if(rutv != ''){
       $('#rut').blur(function(){
+        rutc = $("#rut").val();
         var rut = rutv;
         console.log(rut);
         if(rut == undefined){
@@ -40,41 +41,122 @@ $(document).ready(function(){
             }
             else{
               $(".form-group").parents(".form-group").append('<div class="invalid-feedback">Este RUT es inválido</div>')
-              $("#validar").prop("disabled", true);
+              $("#validar").prop("disabled", false);
             }
           }
         })
       });
       $("#validar").click(function(){
-        var div;
-        $.ajax({
-          type: "POST",
-          url: window.location.href+'usuario/verificar_usuario',
-          cache: false,
-          data: {"rut": rutv},
-          success: function(result){
-            switch(result) {
-                case 1:
-                $('#cap').empty().load('usuario/alumno');
-                    break;
-                case 2:
-                swal(
-                      'Ha ocurrido un error',
-                      'Usted no es un Profesor',
-                      'error'
-                    );
-                $('#cap').empty().load('usuario/principal');
-                    break;
-                case 3:
-                swal(
-                      'Ha ocurrido un error',
-                      'Usted no es un Apoderado',
-                      'error'
-                    );
-                $('#cap').empty().load('usuario/principal');
+        var nombre = $("#nombre").val();
+        var correo = $(".email").val();
+        if(nombre == '' || correo == ''){
+          swal(
+                'Ha ocurrido un error',
+                'Su nombre o correo no pueden ser nulos, llene los campos correspondientes',
+                'error'
+              );
+              return;
+          //$("#validar").prop("disabled", true);
+        }
+        else{
+          //$("#validar").prop("disabled", false);
+        }
+        if(rutv == undefined){
+          $.ajax({
+            type: "POST",
+            url: window.location.href+'usuario/rut',
+            cache: false,
+            data: {"dato":''},
+            success: function(result){
+              //console.log("este es mi rut "+result);
+              rutv = result;
+              $.ajax({
+                type: "POST",
+                url: window.location.href+'usuario/verificar_usuario',
+                cache: false,
+                data: {"rut": rutv},
+                success: function(result){
+                  console.log("resultado de busqueda "+result)
+                  switch(result) {
+                      case 1:
+                      $('#cap').empty().load('usuario/alumno');
+                          break;
+                      case 2:
+                      swal(
+                            'Ha ocurrido un error',
+                            'Usted no figura registrado como PROFESOR, es probable que haya equivocado el ingreso, por lo cual deberá dar clic en el botón APODERADO. Si efectivamente es profesor, por favor contáctenos al 6003811312.',
+                            'error'
+                          );
+                      $('#cap').empty().load('usuario/principal');
+                          break;
+                      case 3:
+                      swal(
+                            'Ha ocurrido un error',
+                            'Usted no es un Apoderado',
+                            'error'
+                          );
+                      $('#cap').empty().load('usuario/principal');
+                          break;
+                      case 4:
+                      swal(
+                            'Ha ocurrido un error',
+                            'Usted no se encuentra registrado en nuestro sistema',
+                            'error'
+                          );
+                      $("#validar").prop("disabled", true);
+                          break;
+                  }
+                }
+              })
             }
-          }
-        })
+          })
+        }else{
+          $.ajax({
+            type: "POST",
+            url: window.location.href+'usuario/verificar_usuario',
+            cache: false,
+            data: {"rut": rutv},
+            success: function(result){
+              console.log("resultado de busqueda "+result)
+              switch(result) {
+                  case 1:
+                  $('#cap').empty().load('usuario/alumno');
+                      break;
+                  case 2:
+                  swal(
+                        'Ha ocurrido un error',
+                        'Usted no figura registrado como PROFESOR, es probable que haya equivocado el ingreso, por lo cual deberá dar clic en el botón APODERADO. Si efectivamente es profesor, por favor contáctenos al 6003811312.',
+                        'error'
+                      );
+                  $('#cap').empty().load('usuario/principal');
+                      break;
+                  case 3:
+                  swal(
+                        'Ha ocurrido un error',
+                        'Usted no es un Apoderado',
+                        'error'
+                      );
+                  $('#cap').empty().load('usuario/principal');
+                  case 4:
+                  swal(
+                        'Ha ocurrido un error',
+                        'Usted no se encuentra registrado en nuestro sistema',
+                        'error'
+                      );
+                  $("#validar").prop("disabled", true);
+                      break;
+              }
+            }
+          })
+        }
       });
+    }
+    var rt = $("#rut").val();
+    if(rt == ''){
+      //$("#validar").prop("disabled", true);
+    }
+    else{
+      $("#nombre").prop("disabled", true);
+      $(".email").prop("disabled", true);
     }
 })

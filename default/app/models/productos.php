@@ -7,9 +7,9 @@ class Productos extends ActiveRecord
 {
     const APODERADO = 1;
     const PROFESOR  = 2;
-    
+
     /**
-     * 
+     *
      * @return object $alumnos
      */
     public function getProductosByUsuario(){
@@ -21,7 +21,7 @@ class Productos extends ActiveRecord
       $cantidad_hijos = count($hijos);
       $alumnos = null;
       switch($tipo):
-	  case $this::APODERADO: 
+	  case $this::APODERADO:
 		foreach($hijos as $hijo):
 		if($cantidad_hijos == 1){
 		    $sql .= "li.alumno_id = ".$hijo["id"]." ";

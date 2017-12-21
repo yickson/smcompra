@@ -13,22 +13,18 @@
         .on('rutValido', function(){
           $(this).parents(".form-group").removeClass("has-danger");
           $(this).removeClass("is-invalid");
-        })
-        .on('rutValido', function(e, rut){
-          rutv = rut;
         });
     });
     $(document).on("blur", ".rut", function(){
       var numero = $(this).attr('id');
-      console.log("Este es un valor antes del ajax "+rutv);
-      if(rutv !== undefined){
+        rutv = $(".rut").val();
         $.ajax({
           url: window.location.href + 'usuario/buscar_alumno',
           type: 'POST',
           cache: false,
           data: {"rut":rutv},
           success: function(result){
-            console.log(result);
+            console.log("resultado del ajax: "+result);
             if(result == 2){
               $("#enviar").prop("disabled", true);
               swal(
@@ -40,6 +36,7 @@
               $("#enviar").prop("disabled", false);
               $("#nombre"+numero).attr("value", result['nombre']);
               $("#nombre"+numero).prop("disabled", true);
+              $("#curso"+numero).prop("disabled", true);
               if(result['email'] != ""){
                 $('#email'+numero).attr("value", result['email']);
                 $("#email"+numero).prop("disabled", true);
@@ -57,6 +54,8 @@
               $("#nombre"+numero).prop("disabled", false);
               $('#email'+numero).attr("value", '');
               $("#email"+numero).prop("disabled", false);
+              $("#nombre"+numero).attr("value", '');
+              $("#nombre"+numero).prop("disabled", false);
               swal(
                     'Ha ocurrido un error',
                     'Este RUT de alumno no existe en nuestros registros',
@@ -65,7 +64,7 @@
             }
           }
         });
-      }
+      //}
     });
     $("#enviar").submit(function(){
       var c = $("#email").val();

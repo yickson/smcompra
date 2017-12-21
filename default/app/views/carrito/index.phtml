@@ -23,11 +23,11 @@ endforeach;
 	    <?php View::partial("steps", "", $step); ?>
 	</div>
 <!--	<h2 class="card-title">Paso 3 / 5</h2>-->
-	<div class="row">
+	<div class="row" style="border-bottom: 1px solid #E6EAEA; border-top: 1px solid #E6EAEA; margin-top: 20px; padding: 10px;">
 	    <div class="col-xs-12 col-sm-6">
 		<i class="fa fa-user fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> Alumno </label>
 		<div class="form-group row">
-		    <label class="col-form-label col-sm-2" >Nombre  :</label><label class="col-form-label col-sm-10" id="nombre_alumno"></label>
+		    <label class="col-form-label col-sm-2" >Nombre  :</label><label class="col-form-label col-sm-10 nombre_alumno"></label>
 		    <label class="col-form-label col-sm-2" >Colegio : </label><label class="col-form-label col-sm-10" id="colegio_alumno"></label>
 		    <label class="col-form-label col-sm-2" >Curso   : </label><label class="col-form-label col-sm-10" id="curso_alumno"></label>
 		</div>
@@ -56,17 +56,17 @@ endforeach;
 <!-- Lienzo separador -->
 	<div class="row" id="lienzo">
 	    <div class="col-md-1"></div>
-	    <div class="col-md-10" style="background-color: #FFF; padding:15px">
-		<h4>Lista de Productos</h4>
+	    <div class="col-md-10" style=" padding:15px">
+		
 		<div class="row">
-		    <div class="col-md-5">
-			<span class="text-success"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
+		    <div class="col-md-6">
+			<h4 style="float:left">Lista de Productos </h4>
+			<button class="btn btn-primary todos">Comprar Todo</button>
 		    </div>
-		    <div class="col-md-5">
-			<button class="btn btn-warning todos">Seleccionar Todos</button>
+		    <div class="col-md-6">
+			<span class="text-success" style="float:right; margin-top:15px"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
 		    </div>
 		</div>
-		<hr>
 	    </div>
 	    <div class="col-md-1"></div>
 	</div>
@@ -99,7 +99,7 @@ endforeach;
 			    </div>
 			</div>
 		    </div>
-		    <div class="col-md-10" style="background-color: #FFF; padding:15px">
+		    <div class="col-md-10" style=" padding:15px">
 			<form method="post" action="carrito/comprar" style="display:none">
 			    <input id="productos_arr" name="productos_arr" value="" class="hidden">
 			    <input id="id_usuario" name="id_usuario" value="" class="hidden">

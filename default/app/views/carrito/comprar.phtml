@@ -139,22 +139,34 @@
 	      $this.carro = carrito.preCargarCarritoSession({"productos" : $this.carro});
 	      $this.carro = carrito.eliminarItem($this.carro, producto);
 	      console.log( $this.carro);
-	      $.ajax({
-		  type  : "post",
-		  cache : false,
-		  url   : "setCarrito",
-		  data  : {"carro": $this.carro},
-		  success : function(data){
-		      $this.carro = data;
-		      table.destroy();
-		      $('#tabla_compra').empty();
-		      createTable();
-		  },
-		  error   : function(){
-		      console.log("error")
-		  }
-	      });
+		$.ajax({
+		    type  : "post",
+		    cache : false,
+		    url   : "setCarrito",
+		    data  : {"carro": $this.carro},
+		    success : function(data){
+			$this.carro = data;
+			table.destroy();
+			$('#tabla_compra').empty();
+			createTable();
+		    },
+		    error   : function(){
+			$(".pagar").attr("disabled","disabled");
+			console.log("error");
+			swal({
+			    title: "El carrito esta vacío",
+			    text: "Serás redirigido a la selección de productos",
+			    type: 'warning',
+			    button: false,
+			    timer: 3000
+			});
+			setTimeout(function(){
+				window.location = "../carrito";
+			}, 3000);
+		    }
+		});
 	  });
+		
 	  
 	  function createTable(){
 	       table = $('#tabla_compra').DataTable( {

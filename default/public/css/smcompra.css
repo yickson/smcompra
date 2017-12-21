@@ -96,6 +96,23 @@ code {
     cursor:pointer;
 }
 
+#clickeable{
+    border: 1px solid #BBBBBB;
+    border-radius: 2px;
+}
+
+.cont-items-prod{
+   margin-bottom: 30px;
+}
+
+.todos{
+    margin-top: 1%;
+    margin-left: 3%;
+}
+
+/*#clickeable:hover{
+    box-shadow: 4px 3px #888888 !important;
+}*/
 
 /* Step progress bar*/
 .bs-wizard {margin-top: 20px;}

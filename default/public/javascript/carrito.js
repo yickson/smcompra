@@ -91,7 +91,7 @@ var Carrito = function(params){
                                                                 imagen_asignada+
 							    "</div>"+
                                                         "</div>"+
-                                                        "<div class='row' style='border-top:1px solid #BBBBBB; background-color: #FFF;'>"+
+                                                        "<div class='row' style='border-top:1px solid #E6EAEA; background-color: #FFF;'>"+
 							    "<div class='col-md-12' style='padding:10px'>"+
 //								"<h5 class='mt-0'>Asignatura:</h5>"+
 								"<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
@@ -286,8 +286,8 @@ var Carrito = function(params){
         var descuento = "";
         switch(tipo){
             case "Licencia":
-                            descuento = "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio: </strong></p>"+"<span class='card-text'>$"+valor+"</span>"+
-                                        "<span class='card-text' style='color: red; float:right'> <strong>"+tipo+"</strong> </span>";
+                            descuento = "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Precio </strong>"+"<span class='card-text'>$"+valor+"</span>"+
+                                        "<span class='card-text' style='color: red; float:right'> <strong>"+tipo+"</strong> </span></p>";
 
             break;
 

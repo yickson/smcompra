@@ -1,6 +1,8 @@
 $(document).ready(function(){
   var rutv;
   var rutc;
+  var nombre;
+  var email;
   $('#volver').click(function(){
     $('#cap').empty().load('usuario/principal');
   });
@@ -24,7 +26,7 @@ $(document).ready(function(){
         var rut = rutv;
         console.log(rut);
         if(rut == undefined){
-          $("#validar").prop("disabled", true);
+          //$("#validar").prop("disabled", true);
         }
         $.ajax({
           url: window.location.href+'usuario/buscar',
@@ -32,6 +34,7 @@ $(document).ready(function(){
           cache: false,
           data: {"rut":rut, "rutc":rutc},
           success: function(result){
+            console.log(result);
             if(result != false){
               $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
               $("#nombre").prop("disabled", true);
@@ -40,6 +43,11 @@ $(document).ready(function(){
               $("#validar").prop("disabled", false);
             }
             else{
+              swal(
+                    'Usted no se encuentra registrado',
+                    'Coloque su nombre y correo electrónico',
+                    'info'
+                  );
               $(".form-group").parents(".form-group").append('<div class="invalid-feedback">Este RUT es inválido</div>')
               $("#validar").prop("disabled", false);
             }
@@ -56,7 +64,6 @@ $(document).ready(function(){
                 'error'
               );
               return;
-          //$("#validar").prop("disabled", true);
         }
         else{
           //$("#validar").prop("disabled", false);
@@ -70,13 +77,16 @@ $(document).ready(function(){
             success: function(result){
               //console.log("este es mi rut "+result);
               rutv = result;
+              nombre = $("#nombre").val();
+              email = $("#email").val();
+              console.log("Pasa aqui");
               $.ajax({
                 type: "POST",
                 url: window.location.href+'usuario/verificar_usuario',
                 cache: false,
-                data: {"rut": rutv},
+                data: {"rut": rutv, "nombre": nombre, "email": email},
                 success: function(result){
-                  console.log("resultado de busqueda "+result)
+                  console.log("resultado de busqueda "+result);
                   switch(result) {
                       case 1:
                       $('#cap').empty().load('usuario/alumno');
@@ -103,7 +113,6 @@ $(document).ready(function(){
                             'Usted no se encuentra registrado en nuestro sistema',
                             'error'
                           );
-                      $("#validar").prop("disabled", true);
                           break;
                   }
                 }
@@ -111,11 +120,14 @@ $(document).ready(function(){
             }
           })
         }else{
+          nombre = $("#nombre").val();
+          email = $(".email").val();
+          console.log("Pasa este otro");
           $.ajax({
             type: "POST",
             url: window.location.href+'usuario/verificar_usuario',
             cache: false,
-            data: {"rut": rutv},
+            data: {"rut": rutv, "nombre": nombre, "email":email},
             success: function(result){
               console.log("resultado de busqueda "+result)
               switch(result) {
@@ -143,7 +155,7 @@ $(document).ready(function(){
                         'Usted no se encuentra registrado en nuestro sistema',
                         'error'
                       );
-                  $("#validar").prop("disabled", true);
+                  //$("#validar").prop("disabled", true);
                       break;
               }
             }

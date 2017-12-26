@@ -30,8 +30,13 @@ class Alumnos extends ActiveRecord
   //Metodo para eliminar digito verificador
   public function digito_rut($rut)
   {
-    $rut = substr($rut, 0, -1);
-    return $rut;
+    if(strlen($rut) > 8){
+      $rut = substr($rut, 0, -1);
+      return $rut;
+    }
+    else{
+      return $rut;
+    }
   }
 
   public function verificador($rut)

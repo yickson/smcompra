@@ -241,6 +241,30 @@ var Carrito = function(params){
     }
     
     /**
+     * Devuelve estado de licencia pagado o no pagado.
+     * @param {string} codigo_producto
+     * @returns {json|boolean} 
+     */
+    this.simulacionRest = function(codigo_producto){
+        var codigo = codigo_producto;
+        console.log(codigo);
+        var usuario = "test2"; 
+        var pass = "123";
+        $.ajax({
+            type  : "get",
+            cache : false,
+            dataType: "json",
+            url   : "https://serviciosm.cl/smcompra/api/licencia/"+codigo+"/"+usuario+"/"+pass,
+            succes : function (result){
+                console.log(result);
+            },
+            error : function (){
+                console.log("error");
+            } 
+        });
+    }
+    
+    /**
      * Funcion que elimina un item dentro del arreglo
      * @param {array} arr
      * @param {integer} item

@@ -31,4 +31,9 @@ $(document).ready(function(){
         console.log("pase");
         carrito_compra.marcarTodos(usuario, tipo)
     });
+    
+    $('#testRest').on('click', function(e){
+        console.log("pase");
+        carrito_compra.simulacionRest($(this).data("codigo"))
+    });
 });

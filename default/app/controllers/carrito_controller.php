@@ -185,6 +185,14 @@ class CarritoController extends AppController
       $this->data = Session::get("carrito");
       View::select(null, 'json_carrito');
   }
+  
+  public function simulacionRest(){
+	$codigo = Input::post("codigo");
+	$licencias = (new Licences)->find_by_codigo($codigo);
+	$estado = ($licencias->estado == 1)?true:false;
+	$this->data = $estado;
+	View::select(null, 'json_carrito');
+  }
 }
 
 ?>

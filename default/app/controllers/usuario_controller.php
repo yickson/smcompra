@@ -120,24 +120,36 @@ class UsuarioController extends AppController
   public function verificar_usuario()
   {
     $rut = Input::post('rut');
-    $usuario = (New Usuarios)->find_by_rut($rut);
+    $nombre = Input::post('nombre');
+    $correo = Input::post('email');
     $tipo = Session::get('tipo');
-    if($tipo == $usuario->tipo){
-      $this->data = 1;
-    }
-    else{
-      switch ($tipo) {
-        case 1:
-          $this->data = 3;
-          break;
-
-        case 2:
-          $this->data = 2;
-          break;
+    $usuario = (New Usuarios)->find_by_rut($rut);
+    if(empty($usuario)){
+      $datos = (New Usuarios);
+      $datos->rut = $rut;
+      $datos->nombre = $nombre;
+      $datos->email = $correo;
+      $datos->tipo = 1;
+      if(!$datos->save()){
+        $this->data = 'Error en el guardado';
+      }else{
+        $this->data = 1;
       }
-      //if(empty($usuario) or is_null($usuario)){
-        $this->data = $usuario;
-      //}
+    }else{
+        if($tipo == $usuario->tipo){
+          $this->data = 1;
+        }
+        else{
+          switch ($tipo) {
+            case 1:
+              $this->data = 3;
+              break;
+
+            case 2:
+              $this->data = 2;
+              break;
+          }
+        }
     }
     View::select(null, 'json');
   }

@@ -1,6 +1,8 @@
 $(document).ready(function(){
   var rutv;
   var rutc;
+  var nombre;
+  var email;
   $('#volver').click(function(){
     $('#cap').empty().load('usuario/principal');
   });
@@ -75,13 +77,16 @@ $(document).ready(function(){
             success: function(result){
               //console.log("este es mi rut "+result);
               rutv = result;
+              nombre = $("#nombre").val();
+              email = $("#email").val();
+              console.log("Pasa aqui");
               $.ajax({
                 type: "POST",
                 url: window.location.href+'usuario/verificar_usuario',
                 cache: false,
-                data: {"rut": rutv},
+                data: {"rut": rutv, "nombre": nombre, "email": email},
                 success: function(result){
-                  console.log("resultado de busqueda "+result)
+                  console.log("resultado de busqueda "+result);
                   switch(result) {
                       case 1:
                       $('#cap').empty().load('usuario/alumno');
@@ -115,11 +120,14 @@ $(document).ready(function(){
             }
           })
         }else{
+          nombre = $("#nombre").val();
+          email = $(".email").val();
+          console.log("Pasa este otro");
           $.ajax({
             type: "POST",
             url: window.location.href+'usuario/verificar_usuario',
             cache: false,
-            data: {"rut": rutv},
+            data: {"rut": rutv, "nombre": nombre, "email":email},
             success: function(result){
               console.log("resultado de busqueda "+result)
               switch(result) {

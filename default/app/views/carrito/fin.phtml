@@ -2,7 +2,9 @@
   <div class="alert alert-info">
     <strong>Compra anulada por el usuario</strong>
   </div>
-<?php else: ?>
+<?php else: 
+  echo Tag::js("restConecta");
+?>
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
@@ -23,39 +25,43 @@
           <p>¡Le agradecemos su preferencia!</p>
           <p>Usted ha adquirido los siguientes productos:</p>
           <div class="well">
-          <div class="table-responsive">
-            <table class="table table-hover table-light">
-              <thead>
-                <tr>
-                  <td><b>PROYECTO</b></td>
-                  <td><b>ASIGNATURA/NIVEL</b></td>
-                  <td><b>DETALLE</b></td>
-                  <td><b>VALOR</b></td>
-                </tr>
-              </thead>
-              <?php foreach ($detalles as $key => $valor): ?>
-                <?php foreach ($valor as $key => $value): ?>
-                  <tr>
-                    <td><?php echo $value->proyecto ?></td>
-                    <td><?php echo $value->nombre .' - '.$value->curso ?></td>
-                    <td><?php echo $value->codigo ?></td>
-                    <td><?php echo 'CLP $'.number_format($value->valor, 0, ' ', '.'); ?></td>
-                  </tr>
-                <?php endforeach ?>
-              <?php endforeach ?>
-              <tr>
-                <td></td>
-                <td></td>
-                <td><b>TOTAL</b></td>
-                <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
-              </tr>
-            </table>
-            <p>Este email contiene información personal --- Por favor, no lo reenvíe. Si tiene alguna
-            llámenos al 600 381 13 12.</p>
-            <p>Atentamente,</p>
-            <p>Ediciones SM</p>
-            <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
-          </div>
+	    <div class="table-responsive">
+	      <table class="table table-hover table-light">
+		<thead>
+		  <tr>
+		    <td><b>PROYECTO</b></td>
+		    <td><b>ASIGNATURA/NIVEL</b></td>
+		    <td><b>DETALLE</b></td>
+		    <td><b>VALOR</b></td>
+		  </tr>
+		</thead>
+		<?php $licencias = array();?>
+		<?php foreach ($detalles as $key => $valor): ?>
+		  <?php foreach ($valor as $key => $value): 
+			  array_push($licencias, $value->codigo);
+		  ?>
+		    <tr>
+		      <td><?php echo $value->proyecto ?></td>
+		      <td><?php echo $value->nombre .' - '.$value->curso ?></td>
+		      <td><?php echo $value->codigo ?></td>
+		      <td><?php echo 'CLP $'.number_format($value->valor, 0, ' ', '.'); ?></td>
+		    </tr>
+		  <?php endforeach ?>
+		<?php endforeach ?>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td><b>TOTAL</b></td>
+		  <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
+		</tr>
+	      </table>
+	      <p>Este email contiene información personal --- Por favor, no lo reenvíe. Si tiene alguna
+	      llámenos al 600 381 13 12.</p>
+	      <p>Atentamente,</p>
+	      <p>Ediciones SM</p>
+	      <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
+	    </div>
+	      <input id="licencias" type="hidden" data-licencias='<?php echo json_encode($licencias)?>' data-rut="<?php echo Session::get("rt")?>">
           </div>
       </div>
     </div>

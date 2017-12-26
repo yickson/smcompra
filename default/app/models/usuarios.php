@@ -27,6 +27,41 @@ class Usuarios extends ActiveRecord
       }
   }
   
+  /**
+   * Consulta para traer todos los usarios con sus hijos
+   * @return object
+   */
+  public function getTodos_con_hijos()
+  { 
+      $todos_con_hijos = $this->find_all_by_sql("SELECT u.id, u.nombre, u.tipo, u.rut, COUNT(a.id) as hijos
+						 FROM usuarios as u
+						 LEFT JOIN alumnos a ON (a.apoderado_id = u.id)
+						 GROUP BY u.id");
+      $usuarios = array();
+      foreach($todos_con_hijos as $key => $usuario):
+	$usuarios[$key]["id"] = $usuario->id;
+        $usuarios[$key]["rut"] = $usuario->rut;
+	$usuarios[$key]["nombre"]  = $usuario->nombre;
+	$usuarios[$key]["tipo"]    = ($usuario->tipo == $this::APODERADO)?"<span>Apoderado</span>":"<span>Profesor</span>";
+	$usuarios[$key]["hijos"]   = "<button data-id='".$usuario->id."' class='btn btn-info hijos'> <span class='badge'>$usuario->hijos</span></button>";
+      endforeach;
+      return $usuarios;
+  }
+  
+  /**
+   * Devuelve los hijos de un usuario
+   * @return object | $hijos
+   */
+  public function getHijos()
+  {
+    $usuario = Input::post("usuario");
+    $hijos = $this->find_all_by_sql("SELECT a.id as id_alumno, a.nombre as nombre_alumno, a.rut as rut_alumno, u.id as id_usuario, u.nombre as nombre_usuario, u.rut as rut_usuario, u.tipo
+				     FROM alumnos as a
+				     INNER JOIN usuarios u ON (a.apoderado_id = u.id)
+				     WHERE apoderado_id = $usuario ");
+    return $hijos;
+  }
+  
   public function validar($rut)
   {
     //El usuario envia el RUT para ser validado

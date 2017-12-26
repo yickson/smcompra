@@ -33,7 +33,7 @@ class IndexController extends AppController
     if(Input::hasPost('correo', 'clave')){
       $auth = (New Administrador)->login();
       if($auth){
-        Redirect::to('');
+        Redirect::to('administrador/dashboard');
       }
     }
   }

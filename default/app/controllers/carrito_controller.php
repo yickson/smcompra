@@ -130,6 +130,7 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
         $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
         $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
+	
         View::template(null);
       }
     }

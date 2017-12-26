@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SM | Compras</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" href="http://serviciosm.cl/img/favicon_sm.png" type="image/png" />
+  <!-- Bootstrap 3.3.7 -->
+  <?php Tag::css('../bower_components/bootstrap/dist/css/bootstrap.min') ?>
+  <!-- Font Awesome -->
+  <?php Tag::css('../bower_components/font-awesome/css/font-awesome.min') ?>
+  <!-- Ionicons -->
+  <?php Tag::css('../bower_components/Ionicons/css/ionicons.min') ?>
+  <!-- Theme style -->
+  <?php Tag::css('../css/datatable') ?>
+  <?php Tag::css('../dist/css/AdminLTE.min') ?>
+  <?php Tag::css('../dist/css/styleMarco') ?>
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <?php Tag::css('../dist/css/skins/_all-skins.min') ?>
+  <!-- Morris chart -->
+  <?php Tag::css('../bower_components/morris.js/morris') ?>
+  <!-- jvectormap -->
+  <?php Tag::css('../bower_components/jvectormap/jquery-jvectormap') ?>
+  <!-- Date Picker -->
+  <?php Tag::css('../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min') ?>
+  <!-- Daterange picker -->
+  <?php Tag::css('../bower_components/bootstrap-daterangepicker/daterangepicker') ?>
+  <!-- bootstrap wysihtml5 - text editor -->
+  <?php Tag::css('estiloback') ?>
+
+  <?= Html::includeCss() ?>
+
+  <!-- jQuery 3 -->
+  <?php echo Tag::js('../bower_components/jquery/dist/jquery.min') ?>
+  <!-- jQuery UI 1.11.4 -->
+  <?php echo Tag::js('../bower_components/jquery-ui/jquery-ui.min') ?>
+
+  <?php echo Tag::js('../bower_components/sweetalert/sweetalert') ?>
+
+  <?php echo Tag::js('../javascript/jquery.dataTables.min') ?>
+  <?php echo Tag::js('../javascript/dataTables.bootstrap.min') ?>
+
+  <?php echo Tag::js('../javascript/dataTables_buttons.min') ?>
+  <?php echo Tag::js('../javascript/jszip.min') ?>
+  <?php echo Tag::js('../javascript/buttons_html5.min') ?>
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  </head>
+<body class="hold-transition skin-red sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header" >
+    <!-- Logo -->
+    <a  class="logo" style="background-color:#CB3724" href="<?php echo PUBLIC_PATH.'administrador/index/' ?>">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><img src="<?php echo PUBLIC_PATH.'default/public/img/smlogomin2.jpg' ?>" width="51" height="52"></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">Ediciones SM</span>
+    </a>
+    <?php echo View::partial("header", false, array()) ?>
+  </header>
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar" >
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <?php if(isset($img) and $img != ''): ?>
+            <?php echo Html::img($img, 'Imagen de usuaria', 'class="img-circle"') ?>
+          <?php else: ?>
+            <?php echo Html::img('avatar5.png', 'Imagen de usuario', 'class="img-circle"') ?>
+          <?php endif ?>
+        </div>
+        <div class="pull-left info">
+          <p><?php echo $admin ?></p>
+          <i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <!--<form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>-->
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+        <?php echo View::partial("menu", false, array()) ?>;
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <!-- <section class="content-header">-->
+      <h1>
+        <!-- Panel de Control<p>
+            <small>Administración</small>-->
+            <br>
+      </h1>
+      <!--<ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Menu Principal</a></li>
+        <li class="active">Dashboard</li>
+      </ol>-->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <?php View::content(); ?>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+    <?php View::partial("versionamiento");?>
+    </div>
+    <strong>© <?php echo date('Y') ?> </strong> ‐ Ediciones SM Chile S.A. Coyancura 2283, Oficina 203, Providencia, Santiago.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">Opciones Generales</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Opcion 1
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+            <p>
+              descripcion pequeña sobre esta opcion
+            </p>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<?php echo Tag::js('../bower_components/bootstrap/dist/js/bootstrap.min') ?>
+<!-- Morris.js charts -->
+<?php echo Tag::js('../bower_components/raphael/raphael.min') ?>
+<?php echo Tag::js('../bower_components/raphael/raphael.min') ?>
+<!-- Sparkline -->
+<?php echo Tag::js('../bower_components/jquery-sparkline/dist/jquery.sparkline.min') ?>
+<!-- jvectormap
+<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+-->
+<!-- jQuery Knob Chart
+<script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+-->
+<!-- daterangepicker
+<script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+-->
+<!-- datepicker -->
+<?php echo Tag::js('../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min') ?>
+<!-- Bootstrap WYSIHTML5 -->
+<?php echo Tag::js('../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min') ?>
+<!-- Slimscroll -->
+<?php echo Tag::js('../bower_components/jquery-slimscroll/jquery.slimscroll.min') ?>
+<!-- FastClick -->
+<?php echo Tag::js('../bower_components/fastclick/lib/fastclick') ?>
+<!-- AdminLTE App -->
+<?php echo Tag::js('../dist/js/adminlte.min') ?>
+
+<?php echo Tag::js('jquery.Rut') ?>
+
+<script type="text/javascript">
+//......................
+//funcion para darle formato al rut con . y -
+//......................
+$('#rut').Rut({
+on_error: function()
+{
+  //alert('Rut incorrecto');
+},
+format_on: 'keyup'
+});
+//......................
+//funcion para darle formato al rut solo con .
+//......................
+$('#rut').Rut({
+validation: false,
+format_on: 'keyup',
+digito_verificador: '#digito_verificador_demo_6'
+});
+//......................
+//funcion para darle formato solo ingreso de letras
+//......................
+function sololetras(e)
+{
+    key = e.keyCode || e.which;
+    teclado = String.fromCharCode(key);
+    letras = " áéíóúabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    especiales = "8-37-38-46";//array
+    teclado_especial = false;
+    for(var i in especiales){
+    if(key == especiales[i]){
+    teclado_especial = true;}}
+    if(letras.indexOf(teclado)== -1 && !teclado_especial){
+    return false;}
+}
+//......................
+//funcion para darle formato solo ingreso de numeros
+//......................
+function solonumeros(e)
+{
+    key = e.keyCode || e.which;
+    teclado = String.fromCharCode(key);
+    numeros = "0123456789";
+    especiales = "8-37-38-46";//array
+    teclado_especial = false;
+    for(var i in especiales){
+    if(key == especiales[i]){
+    teclado_especial = true;}}
+    if(numeros.indexOf(teclado)== -1 && !teclado_especial){return false;}
+}
+//......................
+//funcion para validar que no vengan vacios
+//......................
+var v=true;
+$("span.help-block").hide();
+
+function verificar()
+{
+  var v1=0, v2=0, v3=0, v4=0, v5=0;
+  v1=validacion('rut');
+  v2=validacion('nombre');
+  v3=validacion('correo');
+  v4=validacion('correo2');
+  v5=validacion('rbd');
+  if (v1===false || v2===false || v3===false || v4===false || v5===false)
+  {
+    $("#exito").hide();
+    $("#error").show();
+  }
+  else
+  {
+    $("#error").hide();
+    $("#exito").show();
+  }
+}
+
+function validacion(campo)
+{
+  var a=0;
+  if (campo==='rut')
+  {
+    rut = document.getElementById(campo).value;
+    if( rut == null || rut.length == 0 || /^\s+$/.test(rut) )
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-error has-feedback");
+        $('#'+campo).parent().children('span').text("Ingrese su Rut sin Digito Verificador").show();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-remove form-control-feedback'></span>");
+        return false;
+    }
+    else
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-success has-feedback");
+        $('#'+campo).parent().children('span').hide();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-ok form-control-feedback'></span>");
+        return true;
+    }
+  }
+  if (campo==='nombre')
+  {
+    nombre = document.getElementById(campo).value;
+    if( nombre == null || nombre.length == 0 || /^\s+$/.test(nombre) )
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-error has-feedback");
+        $('#'+campo).parent().children('span').text("Ingrese su Nombre Completo").show();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-remove form-control-feedback'></span>");
+        return false;
+    }
+    else
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-success has-feedback");
+        $('#'+campo).parent().children('span').hide();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-ok form-control-feedback'></span>");
+        return true;
+    }
+  }
+  if (campo==='correo')
+  {
+    correo = document.getElementById(campo).value;
+    if( correo == null || correo.length == 0 || /^\s+$/.test(correo) )
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-error has-feedback");
+        $('#'+campo).parent().children('span').text("Ingrese su Correo").show();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-remove form-control-feedback'></span>");
+        return false;
+    }
+    else
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-success has-feedback");
+        $('#'+campo).parent().children('span').hide();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-ok form-control-feedback'></span>");
+        return true;
+    }
+  }
+  if (campo==='correo2')
+  {
+    correo2 = document.getElementById(campo).value;
+    if( correo2 == null || correo2.length == 0 || /^\s+$/.test(correo2) )
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-error has-feedback");
+        $('#'+campo).parent().children('span').text("Confirme su Correo").show();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-remove form-control-feedback'></span>");
+        return false;
+    }
+    else
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-success has-feedback");
+        $('#'+campo).parent().children('span').hide();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-ok form-control-feedback'></span>");
+        return true;
+    }
+  }
+  if (campo==='rbd')
+  {
+    rbd = document.getElementById(campo).value;
+    if( rbd == null || rbd.length == 0 || /^\s+$/.test(rbd) )
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-error has-feedback");
+        $('#'+campo).parent().children('span').text("Ingrese el RBD del Colegio").show();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-remove form-control-feedback'></span>");
+        return false;
+    }
+    else
+    {
+        $("#glypcn"+campo).remove();
+        $('#'+campo).parent().parent().attr("class", "form-group has-success has-feedback");
+        $('#'+campo).parent().children('span').hide();
+        $('#'+campo).parent().append("<span id='glypcn"+campo+"' class='glyphicon glyphicon-ok form-control-feedback'></span>");
+        return true;
+    }
+  }
+}
+</script>
+</body>
+</html>

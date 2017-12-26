@@ -14,19 +14,19 @@ class Usuarios extends ActiveRecord
     $dato = (New Usuarios)->find($id);
     return $dato->tipo; //Esta variable cambiar por el nombre del campo que tenga el rol
   }
-  
+
   /**
    * @return object devuelve una instancia de direcciones de usuario logeado
-   */  
+   */
   public function getDireccion(){
       if(Session::get("tipo") == $this::PROFESOR){
 	$direccion = (new Direcciones)->find_by_id_usuario(Session::get("usuario"));
-	return $direccion; 
+	return $direccion;
       }else{
 	return null;
       }
   }
-  
+
   public function validar($rut)
   {
     //El usuario envia el RUT para ser validado
@@ -52,8 +52,13 @@ class Usuarios extends ActiveRecord
   //Metodo para eliminar digito verificador
   public function digito_rut($rut)
   {
-    $rut = substr($rut, 0, -1);
-    return $rut;
+    if(strlen($rut) > 8){
+      $rut = substr($rut, 0, -1);
+      return $rut;
+    }
+    else{
+      return $rut;
+    }
   }
   /*
   * @param string $rut

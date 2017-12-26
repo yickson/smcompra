@@ -72,11 +72,15 @@ class UsuarioController extends AppController
   {
     $rut = Input::post('rut');
     $rutc = Input::post('rutc');
-    $usuario = (New Usuarios)->find_by_rut($rut);
-    Session::set('iduser', $usuario->id);
     Session::set('rutc', $rutc);
     Session::set('rt', $rut);
-    $this->data = $usuario;
+    $usuario = (New Usuarios)->find_by_rut($rut);
+    if(empty($usuario)){
+      $this->data = false;
+    }else{
+      Session::set('iduser', $usuario->id);
+      $this->data = $usuario;
+    }
     View::select(null, 'json');
   }
 
@@ -97,13 +101,13 @@ class UsuarioController extends AppController
       if($user == $usuario->apoderado_id){
         $this->data = $usuario;
       }
-      if($usuario->apoderado_id == 0){
+      if($usuario->apoderado_id == 0 and $user != $usuario->apoderado_id){
         $datos = (New Alumnos)->find($usuario->id); //Inyeccion de datos
         $datos->apoderado_id = $user; //Asigno el nuevo ID del apoderado/profesor
         $datos->save();
         $this->data = $usuario;
       }
-      if($user != $usuario->apoderado_id){
+      if($user != $usuario->apoderado_id and $usuario->apoderado_id != 0){
         $this->data = 2;
       }
     }

@@ -1,0 +1,180 @@
+<!-- CSS se cargara en el template, primero carga el view luego el template -->
+<?php Tag::css('../bower_components/datatables.net-bs/css/dataTables.bootstrap.min') ?>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var $this = {
+		    "apoderado"  : '1',
+		    "profesor"   : '2'
+		};
+	
+    var table = $('#tabla_usuarios').DataTable( {
+      "ajax": {
+               "url": "listar_con_hijos",
+               "dataType": "json",
+               "cache": false,
+             },
+      dom: 'Bfrtip',
+      "buttons": [
+         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
+      ],
+      "columns": [
+          { "data": "id" },
+	  { "data": "rut" },
+          { "data": "nombre" },
+	  { "data": "tipo" },
+          { "data": "hijos" }
+      ]
+    });
+    
+    $("#tabla_usuarios").on("click", ".hijos", function(){
+	var usuario = $(this).data("id");
+	var tipo = null;
+	$.ajax({
+	    type: "POST",
+	    cache: false,
+	    url: "consultarHijos",
+	    data: {"usuario" : usuario},
+	    success: function(data){
+		var cantidad_alumnos = data.length;
+		$('.datos_hijos').find('tr').remove().end();
+		$('#hijos_usuario').modal('show');
+		//Info modal Cabecera
+		(data[0].tipo == $this.apoderado)?tipo = "Apoderado": tipo = "Profesor";
+		$(".titulo").text("Datos "+tipo+" / alumno(s)");
+		$(".nombre_usuario").text("Nombre: "+ data[0].nombre_usuario);
+		$(".rut_usuario").text("Rut: "+ data[0].rut_usuario);
+		$(".cantidad_alumnos").text("Cantidad alumnos: "+ cantidad_alumnos)
+		
+		$.each(data, function(i, val)
+		{
+		    //Info modal Alumnos
+		    var info  = "<tr>"+
+				 "<td style='border-bottom:1px solid #ddd;'>"+ val.nombre_alumno + "</td>"+
+				 "<td style='border-bottom:1px solid #ddd;'>"+ val.rut_alumno + "</td>"+
+				"</tr>";
+		    $(".datos_hijos").append(info);
+		});
+	    },
+	    error: function(){
+
+	    }
+	});
+    });
+
+  });
+</script>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title pull-left"> Lista de Apoderados </h3>
+        <br><p>
+        <button  class="btn btn-success nuevo_usuario pull-right">
+          <i class="fa fa-plus pull-left"> Nuevo </i>
+        </button>
+        <br>
+        <hr>
+        <div class="table-responsive col-md-12">
+          <table id="tabla_usuarios" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+		    <th>Rut</th>
+                    <th>Nombre</th>
+		    <th>Tipo</th>
+                    <th>Hijos</th>
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal para ver los usuarios-->
+<div class="modal fade bd-example-modal-lg" id="hijos_usuario" tabindex="-1" role="dialog" aria-labelledby="direccionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content ">
+	    <div class="modal-header">
+		<h5 class="modal-title" id="direccionModalLabel"><label class="titulo"></label></h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+		    <span aria-hidden="true">&times;</span>
+		</button>
+	    </div>
+	    <div class="modal-body">
+		<fieldset>
+		    <div class="form-bottom">
+			<div class="form-group">
+			    <form id="datos_despacho" class="form-horizontal">
+				<div class="col-md-12">
+				    <div class="row">
+					<div class="col-md-12">
+					    <div class="row">
+						<div class="col-md-12" style="margin-top:6px">
+						    
+						    <label class="nombre_usuario"></label>
+						    
+						</div>
+					    </div>
+					</div>
+					<div class="col-md-12">
+					    <div class="row">
+						<div class="col-md-12" style="margin-top:6px">
+						    <label class="rut_usuario"></label>
+						</div>
+					     </div>
+					</div>
+					<div class="col-md-12">
+					    <div class="row">
+						<div class="col-md-12" style="margin-top:6px">
+						    <label class="cantidad_alumnos"></label>
+						</div>
+					     </div>
+					</div>
+<!--					<div class="col-md-12">
+					    <div class="col-md-2">
+						<label for="inputEmail3" class="control-label">Ciudad</label>
+					    </div>
+					    <div class="col-md-10">
+						<input type="text" id="ciudad"  class="form-control form-sm"><br>
+					    </div>
+					</div>-->
+					<div class="col-md-12">    
+					    <ul class="nav nav-tabs">
+						<li class="active"><a href="#"><i class="fa fa-graduation-cap"></i> Alumno(s)</a></li>
+						<table class="dataTable" style="border: 1px solid #ddd">
+						    <tr style="background-color: #ddd;">
+						    <th style="border-right:1px solid #ccc">Nombre</th>
+						    <th>Rut</th>
+						    </tr>
+						    <tbody class="datos_hijos">
+
+						    </tbody>
+						</table>
+					    </ul>
+					</div>
+				    </div>
+				</div>
+			    </form>
+			</div>
+		    </div>
+		</fieldset>
+		<div class="modal-footer">
+		    <div class="col-md-12">
+			<div class="row">
+			    <div class="col-md-5">
+				    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar ventana</button>
+			    </div>
+			    <span class="col-md-2"></span>
+			    <div class="col-md-5">
+				<button id="pagar" class="btn btn-primary form-control hidden pagar">Ir a pagar</button>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>

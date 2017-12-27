@@ -109,4 +109,14 @@ class datatableAcciones
 	 endfor;
          return $array;
      }
+    
+     /**
+      * Devuelve boton para datatable de pedidos
+      * @return string | $btn
+      */
+    public static function getBtnPedidos()
+    {
+	$btn = "<button class='btn btn-info'>2</button>";
+	return $btn;
+    }
 }

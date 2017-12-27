@@ -3,12 +3,28 @@
     <strong>Compra anulada por el usuario</strong>
   </div>
 <?php else: 
+//   $public =  'c779ebff261ac661bb83a0fa1c22dbbf81143d7c1e1864bc7a71b9096cd87664';
+//$private = 'e647d4aadc19afb99621e7c0e814f2b452f3ef62a7648726225627bbc74fdfe7';
+//$uuid = 'ee151a1a280210fd9c9d858a07fcd3ff2062047195028aa591bf5e0901ae4627';
+//$xhash = hash_hmac('sha256',$uuid,$private);
   echo Tag::js("restConecta");
+
 ?>
+<script>
+    $(document).ready(function(){
+	$("#impr").on("click", function(){
+	console.log("pase");
+	var mywindow = window.open('', 'PRINT', 'height=900,width=860');
+	    mywindow.document.write(document.getElementById("compra").innerHTML);
+	    mywindow.print();
+	});	
+    }); 
+</script>
+
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-      <div class="card bg-light mb-12" style="max-width: 100%">
+      <div id="compra" class="card bg-light mb-12" style="max-width: 100%">
         <div class="card-header">Detalle de la compra realizada:</div>
         <div class="card-body text-dark" style="margin:0px, padding-top:0px">
           <div class="col-xs-12 col-sm-12">
@@ -59,7 +75,8 @@
 	      llámenos al 600 381 13 12.</p>
 	      <p>Atentamente,</p>
 	      <p>Ediciones SM</p>
-	      <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
+	      <button id="impr">imprimir</button> 
+	      
 	    </div>
 	      <input id="licencias" type="hidden" data-licencias='<?php echo json_encode($licencias)?>' data-rut="<?php echo Session::get("rt")?>">
           </div>

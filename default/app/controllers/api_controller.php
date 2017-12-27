@@ -1,4 +1,4 @@
-<?php
+<?php 
 class apiController extends RestController{
     
     //Constantes
@@ -6,7 +6,7 @@ class apiController extends RestController{
     const NO_PAGADO = 0;
     
      /**
-     * AutenticaciÃ³n de la API
+     * Autenticación de la API
      * @var type 
      */
     protected $usuarios = array(

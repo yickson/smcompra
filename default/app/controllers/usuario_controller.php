@@ -129,7 +129,7 @@ class UsuarioController extends AppController
       $datos->rut = $rut;
       $datos->nombre = $nombre;
       $datos->email = $correo;
-      $datos->tipo = 1;
+      $datos->tipo = 1; // Se establece por defecto para evitar crear un profesor
       if(!$datos->save()){
         $this->data = 'Error en el guardado';
       }else{

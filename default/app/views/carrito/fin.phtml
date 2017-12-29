@@ -2,17 +2,35 @@
   <div class="alert alert-info">
     <strong>Compra anulada por el usuario</strong>
   </div>
-<?php else:
+<?php else: ?>
+<script>
+    $(document).ready(function(){
+	$("#impr").on("click", function(){
+	console.log("pase");
+	var mywindow = window.open('', 'PRINT', 'height=900,width=860');
+	    mywindow.document.write(document.getElementById("compra").innerHTML);
+	    mywindow.print();
+	});
+    });
+</script>
+<?php
   $tipo = Session::get('tipo');
 ?>
   <?php if($tipo == 1): ?>
+  <?php echo Tag::js("libros"); ?>
   <?php echo Tag::js("restConecta"); ?>
+  <script>
+      $(document).ready(function(){
+	 var rest_libros = new Libros(<?php echo Session::get("carrito") ?>);
+      });
+  </script>
+
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-      <div class="card bg-light mb-12" style="max-width: 100%">
-        <div class="card-header">Detalle de la compra realizada:</div>
-        <div class="card-body text-dark" style="margin:0px, padding-top:0px">
+      <div id="compra" class="card bg-light mb-12" style="max-width: 100%">
+	  <div class="card-header">Detalle de la compra realizada:</div>
+        <div class="card-body text-dark" style="margin:0px; padding-top:0px">
           <div class="col-xs-12 col-sm-12">
         	    <?php View::partial("steps", "", $step); ?>
         	</div>
@@ -61,7 +79,7 @@
 	      llámenos al 600 381 13 12.</p>
 	      <p>Atentamente,</p>
 	      <p>Ediciones SM</p>
-	      <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
+	      <button id="impr" class="btn btn-info">Imprimir su compra</button>
 	    </div>
 	      <input id="licencias" type="hidden" data-licencias='<?php echo json_encode($licencias)?>' data-rut="<?php echo Session::get("rt")?>">
           </div>
@@ -76,7 +94,7 @@
       <div id="compra" class="col-sm-8">
         <div class="card bg-light mb-12" style="max-width: 100%">
           <div class="card-header">Detalle de la compra realizada:</div>
-          <div class="card-body text-dark" style="margin:0px, padding-top:0px">
+          <div class="card-body text-dark" style="margin:0px; padding-top:0px">
             <div class="col-xs-12 col-sm-12">
           	    <?php View::partial("steps", "", $step); ?>
           	</div>
@@ -125,9 +143,7 @@
   	      llámenos al 600 381 13 12.</p>
   	      <p>Atentamente,</p>
   	      <p>Ediciones SM</p>
-  	      <a href='javascript:window.print(); void 0;' class="btn btn-info">Imprima su compra</a>
-          <a href="javascript:pruebaDivAPdf()" class="btn btn-primary">Pasar a PDF</a>
-          </div>
+  	      <button id="impr" class="btn btn-info">Imprimir su compra</button>
   	    </div>
             </div>
         </div>

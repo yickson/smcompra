@@ -21,7 +21,10 @@
               <button id="btn2" type="button" name="button" value="apoderado" class="btn btn-primary"><i class="fa fa-user" aria-hidden="true"></i>
  Apoderado</button>
               <input id="apo" type="hidden" name="" value="apoderado">
-            </form>
+              <?php echo Form::open() ?>
+                <input type="hidden" name="mailer" value="1">
+                <?php echo Form::submit('correo ya', 'class="btn btn-info"') ?>
+              <?php echo Form::close() ?>
           </div>
         </div>
       </div>

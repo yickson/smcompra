@@ -158,13 +158,15 @@ class CarritoController extends AppController
 
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->find_by_sql("SELECT d.ciudad, r.region_nombre, c.comuna_nombre, d.calle, d.numero, d.tipo FROM regiones r INNER JOIN direcciones d ON d.id_region = r.id AND d.id_user = $id INNER JOIN provincias p ON p.region_id = r.id INNER JOIN comunas c ON c.provincia_id = p.provincia_id AND c.id = d.id_comuna ");
+        $this->direccion = (New Direcciones)->find_by_sql("SELECT r.region_nombre, c.comuna_nombre, d.calle, d.numero, d.tipo FROM regiones r INNER JOIN direcciones d ON d.id_region = r.id AND d.id_user = $id INNER JOIN provincias p ON p.region_id = r.id INNER JOIN comunas c ON c.provincia_id = p.provincia_id AND c.id = d.id_comuna ");
+        $usuario = (New Usuarios)->find($id);
+        Email::enviar($usuario->email, $this->detalles, $this->direccion);
       }else{
         foreach ($productos as $key => $valor) {
           $this->detalles[] = (New Productos)->find_all_by_sql("SELECT p.proyecto as proyecto, p.nombre as nombre, p.valor as valor, c.nombre as curso, l.codigo as codigo
                                                                 FROM productos p, cursos c, licences l
                                                                 WHERE p.nivel_id = c.id AND p.id = '".$valor->producto_id."' AND l.usuario_id = ".$id." AND l.producto_id = '".$valor->producto_id."'");
-      }
+        }
       }
     }
   }

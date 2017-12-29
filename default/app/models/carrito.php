@@ -16,9 +16,9 @@ class Carrito extends ActiveRecord
 	$productos_sql = new Productos;
 	$result = null;
 	$total = null;
-	$productos_arr = explode(",", $_POST["arr"]);
+	$productos_arr = json_decode($_POST["arr"]);
 	foreach($productos_arr as $producto):
-	    $result = $productos_sql->find($producto);
+	    $result = $productos_sql->find($producto[1]);
 	    $total += $this->total($result->valor);
 	endforeach;
 	return $total;
@@ -35,17 +35,17 @@ class Carrito extends ActiveRecord
 	$total = null;
 	$productos_format = array();
 	Session::set("carrito", $_POST["arr"]);
-	$productos_arr = explode(",", $_POST["arr"]);
+	$productos_arr = json_decode($_POST["arr"]);
 	$i=0;
 	foreach($productos_arr as $producto):
-	    $result = $productos_sql->find($producto);
+	    $result = $productos_sql->find($producto[1]);
 	    $productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
 	    $productos_format[$i]["descripcion"] = $result->nombre." ".$result->nivel." ".$result->proyecto;
 	    $productos_format[$i]["tipo"] = (Session::get("tipo")==1)?"Licencia":"Texto";
 	    $total = $this->total($result->valor);
 	    $total_format += $total;
 	    $productos_format[$i]["total"] = $this->formatNumeros($total);
-	    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($result->id);
+	    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($producto[0], $result->id);
 	    $total += $total_format;
 	    $i++;
 	endforeach;

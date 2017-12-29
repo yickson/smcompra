@@ -16,6 +16,29 @@ class Licences extends ActiveRecord
 	endforeach;
 	
     }
+    
+    public function getLicenciasPorAlumno(){
+	$carrito = json_decode(Session::get("carrito"));
+	$alimnos_lic = array();
+	$licencia = array();
+	$alumnos = Session::get("alumno");
+	$j=0;
+	foreach($alumnos as  $al):
+	    $alimnos_lic[$j]["rut"] = $al->rut;
+	    foreach($carrito as $carr):
+		    $items = (New Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id =".$al->id." and producto_id =".$carr[1]);
+		    if($items->producto_id == $carr[1]){
+			$licencia[] = $items->codigo;
+			$items->estado = true; //Se desactiva el estado de la licencia del producto del alumno
+			$items->update();
+		    }
+	    endforeach;
+	    $alimnos_lic[$j]["licencias"] = $licencia;
+	    $licencia = array();
+	    $j++;
+	endforeach;
+	return $alimnos_lic;
+    }
 }
 
 

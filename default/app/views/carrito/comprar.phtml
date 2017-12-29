@@ -1,7 +1,8 @@
 <?php echo Tag::js('carrito') ?>
+
 <script>
     $(document).ready(function(){
-	
+	console.log("pase");
 	var $this = {
 	    carro : '<?php echo Session::get("carrito")?>'
 	}
@@ -10,7 +11,7 @@
 	    $.extend($this);
 	};
 	var arr = $("#productos").val();
-	
+	console.log(arr);
 	console.log($this.carro);
 	var carrito = new Carrito();
 	var table = $('#tabla_compra').DataTable( {
@@ -135,9 +136,11 @@
 	  });
 	  
 	  $(".table-responsive").on("click", ".eliminar", function(e){
-	      var producto = $(this).data("id");
-	      $this.carro = carrito.preCargarCarritoSession({"productos" : $this.carro});
-	      $this.carro = carrito.eliminarItem($this.carro, producto);
+	      var alumno   = $(this).data("alumno");
+	      var producto = $(this).data("prod");
+	      var item = [alumno, producto]
+	      $this.carro = carrito.preCargarCarritoSession($this.carro);
+	      $this.carro = carrito.eliminarItem($this.carro, item);
 	      console.log( $this.carro);
 		$.ajax({
 		    type  : "post",
@@ -145,7 +148,8 @@
 		    url   : "setCarrito",
 		    data  : {"carro": $this.carro},
 		    success : function(data){
-			$this.carro = data;
+			$this.carro = data.replace(/['"]+/g, "");
+			 console.log( $this.carro);
 			table.destroy();
 			$('#tabla_compra').empty();
 			createTable();

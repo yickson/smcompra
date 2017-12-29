@@ -16,9 +16,9 @@ class datatableAcciones
      *
      * @param int $id id registro
      */
-     public static function getBtnCarrito($id)
+     public static function getBtnCarrito($alumno, $id)
      {
-       $botones = "<button  data-id='$id' class='btn btn-danger eliminar' data-toggle='modal' data-target='#Buscar'>
+       $botones = "<button  data-alumno='$alumno' data-prod='$id' class='btn btn-danger eliminar' data-toggle='modal' data-target='#Buscar'>
                      Eliminar <i class='fa fa-trash'></i>
                    </button>";
          return $botones;

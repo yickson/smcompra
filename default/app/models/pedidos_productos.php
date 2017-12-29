@@ -7,16 +7,14 @@ class PedidosProductos extends ActiveRecord
 {
   public function almacenar($idpedido)
   {
-      
-//    $carro = json_decode(Session::get('carrito')); //La sesion es un string
-//    $licencia = (New Licences)->DesactivarLicencia($carro[]);
-//    $texto = (New ProfesorAlumnos)->DesactivarTexto($carro);
-    
+
+    $carro = json_decode(Session::get('carrito')); //La sesion es un string
+
     foreach ($carro as $key => $valor) {
-      $producto = (New Productos)->find($valor); //Encontrar producto
+      $producto = (New Productos)->find($valor[1]); //Encontrar producto
 
       $productos = New PedidosProductos;
-      $productos->producto_id = $valor;
+      $productos->producto_id = $valor[1];
       $productos->cantidad = $producto->valor;
       $productos->usuario_id = Session::get('iduser');
       $productos->pedido_id = $idpedido;

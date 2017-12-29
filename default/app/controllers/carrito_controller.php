@@ -71,7 +71,7 @@ class CarritoController extends AppController
     Session::set("carrito", $_POST["productos_arr"]);
     $this->step = $this::STEP_4;
     $this->arr  =  Session::get("carrito");
-    $this->tipo = $tipo;
+    //$this->tipo = $tipo;
   }
 
   public function dataTableListarCarrito(){

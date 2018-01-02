@@ -13,7 +13,7 @@ var Libros = function(params){
     this.construct = function(params){
         $.extend($this , params);
     };
-    console.log($this.libros);
+    
     //Consume servicio rest de generacion de licencias, devuelve licencias por cada producto de alumno en session
     $.ajax({
         type  : "post",
@@ -37,6 +37,7 @@ var Libros = function(params){
                 success: function(resultado){
                     console.log("exito en el ingreso dinamico de licencias");
                     console.log(resultado);
+                    var rest_licencias = new Licencias();
                 },
                 error: function(){
                     console.log("error con el ingreso de licencias");

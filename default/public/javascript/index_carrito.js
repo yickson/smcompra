@@ -3,17 +3,10 @@ $(document).ready(function(){
     var usuario = $("#usuario").data("info");
     var tipo    = $("#tipo").data("info");
     //Completar carrito si existe sesion
-    var carrito = $("#carrito").data("info").replace(/['"]+/g, "");
+    
     carrito_compra.cargarProductos(usuario, tipo);
     
-    if(carrito != ""){
-        setTimeout(function(){
-            $.each(JSON.parse(carrito), function(i,val){
-                var element = "#"+val[0]+"-"+val[1];
-                carrito_compra.agregar(val[1], val[0], 0, element);
-            });
-        }, 100);
-    }
+    
     $("#alumno_productos").on("click",".producto", function(e){
         
          var prod = $(this).data("prod");

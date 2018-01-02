@@ -1,8 +1,18 @@
-$(document).ready(function(){
+var Licencias = function(params){
     var $this = {
         "alumnos" : [],
         "licencias" : []
     }
+    
+    /**
+     * Constructor
+     * @param {string} params
+     * @returns {array}
+     */
+    this.construct = function(params){
+        $.extend($this , params);
+    };
+    
     //Servicio consumo Rest para cambiar estado de licencias a pagadas.
     $.ajax({
         type : "post",
@@ -22,9 +32,10 @@ $(document).ready(function(){
                 data: {"licencias": result},
                 success: function(result){
                     console.log(result);
+                    console.log("exito en el cambio de estado de licencia");
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                             console.log(errorThrown);
+                    console.log(errorThrown);
                 },
             });
         },
@@ -32,5 +43,5 @@ $(document).ready(function(){
             console.log("error en consumo rest Licencias");;
         }
     });
-});
+};
 

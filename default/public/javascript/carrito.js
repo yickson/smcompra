@@ -42,9 +42,13 @@ var Carrito = function(params){
 	    data  : {"id_usuario": id_usuario,
                      "tipo": tipo,
                      "hijos" : $this.hijos},
+            beforeSend:function(){
+                $('.loading').show();
+            },
 	    success: function(data){
                 try{
 		//Carga productos
+                $('.loading').remove();
 		var cantidad_productos = 0;
                 var product_x_alumno   = 0;
 		var display = 0;
@@ -122,6 +126,15 @@ var Carrito = function(params){
 		});
 		$("#alumno_productos").html(productos_html);
                 $("#cantidad_productos").text(cantidad_productos);
+                
+                var carrito = $("#carrito").data("info").replace(/['"]+/g, "");
+                if(carrito != ""){
+
+                        $.each(JSON.parse(carrito), function(i,val){
+                            var element = "#"+val[0]+"-"+val[1];
+                            agregarAux(val[1], val[0], 0, element);
+                        });
+                }
                 }catch(err){
                     console.log(err);
                 };
@@ -143,7 +156,7 @@ var Carrito = function(params){
         $this.item = [alumno, producto];
         if(agregado_estado == $this.no_agregado){
             $this.carrito.push($this.item);
-            $("#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+            $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
             $(element).data("agregado","1");
         }else if(agregado_estado == $this.agregado){
             var carrito_modificado = eliminarItemDeCarrito( $this.carrito, $this.item );
@@ -270,6 +283,8 @@ var Carrito = function(params){
         });
     }
     
+    //Funciones
+    
     /**
      * Funcion que elimina un item dentro del arreglo
      * @param {array} arr
@@ -330,4 +345,27 @@ var Carrito = function(params){
         }
         return descuento;
     }
+    
+    /**
+     * Metodo para guardar id de productos en un array de productos almacenado en sesion
+     * @param {integer} id
+     * @param {integer} agregado_estado
+     * @returns {html}
+     */
+    function agregarAux(producto, alumno, agregado_estado, element){
+        $this.item = [alumno, producto];
+        if(agregado_estado == $this.no_agregado){
+            $this.carrito.push($this.item);
+            $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+            $(element).data("agregado","1");
+        }else if(agregado_estado == $this.agregado){
+            var carrito_modificado = eliminarItemDeCarrito( $this.carrito, $this.item );
+            $this.carrito = carrito_modificado;
+            $("#img"+alumno+'-'+producto).remove();
+            $(element).data("agregado","0");
+        }
+        $("#carrito_txt").text($this.carrito.length);
+        
+        return true ;
+    };
 };

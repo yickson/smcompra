@@ -3,19 +3,19 @@
     <strong>Compra anulada por el usuario</strong>
   </div>
 <?php else: ?>
-    <script>
-	$(document).ready(function(){
-	    $("#impr").on("click", function(){
-	    console.log("pase");
-	    var mywindow = window.open('', 'PRINT', 'height=900,width=860');
-		mywindow.document.write(document.getElementById("compra").innerHTML);
-		mywindow.print();
-	    });	
-	}); 
-    </script>
-    <?php
-      $tipo = Session::get('tipo');
-    ?>
+<script>
+    $(document).ready(function(){
+	$("#impr").on("click", function(){
+	console.log("pase");
+	var mywindow = window.open('', 'PRINT', 'height=900,width=860');
+	    mywindow.document.write(document.getElementById("compra").innerHTML);
+	    mywindow.print();
+	});
+    });
+</script>
+<?php
+  $tipo = Session::get('tipo');
+?>
     <?php if($tipo == 1): ?>
     <?php echo Tag::js("libros"); ?>
     <?php echo Tag::js("licencias"); ?>
@@ -25,63 +25,59 @@
 	   
 	});
     </script>
-    <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-8">
-	<div id="compra" class="card bg-light mb-12" style="max-width: 100%">
-	    <div class="card-header">Detalle de la compra realizada:</div>
-	  <div class="card-body text-dark" style="margin:0px; padding-top:0px">
-	    <div class="col-xs-12 col-sm-12">
-		      <?php View::partial("steps", "", $step); ?>
-		  </div>
-	    <?php //foreach($comprapay as $key => $valor): ?>
-	      <p><b>Número de orden: <?php echo $comprapay->buyOrder ?></b></p>
-	      <p><b>Fecha de la compra: <?php echo $comprapay->fecha ?></b></p>
-	      <p><b>Tipo de Pago: <?php echo $comprapay->tipoPago ?></b></p>
-	      <p><b>Número de Cuotas: <?php echo $comprapay->cuotas ?></b></p>
-	      <p><b>Tarjeta Terminada en: <?php echo $comprapay->cardNumber ?></b></p>
-	      <?php $monto = $comprapay->monto ?>
-	    <?php //endforeach ?>
-	    <p>¡Le agradecemos su preferencia!</p>
-	    <p>Usted ha adquirido los siguientes productos:</p>
-	    <div class="well">
-	      <div class="table-responsive">
-		<table class="table table-hover table-light">
-		  <thead>
-		    <tr>
-		      <td><b>PROYECTO</b></td>
-		      <td><b>ASIGNATURA/NIVEL</b></td>
-		      <td><b>DETALLE</b></td>
-		      <td><b>VALOR</b></td>
-		    </tr>
-		  </thead>
-		  <?php $licencias = array();?>
-		  <?php foreach ($detalles as $key => $valor): ?>
-		    <?php foreach ($valor as $key => $value):
-			    array_push($licencias, $value->codigo);
-		    ?>
-		      <tr>
-			<td><?php echo $value->proyecto ?></td>
-			<td><?php echo $value->nombre .' - '.$value->curso ?></td>
-			<td><?php echo $value->codigo ?></td>
-			<td><?php echo 'CLP $'.number_format($value->valor, 0, ' ', '.'); ?></td>
-		      </tr>
-		    <?php endforeach ?>
-		  <?php endforeach ?>
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <div id="compra" class="card bg-light mb-12" style="max-width: 100%">
+	  <div class="card-header">Detalle de la compra realizada:</div>
+        <div class="card-body text-dark" style="margin:0px; padding-top:0px">
+          <div class="col-xs-12 col-sm-12">
+        	    <?php View::partial("steps", "", $step); ?>
+        	</div>
+          <?php //foreach($comprapay as $key => $valor): ?>
+            <p><b>Número de orden: <?php echo $comprapay->buyOrder ?></b></p>
+            <p><b>Fecha de la compra: <?php echo $comprapay->fecha ?></b></p>
+            <p><b>Tipo de Pago: <?php echo $comprapay->tipoPago ?></b></p>
+            <p><b>Número de Cuotas: <?php echo $comprapay->cuotas ?></b></p>
+            <p><b>Tarjeta Terminada en: <?php echo $comprapay->cardNumber ?></b></p>
+            <?php $monto = $comprapay->monto ?>
+          <?php //endforeach ?>
+          <p>¡Le agradecemos su preferencia!</p>
+          <p>Usted ha adquirido los siguientes productos:</p>
+          <div class="well">
+	    <div class="table-responsive">
+	      <table class="table table-hover table-light">
+		<thead>
 		  <tr>
-		    <td></td>
-		    <td></td>
-		    <td><b>TOTAL</b></td>
-		    <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
+		    <td><b>PROYECTO</b></td>
+		    <td><b>ASIGNATURA/NIVEL</b></td>
+		    <td><b>DETALLE</b></td>
+		    <td><b>VALOR</b></td>
 		  </tr>
-		</table>
-		<p>Este email contiene información personal --- Por favor, no lo reenvíe. Si tiene alguna
-		llámenos al 600 381 13 12.</p>
-		<p>Atentamente,</p>
-		<p>Ediciones SM</p>
-		<button id="impr" class="btn btn-info">Imprimir su compra</button> 
-	      </div>
-		<input id="licencias" type="hidden" data-licencias='<?php echo json_encode($licencias)?>' data-rut="<?php echo Session::get("rt")?>">
+		</thead>
+		<?php $licencias = array();?>
+		<?php foreach ($detalles as $key => $valor): ?>
+			  array_push($licencias, $valor->codigo);
+		  ?>
+		    <tr>
+		      <td><?php echo $valor->proyecto ?></td>
+		      <td><?php echo $valor->nombre .' - '.$value->curso ?></td>
+		      <td><?php echo $valor->codigo ?></td>
+		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
+		    </tr>
+		<?php endforeach ?>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td><b>TOTAL</b></td>
+		  <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
+		</tr>
+	      </table>
+	      <p>Este email contiene información personal --- Por favor, no lo reenvíe. Si tiene alguna
+	      llámenos al 600 381 13 12.</p>
+	      <p>Atentamente,</p>
+	      <p>Ediciones SM</p>
+	      <button id="impr" class="btn btn-info">Imprimir su compra</button>
 	    </div>
 	</div>
       </div>
@@ -91,7 +87,7 @@
     <?php else: ?>
     <div class="row">
       <div class="col-sm-2"></div>
-      <div class="col-sm-8">
+      <div id="compra" class="col-sm-8">
         <div class="card bg-light mb-12" style="max-width: 100%">
           <div class="card-header">Detalle de la compra realizada:</div>
           <div class="card-body text-dark" style="margin:0px; padding-top:0px">
@@ -132,6 +128,9 @@
   		  <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
   		</tr>
   	      </table>
+          <div>
+
+
           <h4>La dirección de entrega es la siguiente:</h4>
           <p><?php echo 'En la ciudad de <b>'.$direccion->ciudad.'</b> en la comuna <b>'.$direccion->comuna_nombre.'</b> en la calle <b>'.$direccion->calle.'</b> número <b>'.$direccion->numero ?></b></p>
           <p><?php echo 'Región '.$direccion->region_nombre ?></p>
@@ -140,7 +139,7 @@
   	      llámenos al 600 381 13 12.</p>
   	      <p>Atentamente,</p>
   	      <p>Ediciones SM</p>
-  	      <button id="impr" class="btn btn-info">Imprimir su compra</button> 
+  	      <button id="impr" class="btn btn-info">Imprimir su compra</button>
   	    </div>
             </div>
         </div>
@@ -150,3 +149,34 @@
     </div>
   <?php endif ?>
 <?php endif ?>
+<script>
+    function pruebaDivAPdf() {
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        source = $('#compra')[0];
+
+        specialElementHandlers = {
+            '#bypassme': function (element, renderer) {
+                return true
+            }
+        };
+        margins = {
+            top: 80,
+            bottom: 60,
+            left: 40,
+            width: 522
+        };
+
+        pdf.fromHTML(
+            source,
+            margins.left, // x coord
+            margins.top, { // y coord
+                'width': margins.width,
+                'elementHandlers': specialElementHandlers
+            },
+
+            function (dispose) {
+                pdf.save('Prueba.pdf');
+            }, margins
+        );
+    }
+</script>

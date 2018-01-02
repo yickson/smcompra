@@ -70,8 +70,7 @@ class CarritoController extends AppController
   public function comprar(){
     Session::set("carrito", $_POST["productos_arr"]);
     $this->step = $this::STEP_4;
-    $this->arr  = Session::get("carrito");
-   
+    $this->arr  =  Session::get("carrito");
     //$this->tipo = $tipo;
   }
 
@@ -152,6 +151,7 @@ class CarritoController extends AppController
       $this->mensaje = true;
     }
     else{
+      $usuario = (New Usuarios)->find($id);
       $comprapay = (New WebpayTransaccion)->find_by_sql("SELECT * FROM webpay_transaccion WHERE usuario_id = ".$id." ORDER BY id DESC LIMIT 1");
       $this->comprapay = $comprapay; //id de comprapay
       $pedido = (New Pedidos)->find_by_sql("SELECT id FROM pedidos WHERE transaccion_id = $comprapay->id");
@@ -159,13 +159,11 @@ class CarritoController extends AppController
 
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->find_by_sql("SELECT d.ciudad, r.region_nombre, c.comuna_nombre, d.calle, d.numero, d.tipo FROM regiones r INNER JOIN direcciones d ON d.id_region = r.id AND d.id_user = $id INNER JOIN provincias p ON p.region_id = r.id INNER JOIN comunas c ON c.provincia_id = p.provincia_id AND c.id = d.id_comuna ");
+        $this->direccion = (New Direcciones)->find_by_sql("SELECT r.region_nombre, c.comuna_nombre, d.calle, d.numero, d.tipo FROM regiones r INNER JOIN direcciones d ON d.id_region = r.id AND d.id_user = $id INNER JOIN provincias p ON p.region_id = r.id INNER JOIN comunas c ON c.provincia_id = p.provincia_id AND c.id = d.id_comuna ");
+        Email::enviar($usuario->email, $this->detalles, $this->direccion); //Email para el profesor
       }else{
-        foreach ($productos as $key => $valor) {
-          $this->detalles[] = (New Productos)->find_all_by_sql("SELECT p.proyecto as proyecto, p.nombre as nombre, p.valor as valor, c.nombre as curso, l.codigo as codigo
-                                                                FROM productos p, cursos c, licences l
-                                                                WHERE p.nivel_id = c.id AND p.id = '".$valor->producto_id."' AND l.usuario_id = ".$id." AND l.producto_id = '".$valor->producto_id."'");
-      }
+        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
+        Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
     }
   }
@@ -187,7 +185,7 @@ class CarritoController extends AppController
   }
 
   public function setCarrito(){
-      $carro = stripslashes(json_encode($_POST["carro"]));
+      $carro = implode(",", $_POST["carro"]);
       Session::delete("carrito");
       Session::set("carrito", $carro);
       $this->data = Session::get("carrito");
@@ -201,56 +199,6 @@ class CarritoController extends AppController
 	$this->data = $estado;
 	View::select(null, 'json_carrito');
   }
-    
-  /**
-     * Actualiza licencias de productos de alumnos
-     * @return array| Multidimensional
-     */
-    public function setLicencias() 
-    {
-	$licencias = Input::post("data");
-	$alumnos = Session::get("alumno");
-	$id_usuario = Session::get("iduser");
-	$licencias_array = array();
-	$licencias_repetidas = array();
-	foreach($alumnos as $al):
-	    foreach($licencias["message"] as $lic):
-		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id
-							  FROM licences 
-							  WHERE usuario_id = $id_usuario 
-							  AND alumno_id    = $al->id
-							  AND producto_id  = ".$lic['store_id'][1]." ");
-		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
-		{
-		    if(in_array($lic['licencia'], $licencias_array))
-		    {
-			array_push($licencias_repetidas, $lic['licencia']);
-			
-		    }else
-		    {
-			$licencia->codigo   = $lic['licencia'];
-			$licencia->tipo     = 'conecta';
-			$licencia->estado   = 1;
-			$licencia->save();
-			array_push($licencias_array, $lic['licencia']);
-		    }
-		}
-	    endforeach;
-	endforeach;
-	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
-	View::select(null, "json");
-    }
-    
-    /**
-     * Obtiene un array multidimensional de cada alumno identificado por el rut, y un sub array con sus licencias
-     * @return array| Multidimensional
-     */
-    public function getRutAlumnos() 
-    {
-	$alumno_licencias = (New Licences)->getLicenciasPorAlumno();
-	$this->data = $alumno_licencias;
-	View::select(null, "json");
-    }
 }
 
 ?>

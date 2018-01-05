@@ -19,6 +19,7 @@ var Licencias = function(params){
         cache: false,
         url  : "getRutAlumnos",
         success: function(result){
+            console.log(result);
             $.ajax({
                 type : "post",
                 cache: false,

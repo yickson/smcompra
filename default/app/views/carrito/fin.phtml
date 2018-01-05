@@ -56,12 +56,12 @@
 		  </tr>
 		</thead>
 		<?php $licencias = array();?>
-		<?php foreach ($detalles as $key => $valor): ?>
+		<?php foreach ($detalles as $key => $valor): 
 			  array_push($licencias, $valor->codigo);
 		  ?>
 		    <tr>
 		      <td><?php echo $valor->proyecto ?></td>
-		      <td><?php echo $valor->nombre .' - '.$value->curso ?></td>
+		      <td><?php echo $valor->nombre .' - '.$valor->curso ?></td>
 		      <td><?php echo $valor->codigo ?></td>
 		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
 		    </tr>
@@ -149,34 +149,4 @@
     </div>
   <?php endif ?>
 <?php endif ?>
-<script>
-    function pruebaDivAPdf() {
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        source = $('#compra')[0];
 
-        specialElementHandlers = {
-            '#bypassme': function (element, renderer) {
-                return true
-            }
-        };
-        margins = {
-            top: 80,
-            bottom: 60,
-            left: 40,
-            width: 522
-        };
-
-        pdf.fromHTML(
-            source,
-            margins.left, // x coord
-            margins.top, { // y coord
-                'width': margins.width,
-                'elementHandlers': specialElementHandlers
-            },
-
-            function (dispose) {
-                pdf.save('Prueba.pdf');
-            }, margins
-        );
-    }
-</script>

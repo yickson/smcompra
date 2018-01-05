@@ -10,9 +10,9 @@ class PedidosController extends AppController
   {
     View::template('admin');
     $valido = New Administrador;
-    if(!$valido->logged()){
+    /*if(!$valido->logged()){
       Redirect::to("administrador/index/entrar");
-    }
+    }*/
   }
   
   

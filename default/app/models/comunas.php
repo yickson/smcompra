@@ -7,7 +7,7 @@ class Comunas extends ActiveRecord
 {
   public function getNombre($id){
       $comuna = (new Comunas)->find($id);
-      $nombre = $comuna->comuna_nombre;
+      $nombre = $comuna->nombre;
       return $nombre; 
   }
 }

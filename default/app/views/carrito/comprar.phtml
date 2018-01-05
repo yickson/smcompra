@@ -47,8 +47,12 @@
 		    $("#calle").val(data.calle);
 		    $("#tipo option[value="+data.tipo+"]").attr('selected', 'selected');
 		    $("#numero").val(data.numero);
-		    $("#id_comuna").val(data.nombre_comuna);
-		    $("#id_region").val(data.nombre_region);
+		    if(data.id_region != null){
+			$("#id_region option[value="+data.id_region+"]").attr('selected', 'selected');
+			$("#id_comuna").find("option").remove();
+			$("#id_comuna").append("<option value='"+data.id_comuna+"'>"+data.nombre_comuna+"</option>").attr('selected', 'selected');
+			
+		    }
 		    $("#adicional").val(data.adicional);
 		},
 		error: function(){
@@ -75,6 +79,7 @@
 	      }).then((result) => {
 		if (result.value) {
 		    var datos_direccion = $("#direccion").find("#datos_despacho").serializeArray();
+		    console.log(datos_direccion);
 		    var arr = $("#productos").val();
 		    $.ajax({
 		      type: "POST",
@@ -83,7 +88,8 @@
 		      data : {"arr" : $this.carro,
 			      "datos_direccion" : datos_direccion},
 		      success: function(data){
-			    if(data != null){
+			  console.log(data);
+			    if(data.total != null){
 				swal({
 				      title: "Datos Actualizados!",
 				      text: "Serás redirigido a WebPay en pocos segundos...",
@@ -92,10 +98,14 @@
 				      timer: 3000
 				});
 				setTimeout(function(){
-					window.location = "pasarela";
+					//window.location = "pasarela";
 				}, 3000);
 			      }else{
-				  
+				 swal(
+				    'Ha ocurrido un error...',
+				    'Favor verificar información ingresada, no deben existir campos vacios',
+				    'error',
+				); 
 			      };
 			    },
 		      error: function(result){
@@ -195,7 +205,27 @@
 		    ]
 		  });
 	  }
-    })
+	  
+	$("#id_region").on("change", function(){
+	    var region = $(this).val();
+	    $("#id_comuna").find("option").remove();
+	    $("#id_comuna").append("<option value='' disabled selected>Seleccione...</option>");
+	    $.ajax({
+		type : "post",
+		cache : false,
+		url : "cargarComunas",
+		data : {"region" : region},
+		success : function(result){
+		    $.each(result, function(i,val){
+			$("#id_comuna").append("<option value='"+val.id+"'>"+val.nombre+"</option>");
+		    });
+		},
+		error : function(){
+		    
+		}
+	    });
+	});
+    });
 
 </script>
 <style>
@@ -289,10 +319,10 @@
 							    </div>
 							    <div class="col-md-4">
 								<select id="tipo" name="tipo" class="form-control form-sm">
-								    <option value="0" disabled >Seleccione...</option>
+								    <option value="0" disabled selected >Seleccione...</option>
 								    <option value="1">Casa</option>
 								    <option value="2">Depto.</option>
-							      </select>
+							        </select>
 							    </div>
 							    <br>
 							    <div class="col-md-1" style="margin-top:6px">
@@ -316,7 +346,9 @@
 							    <label for="inputEmail3" class="control-label">Comuna</label>
 							</div>
 							<div class="col-md-12">
-							    <input type="text" id="id_comuna" name="id_comuna" placeholder="Comuna..." class="form-control form-sm" readonly><br>
+							    <select id="id_comuna" name="id_comuna" class="form-control form-sm" readonly>
+								<option value="" disabled selected >Seleccione...</option>
+							    </select>
 							</div>
 						    </div>
 						    <div class="col-md-12">
@@ -324,7 +356,24 @@
 							    <label for="inputEmail3" class="control-label">Región</label>
 							</div>
 							<div class="col-md-12">
-							    <input type="text" id="id_region" name="id_region" value="" placeholder="Region..." class="rut form-control form-sm" readonly><br>
+							    <select id="id_region" name="id_region" class="form-control form-sm">
+								<option value="" disabled selected >Seleccione...</option>
+								<option value="15">Arica y Parinacota</option>
+								<option value="1">Tarapacá</option>
+								<option value="2">Antofagasta</option>
+								<option value="3">Atacama</option>
+								<option value="4">Coquimbo</option>
+								<option value="5">Valparaiso</option>
+								<option value="13">Metropolitana de Santiago</option>
+								<option value="6">Libertador General Bernardo O'Higgins</option>
+								<option value="7">Maule</option>
+								<option value="8">Biobío</option>
+								<option value="9">La Araucanía</option>
+								<option value="14">Los Ríos</option>
+								<option value="10">Los Lagos</option>
+								<option value="11">Aisén del General Carlos Ibáñez del Campo</option>
+								<option value="12">Magallanes y de la Antártica Chilena</option>
+							    </select>
 							</div>
 						    </div>
 						    <div class="col-md-12">

@@ -13,12 +13,9 @@ class IndexController extends AppController
 
     public function index()
     {
-	    Session::set("carrito", "");
+      Session::set("carrito", "");
       Session::delete('iduser'); //Limpia la variable del id del usuario
       Session::delete('rutc');
       Session::delete('rt');
-      if(Input::hasPost('mailer')){
-        Email::enviar('yicksonr@gmail.com');
-      }
     }
 }

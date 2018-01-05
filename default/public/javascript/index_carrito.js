@@ -32,4 +32,11 @@ $(document).ready(function(){
     $('#testRest').on('click', function(e){
         carrito_compra.simulacionRest($(this).data("codigo"))
     });
+    
+    $('#testRest').on('click', function(e){
+        carrito_compra.simulacionRest($(this).data("codigo"))
+    });
+    
+    
+    
 });

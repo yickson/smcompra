@@ -9,21 +9,22 @@
 	
     var table = $('#tabla_usuarios').DataTable( {
       "ajax": {
+	       "bServerSide": true,
                "url": "listar_con_hijos",
                "dataType": "json",
                "cache": false,
              },
-      dom: 'Bfrtip',
-      "buttons": [
-         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
-      ],
-      "columns": [
-          { "data": "id" },
-	  { "data": "rut" },
-          { "data": "nombre" },
-	  { "data": "tipo" },
-          { "data": "hijos" }
-      ]
+	dom: 'Bfrtip',
+	"buttons": [
+	   {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
+	],
+	"columns": [
+	    { "data": "id" },
+	    { "data": "rut" },
+	    { "data": "nombre" },
+	    { "data": "tipo" },
+	    { "data": "hijos" }
+	]
     });
     
     $("#tabla_usuarios").on("click", ".hijos", function(){

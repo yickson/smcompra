@@ -27,7 +27,7 @@ class Licences extends ActiveRecord
 	    $alimnos_lic[$j]["rut"] = $al->rut;
 	    foreach($carrito as $carr):
 		    $items = (New Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id =".$al->id." and producto_id =".$carr[1]);
-		    if($items->producto_id == $carr[1]){
+		    if($items->producto_id == $carr[1] and $items->alumno_id == $carr[0]){
 			$licencia[] = $items->codigo;
 			$items->estado = true; //Se desactiva el estado de la licencia del producto del alumno
 			$items->update();

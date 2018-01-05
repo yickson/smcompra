@@ -72,16 +72,19 @@ class Plantillas
                   <h3>Valor</h3>
                 </th>
               </tr>
+              </table>
+              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>
               <!-- Aquí se encuentra el bucle del los pedidos -->';
+              
               $total = 0;
-              foreach ($detalles as $key => $value) {
+              foreach ($detalles as $value) {
                 $contenido .= '<tr>';
                 $contenido .= '<td width="162">'.$value->proyecto.'</td>';
                 $contenido .= '<td width="162">'.$value->nombre.'</td>';
                 $contenido .= '<td width="162">'.$value->descripcion.'</td>';
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';
                 $total += $value->valor;
-                if($key === end($detalles)){
+                if($value === end($detalles)){
                   $contenido .= '<tr>
                     <td></td>
                     <td></td>
@@ -90,8 +93,8 @@ class Plantillas
                   </tr>';
                 }
               }
+              $contenido .= '</table>';
   $contenido .= '
-            </table>
           </td>
           </tr>
           <!-- 1 column layout with 0px spacing -->
@@ -182,16 +185,17 @@ class Plantillas
                   <h3>Valor</h3>
                 </th>
               </tr>
-              <!-- Aquí se encuentra el bucle del los pedidos -->';
+              <!-- Aquí se encuentra el bucle del los pedidos -->
+              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>';
               $total = 0;
-              foreach ($detalles as $key => $value) {
+              foreach ($detalles as $value) {
                 $contenido .= '<tr>';
                 $contenido .= '<td width="162">'.$value->proyecto.'</td>';
                 $contenido .= '<td width="162">'.$value->nombre.'</td>';
                 $contenido .= '<td width="162">'.$value->codigo.'</td>';
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';
                 $total += $value->valor;
-                if($key === end($detalles)){
+                if($value === end($detalles)){
                   $contenido .= '<tr>
                     <td></td>
                     <td></td>
@@ -200,6 +204,7 @@ class Plantillas
                   </tr>';
                 }
               }
+              $contenido .= '</table>';
   $contenido .= '
             </table>
           </td>

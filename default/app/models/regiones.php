@@ -7,7 +7,7 @@ class Regiones extends ActiveRecord
 {
   public function getNombre($id){
       $region = (new Regiones)->find($id);
-      $nombre = $region->region_nombre;
+      $nombre = $region->nombre;
       return $nombre; 
   }
 }

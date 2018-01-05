@@ -142,7 +142,7 @@ class CarritoController extends AppController
 
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->find_by_sql("SELECT r.region_nombre, c.comuna_nombre, d.calle, d.numero, d.tipo FROM regiones r INNER JOIN direcciones d ON d.id_region = r.id AND d.id_user = $id INNER JOIN provincias p ON p.region_id = r.id INNER JOIN comunas c ON c.provincia_id = p.provincia_id AND c.id = d.id_comuna ");
+        $this->direccion = (New Direcciones)->getFullDireccion();
         //Email::enviar($usuario->email, $this->detalles, $this->direccion); //Email para el profesor
       }else{
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");

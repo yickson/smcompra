@@ -15,7 +15,46 @@ endforeach;
 
 <?php echo Tag::js('carrito') ?>
 <?php echo Tag::js('index_carrito') ?>
-
+<script>
+    $('.guia').on('click', function(e){ 
+	startIntro();
+    });
+	function startIntro(){
+	     var intro = introJs();
+	       intro.setOptions({
+		 steps: [
+		   { 
+		     intro: "<div style='width:320px'><div style='width:300px; text-align:justify'>Bienvenido al Sistema de Compras de Ediciones SM. <br>Complete el inductivo hasta el final para conocer todas las funcionalidades que proporciona el sistema. </div><br> <strong>Suerte!</strong> </div>",
+		     position: 'top'
+		    },
+		   {
+		     element: document.querySelector('#definicion1'),
+		     intro: "Este bloque determina el alumno al cual se le están comprando los productos"
+		   },
+		   {
+		     element: document.querySelectorAll('#definicion2')[0],
+		     intro: "Aquí podrá determinar a que pupilo(a) se le compraran los productos. Al seleccionar alguno quedara reflejado en el paso anteriormente señalado.",
+		     position: 'left'
+		   },
+		   {
+		     element: document.querySelectorAll('#definicion3')[0],
+		     intro: 'Este es el carrito de compra, aquí podra visualizar la cantidad de productos añadidos al carrito.',
+		     position: 'left'
+		   },
+		   {
+		     element: document.querySelectorAll('.definicion4')[0],
+		     intro: "Este es nuestro visualizador y seleccionador de productos. <br> En esta sección podrá visualizar todos los productos disponibles para su pupilo(a).",
+		     position: 'top'
+		   },
+		   {
+		     intro: 'Fin'
+		   }
+		 ]
+	       });
+	       intro.start();
+	   }
+    </script>
+</script>
 <!-- header info alumno y seleccion hijos -->
 
 <div class="card bg-light mb-12">
@@ -26,7 +65,7 @@ endforeach;
 	</div>
 <!--	<h2 class="card-title">Paso 3 / 5</h2>-->
 	<div class="row" style="border-bottom: 1px solid #E6EAEA; border-top: 1px solid #E6EAEA; margin-top: 20px; padding: 10px;">
-	    <div class="col-xs-12 col-sm-6" data-step="1" data-intro="Seccion de asdf" data-position="right">
+	    <div id="definicion1" class="col-xs-12 col-sm-6">
 		<i class="fa fa-user fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> Alumno </label>
 		<div class="form-group row">
 		    <label class="col-form-label col-sm-2" >Nombre  :</label><label class="col-form-label col-sm-10 nombre_alumno"></label>
@@ -34,7 +73,7 @@ endforeach;
 		    <label class="col-form-label col-sm-2" >Curso   : </label><label class="col-form-label col-sm-10" id="curso_alumno"></label>
 		</div>
 	    </div>
-	    <div class="col-xs-12 col-sm-4">
+	    <div id="definicion2" class="col-xs-12 col-sm-4">
 		<i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i><label style="font-size: 28px; text-decoration: underline"> Hijos </label>
 		<div class="form-group row">
 		<?php 
@@ -44,7 +83,7 @@ endforeach;
 		?>
 		</div>
 	    </div>
-	    <div class="col-xs-12 col-sm-2">
+	    <div id="definicion3" class="col-xs-12 col-sm-2">
 		<div class="form-group row">
 		    <div class="col-md-12" style="">
 		    <h4>Carrito</h4>
@@ -74,7 +113,7 @@ endforeach;
 	</div>
 
 <!-- Lista de productos -->
-	<div class="row">
+	<div  class="row">
 	    <div class="col-md-12" style="border: 0px solid">
 		<div class="row">
 		    <div class="col-md-1" style="border: 0px solid">
@@ -84,7 +123,7 @@ endforeach;
 			    </div>
 			</div>
 		    </div>
-		    <div id="alumno_productos" class="col-md-10" style="padding: 0px">
+		    <div id="alumno_productos" class="col-md-10 definicion4" style="padding: 0px">
 			<div class="loading">Cargando lista de productos...</div>
 		    </div>
 		    <div class="col-md-1" style="border: 0px solid">

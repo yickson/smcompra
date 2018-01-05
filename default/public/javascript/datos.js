@@ -149,6 +149,7 @@ $(document).ready(function(){
                         'error'
                       );
                   $('#cap').empty().load('usuario/principal');
+                  break;
                   case 4:
                   swal(
                         'Ha ocurrido un error',

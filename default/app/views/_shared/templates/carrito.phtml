@@ -16,6 +16,7 @@
     <?php echo Tag::js('../javascript/dataTables_buttons.min') ?>
     <?php echo Tag::js('../javascript/jszip.min') ?>
     <?php echo Tag::js('../javascript/buttons_html5.min') ?>
+    <?php echo Tag::js("introjs/intro")?>
     <script src="https://unpkg.com/sweetalert2@7.1.0/dist/sweetalert2.all.js" charset="utf-8"></script>
   </head>
   <body>
@@ -48,13 +49,6 @@
     <div class="container-fluid" style="margin-bottom: 120px">
       <?php View::content() ?>
     </div>
-    <?php echo Tag::js("introjs/intro")?>
-    <script>
-//	$(document).ready(function(){
-//	            introJs.start();
-//
-//	});
-    </script>
     <?php View::partial('pie') ?>
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

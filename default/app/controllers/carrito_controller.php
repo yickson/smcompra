@@ -24,11 +24,11 @@ class CarritoController extends AppController
   {
     //Esta vista no debería cargar nada
 	if(Input::post('alumno')){
-	    $alumnos = Input::post('alumno');
-	    $l = new Alumnos;
-	    $datos = (New Alumnos)->verificar($alumnos);
+      $l = new Alumnos;
+	    $alumnos = $l->filtrar(Input::post('alumno'));
+	    $datos = $l->verificar($alumnos);
 	    foreach ($alumnos as $key => $valor) {
-	      $alumno[] = (New Alumnos)->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
+	      $alumno[] = $l->find_by_rut($l->verificador($valor['rut'])); //Metodo para verificar un vacío
 	    }
 	    Session::set('alumno', $alumno );
 	}
@@ -68,7 +68,7 @@ class CarritoController extends AppController
   }
 
   public function comprar(){
-    
+
     Session::set("carrito", $_POST["productos_arr"]);
     $this->step = $this::STEP_4;
     $this->arr  =  Session::get("carrito");
@@ -165,7 +165,7 @@ class CarritoController extends AppController
 	$direccion->nombre_comuna = $comuna_nombre;
 	$direccion->nombre_region = $region_nombre;
       }
-      
+
       $this->data = $direccion;
       View::select(null,"json");
   }
@@ -185,12 +185,12 @@ class CarritoController extends AppController
 	$this->data = $estado;
 	View::select(null, 'json_carrito');
   }
-    
+
   /**
      * Actualiza licencias de productos de alumnos
      * @return array| Multidimensional
      */
-    public function setLicencias() 
+    public function setLicencias()
     {
 	$licencias = Input::post("data");
 	$alumnos = Session::get("alumno");
@@ -200,8 +200,8 @@ class CarritoController extends AppController
 	foreach($alumnos as $al):
 	    foreach($licencias["message"] as $lic):
 		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id
-							  FROM licences 
-							  WHERE usuario_id = $id_usuario 
+							  FROM licences
+							  WHERE usuario_id = $id_usuario
 							  AND alumno_id    = $al->id
 							  AND producto_id  = ".$lic['store_id'][1]." ");
 		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
@@ -209,7 +209,7 @@ class CarritoController extends AppController
 		    if(in_array($lic['licencia'], $licencias_array))
 		    {
 			array_push($licencias_repetidas, $lic['licencia']);
-			
+
 		    }else
 		    {
 			$licencia->codigo   = $lic['licencia'];
@@ -224,18 +224,18 @@ class CarritoController extends AppController
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
 	View::select(null, "json");
     }
-    
+
     /**
      * Obtiene un array multidimensional de cada alumno identificado por el rut, y un sub array con sus licencias
      * @return array| Multidimensional
      */
-    public function getRutAlumnos() 
+    public function getRutAlumnos()
     {
 	$alumno_licencias = (New Licences)->getLicenciasPorAlumno();
 	$this->data = $alumno_licencias;
 	View::select(null, "json");
     }
-    
+
     public function cargarComunas(){
 	$region = Input::post("region");
 	$comunas = (new Comunas)->find_all_by_id_region($region);

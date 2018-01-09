@@ -81,7 +81,6 @@
       var c = $("#email").val();
       console.log(c);
       if(c == ''){
-        //console.log('Previne el submit de este form');
         return false;
       }
     });
@@ -90,7 +89,7 @@
       var uno = $("#0").val();
       var dos = $("#1").val();
       var tres = $("#2").val();
-      if((dos != undefined)){
+      if((dos !== undefined)){
         if((uno == dos) || (uno == tres) || (dos == tres)){
           console.log(uno, dos, tres);
           return true;

@@ -45,6 +45,18 @@ class Alumnos extends ActiveRecord
     $rut = $this->digito_rut($rut); //Elimina digito verificador
     return $rut;
   }
+
+  public function filtrar($arreglo)
+  {
+    foreach ($arreglo as $key => $value) {
+      if($key >= 1){
+        if($value['rut'] == ''){
+          unset($arreglo[$key]);
+        }
+      }
+    }
+    return $arreglo;
+  }
 }
 
 

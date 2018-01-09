@@ -80,5 +80,5 @@ CpEvgcRIv/OeIi6Jbuu3NrPdGPwzYkzlOQnmgio5RGb6GSs+OQ0mUWZ9J1+YtdZc+xTga0x7nsCT
 2QR2bX/W2H6ktRcLsgBK9mq7lE36p3q6c9DtZJE+xfA4NGCYWM9hd8pbusnoNO7AFxJZOuuvLZI7
 JvD7YLhPvCYKry7N6x3l
 -----END CERTIFICATE-----";
-$certificado->commerce_code = "597020000541";
+$certificado->commerce_code = "597020000541"; //597032498981
 return $certificado; //Retorna un objeto

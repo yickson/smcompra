@@ -61,7 +61,7 @@
 		  ?>
 		    <tr>
 		      <td><?php echo $valor->proyecto ?></td>
-		      <td><?php echo $valor->nombre .' - '.$valor->curso ?></td>
+		      <td><?php echo $valor->nombre .' - '.$valor->nivel ?></td>
 		      <td><?php echo $valor->codigo ?></td>
 		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
 		    </tr>
@@ -121,10 +121,16 @@
   		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
   		    </tr>
   		<?php endforeach ?>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td><b>DESPACHO</b></td>
+		  <td>CLP $3.090</td>
+		</tr>
   		<tr>
   		  <td></td>
   		  <td></td>
-  		  <td><b>TOTAL</b></td>
+  		  <td><b>TOTAL (Despacho incluido)</b></td>
   		  <td><?php echo 'CLP $'.number_format($monto, 0, '', '.') ?></td>
   		</tr>
   	      </table>

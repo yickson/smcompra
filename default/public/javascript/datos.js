@@ -20,12 +20,12 @@ $(document).ready(function(){
     .on('rutValido', function(e, rut){
       rutv = rut;
     });
-    if(rutv != ''){
+    if(rutv !== ''){
       $('#rut').blur(function(){
         rutc = $("#rut").val();
         var rut = rutv;
         console.log(rut);
-        if(rut == undefined){
+        if(rut === undefined){
           //$("#validar").prop("disabled", true);
         }
         $.ajax({
@@ -35,7 +35,7 @@ $(document).ready(function(){
           data: {"rut":rut, "rutc":rutc},
           success: function(result){
             console.log(result);
-            if(result != false){
+            if(result !== false){
               $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
               $("#nombre").prop("disabled", true);
               $('.email').attr("value", result['email']);
@@ -57,7 +57,7 @@ $(document).ready(function(){
       $("#validar").click(function(){
         var nombre = $("#nombre").val();
         var correo = $(".email").val();
-        if(nombre == '' || correo == ''){
+        if(nombre === '' || correo === ''){
           swal(
                 'Ha ocurrido un error',
                 'Su nombre o correo no pueden ser nulos, llene los campos correspondientes',
@@ -68,7 +68,7 @@ $(document).ready(function(){
         else{
           //$("#validar").prop("disabled", false);
         }
-        if(rutv == undefined){
+        if(rutv === undefined){
           $.ajax({
             type: "POST",
             url: window.location.href+'usuario/rut',
@@ -107,13 +107,7 @@ $(document).ready(function(){
                           );
                       $('#cap').empty().load('usuario/principal');
                           break;
-                      case 4:
-                      swal(
-                            'Ha ocurrido un error',
-                            'Usted no se encuentra registrado en nuestro sistema',
-                            'error'
-                          );
-                          break;
+                      
                   }
                 }
               })
@@ -165,7 +159,7 @@ $(document).ready(function(){
       });
     }
     var rt = $("#rut").val();
-    if(rt == ''){
+    if(rt === ''){
       //$("#validar").prop("disabled", true);
     }
     else{

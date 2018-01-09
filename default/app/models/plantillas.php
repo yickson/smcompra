@@ -85,10 +85,11 @@ class Plantillas
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';
                 $total += $value->valor;
                 if($value === end($detalles)){
+                  $total += 3090; //Monto por el despacho fijo
                   $contenido .= '<tr>
                     <td></td>
                     <td></td>
-                    <td>Total</td>
+                    <td>Total (Despacho incluido)</td>
                     <td>$'.number_format($total, 0, ' ', '.').'</td>
                   </tr>';
                 }

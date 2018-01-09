@@ -9,7 +9,7 @@ class Webpago
   public $urlR = 'https://localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
   public $urlF = 'https://localhost/smcompra/carrito/fin'; //URL de vista final segun caso
 
-  public function inicioWebpay() 
+  public function inicioWebpay()
   {
     //Load::lib('libwebpay/configuration');
     $certificate = Load::lib('libwebpay/cert-normal');

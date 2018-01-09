@@ -53,6 +53,7 @@ var Carrito = function(params){
                 var product_x_alumno   = 0;
 		var display = 0;
 		var mostrar = "block";
+                var caso = 0;
 		$.each($this.hijos, function( key, val ) {
 		    productos_ini   = "";
 		    productos_item  = "";
@@ -88,25 +89,19 @@ var Carrito = function(params){
                                 var clickeable = "style='cursor: pointer'";
                                 var estilo = "style='border: 0px solid'";
                             }
-			    productos_item +=   "<div id='"+val.id+"-"+valor.id_producto+"'class='col-md-4 "+licencia_ocupada+" cont-items-prod' data-al='"+val.id+"' data-prod='"+valor.id_producto+"' data-agregado='"+rel_asignada+"' "+estilo+">"+
-						    "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
-							"<div class='row'>"+
-							    "<div id='agregado"+val.id+'-'+valor.id_producto+"' class='col-md-6' style='padding:10px; margin: 0 auto;'>"+
-								"<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; ' />"+
-                                                                imagen_asignada+
-							    "</div>"+
-                                                        "</div>"+
-                                                        "<div class='row' style='border-top:1px solid #E6EAEA; background-color: #FFF;'>"+
-							    "<div class='col-md-12' style='padding:10px'>"+
-//								"<h5 class='mt-0'>Asignatura:</h5>"+
-								"<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
-								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Proyecto: </strong><span class='card-text'>"+valor.proyecto+"</span></p>"+
-								"<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Curso: </strong><span class='card-text'>"+valor.nivel+"</span></p>"+
-								descuentoTipo(valor.tipo, valor.valor)+
-							    "</div>"+
-							"</div>"+
-						    "</div>"+
-						"</div>";
+                            
+                            //Se determina tratamiento tiene el producto para ser visualizado en carrito
+                            caso = casos(valor.nivel, valor.rbd, valor.id_producto);
+                            
+                            switch(caso){
+                                case "ohiggins":
+                                    productos_item += casoOhiggins(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada);
+                                break;
+                                case "normal":
+                                    productos_item += construirProducto(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada);
+                                break;
+                            }
+			    
                             cantidad_productos++;
                             product_x_alumno++;
 			}
@@ -132,7 +127,8 @@ var Carrito = function(params){
 
                         $.each(JSON.parse(carrito), function(i,val){
                             var element = "#"+val[0]+"-"+val[1];
-                            agregarAux(val[1], val[0], 0, element);
+                            var caso = $(element).data("caso");
+                            agregarAux(val[1], val[0], 0, element, caso);
                         });
                 }
                 }catch(err){
@@ -148,15 +144,26 @@ var Carrito = function(params){
     
     /**
      * Metodo para guardar id de productos en un array de productos almacenado en sesion
-     * @param {integer} id
+     * @param {integer} producto
+     * @param {integer} alumno
      * @param {integer} agregado_estado
+     * @param {object}  element
+     * @param {string}  caso
      * @returns {html}
      */
-    this.agregar = function(producto, alumno, agregado_estado, element){
+    this.agregar = function(producto, alumno, agregado_estado, element, caso){
         $this.item = [alumno, producto];
         if(agregado_estado == $this.no_agregado){
             $this.carrito.push($this.item);
-            $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+            switch(caso){
+                case "ohiggins":
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
+                break;
+                
+                case "normal":
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+                break;
+            }
             $(element).data("agregado","1");
         }else if(agregado_estado == $this.agregado){
             var carrito_modificado = eliminarItemDeCarrito( $this.carrito, $this.item );
@@ -352,11 +359,19 @@ var Carrito = function(params){
      * @param {integer} agregado_estado
      * @returns {html}
      */
-    function agregarAux(producto, alumno, agregado_estado, element){
+    function agregarAux(producto, alumno, agregado_estado, element,caso ){
         $this.item = [alumno, producto];
         if(agregado_estado == $this.no_agregado){
             $this.carrito.push($this.item);
-            $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+            switch(caso){
+                case "ohiggins":
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
+                break;
+                
+                case "normal":
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+                break;
+            }
             $(element).data("agregado","1");
         }else if(agregado_estado == $this.agregado){
             var carrito_modificado = eliminarItemDeCarrito( $this.carrito, $this.item );
@@ -368,4 +383,68 @@ var Carrito = function(params){
         
         return true ;
     };
+    
+    /**
+     * Función para casos exepcionales de Establecimientos,
+     * @param {integer} curso
+     * @param {integer} rbd
+     * @returns {boolean} | caso
+     */
+    function casos(curso, rbd, producto){
+        var caso = "normal";
+        
+        //Caso Ohiggins Pack, añadir pack de 3 licencias
+        if(curso == 8 && rbd == 2200 && producto == 360)
+        {
+            caso = "ohiggins";
+        }
+        
+        return caso;
+    }
+    
+    function construirProducto(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada)
+    {
+        var producto_html = "<div id='"+val.id+"-"+valor.id_producto+"'class='col-md-4 "+licencia_ocupada+" cont-items-prod' data-caso='normal' data-al='"+val.id+"' data-prod='"+valor.id_producto+"' data-agregado='"+rel_asignada+"' "+estilo+">"+
+                                "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
+                                    "<div class='row'>"+
+                                        "<div id='agregado"+val.id+'-'+valor.id_producto+"' class='col-md-6' style='padding:10px; margin: 0 auto;'>"+
+                                            "<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; ' />"+
+                                            imagen_asignada+
+                                        "</div>"+
+                                    "</div>"+
+                                    "<div class='row' style='border-top:1px solid #E6EAEA; background-color: #FFF;'>"+
+                                        "<div class='col-md-12' style='padding:10px'>"+
+                                            "<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
+                                            "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Proyecto: </strong><span class='card-text'>"+valor.proyecto+"</span></p>"+
+                                            "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Curso: </strong><span class='card-text'>"+valor.nivel+"</span></p>"+
+                                            descuentoTipo(valor.tipo, valor.valor)+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>";
+        return producto_html;
+    }
+    
+    function casoOhiggins(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada)
+    {
+        var producto_html = "<div id='"+val.id+"-"+valor.id_producto+"'class='col-md-4 "+licencia_ocupada+" cont-items-prod' data-caso='ohiggins' data-al='"+val.id+"' data-prod='"+valor.id_producto+"' data-agregado='"+rel_asignada+"' "+estilo+">"+
+                                "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
+                                    "<div class='row'>"+
+                                        "<div id='agregado"+val.id+'-'+valor.id_producto+"' class='col-md-12' style='padding:10px; margin: 0 auto;'>"+
+                                            "<img src='/smcompra/img/productos/Se_Protagonista/pack_ohiggins.png' alt='producto' style='width:89%' />"+
+                                            imagen_asignada+
+                                        "</div>"+
+                                    "</div>"+
+                                    "<div class='row' style='border-top:1px solid #E6EAEA; background-color: #FFF;'>"+
+                                        "<div class='col-md-12' style='padding:10px'>"+
+                                            "<p class='card-text' style='font-size:18px; margin: 0.2em 0'><strong>"+valor.asignatura+"</strong></p>"+
+                                            "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Proyecto: </strong><span class='card-text'>"+valor.proyecto+"</span></p>"+
+                                            "<p class='card-text' style='font-size:16px; margin: 0.2em 0'><strong>Curso: </strong><span class='card-text'>"+valor.nivel+"</span></p>"+
+                                            descuentoTipo(valor.tipo, valor.valor)+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>";
+        return producto_html;
+    }
 };

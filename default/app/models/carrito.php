@@ -28,7 +28,8 @@ class Carrito extends ActiveRecord
     * @return $productos array Devuelve Lista de productos
     */
     public function getListaProductos(){
-	$productos_sql = new Productos;
+	$productos_bd = new EstablecimientoProyecto();
+	$establecimientos = new Establecimientos();
 	$productos = array();
 	$result = null;
 	$total_format = null;
@@ -37,18 +38,41 @@ class Carrito extends ActiveRecord
 	Session::set("carrito", $_POST["arr"]);
 	$productos_arr = json_decode($_POST["arr"]);
 	$i=0;
-	foreach($productos_arr as $producto):
-	    $result = $productos_sql->find($producto[1]);
-	    $productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
-	    $productos_format[$i]["descripcion"] = $result->nombre." ".$result->nivel." ".$result->proyecto;
-	    $productos_format[$i]["tipo"] = (Session::get("tipo")==1)?"Licencia":"Texto";
-	    $total = $this->total($result->valor);
-	    $total_format += $total;
-	    $productos_format[$i]["total"] = $this->formatNumeros($total);
-	    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($producto[0], $result->id);
-	    $total += $total_format;
-	    $i++;
+	$array_hijo = array();
+	$alumnos = new Alumnos();
+	foreach(Session::get("hijos") as $key => $hijo):
+	    
+	    foreach($productos_arr as $producto):
+		if($hijo["id"] == $producto[0]){
+		    $est = $alumnos->find($hijo["id"])->establecimiento_id;
+		    $result = $productos_bd->find_by_sql("SELECT ep.curso_id, ep.rbd, ep.producto_id, pt.nombre, pt.valor, pt.imagen
+							  FROM establecimiento_proyecto as ep 
+							  INNER JOIN productos pt ON (pt.id = ep.producto_id)
+							  INNER JOIN proyectos py ON (py.id = ep.proyecto_id)
+							  WHERE rbd = ". $establecimientos->find($est)->rbd."
+							  AND   curso_id = ". $alumnos->find($hijo["id"])->curso ."
+							  AND producto_id =". $producto[1]."");
+		    $caso = $this->casos($result->curso_id, $result->rbd, $result->producto_id);
+		    switch($caso):
+			case "normal":
+			    $productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);
+			break;
+			case "ohiggins":
+			    $productos_format[$i]["imagen"] = datatableAcciones::getImagen("Se_Protagonista/pack_ohiggins.png", 140);
+			break;
+		    endswitch;
+		    $productos_format[$i]["descripcion"] = $result->nombre." ".$result->nivel." ".$result->proyecto;
+		    $productos_format[$i]["tipo"] = (Session::get("tipo")==1)?"Licencia":"Texto";
+		    $total = $this->total($result->valor);
+		    $total_format += $total;
+		    $productos_format[$i]["total"] = $this->formatNumeros($total);
+		    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($producto[0], $result->id);
+		    $total += $total_format;
+		    $i++;
+		}
+	    endforeach;
 	endforeach;
+	    
 
 	$total = $this->valorDespacho($total_format);
 	$subtotal_decimal = round($total / 1.19);
@@ -58,6 +82,21 @@ class Carrito extends ActiveRecord
 	$total = $this->formatNumeros($total);
 	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
 	return  $productos;
+    }
+    
+    /**
+     * Devuelve el caso de algun establecimiento con un producto en particular
+     * @param string $caso
+     * @param integer $rbd
+     * @param integer $producto
+     */
+    public function casos($curso, $rbd, $producto){
+	$caso = "normal";
+	
+	if($curso == 8 && $rbd == 2200 && $producto == 360){
+	    $caso = "ohiggins";
+	}
+	return $caso;
     }
 
     /**

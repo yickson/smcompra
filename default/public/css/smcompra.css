@@ -135,3 +135,19 @@ code {
 .bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
 .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
 .bs-wizard > .bs-wizard-step.finish a.bs-wizard-dot:after {background-color: red}
+
+.intro-bienvenida{
+    max-width: 600px !important;
+    width: 600px !important;
+}
+
+.intro-fin{
+    max-width: 600px !important;
+    width: 600px !important;
+}
+
+@media (min-width: 768px){
+    .ohiggins {
+        width: 420px;
+    }
+}

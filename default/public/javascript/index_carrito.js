@@ -11,8 +11,9 @@ $(document).ready(function(){
         
          var prod = $(this).data("prod");
          var alumno = $(this).data("al");
+         var caso = $(this).data("caso");
          var agregado_estado = $(this).data("agregado");
-         carrito_compra.agregar(prod, alumno, agregado_estado, $(this));
+         carrito_compra.agregar(prod, alumno, agregado_estado, $(this), caso);
 
     });
     

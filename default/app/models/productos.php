@@ -12,11 +12,12 @@ class Productos extends ActiveRecord
      *
      * @return object $alumnos
      */
-    public function getProductosByUsuario(){
+    public function getProductosByUsuario($hijos){
       $id_usuario = Session::get("iduser");
       $tipo = Session::get("tipo");
-      $hijos = Session::get("hijos");
+//      $hijos = Session::get("hijos");
       $sql = "";
+      $sql2 = null;
       $i=1;
       $cantidad_hijos = count($hijos);
       $alumnos = null;
@@ -24,21 +25,28 @@ class Productos extends ActiveRecord
 	  case $this::APODERADO:
 		foreach($hijos as $hijo):
 		if($cantidad_hijos == 1){
-		    $sql .= "li.alumno_id = ".$hijo["id"]." ";
+		    $sql .= "p.nivel_id = ".$hijo["curso"]." AND ep.rbd = ".$hijo["rbd"]."";
+		    $sql2 .= "al.id = ".$hijo["id"]." ";
 		}else{
 		    if($i < $cantidad_hijos){
-			$sql .= "li.alumno_id = ".$hijo["id"]." OR ";
+			$sql .= "(p.nivel_id = ".$hijo["curso"]." AND ep.rbd = ".$hijo["rbd"].") OR ";
+			$sql2 .= "al.id = ".$hijo["id"]." OR ";
 		    }else{
-		       $sql .= "li.alumno_id = ".$hijo["id"]." ";
+		       $sql .= "(p.nivel_id = ".$hijo["curso"]."  AND ep.rbd = ".$hijo["rbd"].")";
+		       $sql2 .= "al.id = ".$hijo["id"]." ";
 		    }
 		}
 		$i++;
 		endforeach;
-	        $alumnos = (new Productos)->find_all_by_sql("SELECT p.id as id_producto, p.nombre as asignatura, p.proyecto, p.nivel, p.imagen as img,
-							  (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, li.alumno_id as id_alumno, li.estado
-							   FROM productos as p
-							   INNER JOIN licences li ON (li.producto_id = p.id and li.usuario_id = $id_usuario and ($sql))
-							   ORDER BY li.alumno_id ASC");
+		
+	        $alumnos = (new Productos)->find_all_by_sql("SELECT  ep.id, ep.rbd, ep.producto_id as id_producto, p.proyecto,
+							    (SELECT nombre FROM proyectos WHERE id = ep.proyecto_id) as proyecto, p.nombre as asignatura, ep.curso_id as nivel, p.imagen as img,
+							    (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, al.id as id_alumno
+							    FROM establecimiento_proyecto as ep 
+							    INNER JOIN productos p ON (ep.producto_id = p.id AND ep.curso_id = p.nivel_id) 
+							    INNER JOIN alumnos al ON (al.curso = ep.curso_id AND ($sql2))
+							    WHERE $sql");
+	
 	  break;
 	  case $this::PROFESOR:
 	        foreach($hijos as $hijo):

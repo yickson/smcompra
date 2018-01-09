@@ -28,9 +28,9 @@ class datatableAcciones
      * @param $imagen string
      * @return string Devuelve etiqueta imagen, segun ruta enviada.
      */
-     public static function getImagen($imagen)
+     public static function getImagen($imagen, $with = 70)
      {
-        $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='70'>";
+        $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='".$with."'>";
          return $img;
      }
      

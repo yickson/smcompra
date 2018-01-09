@@ -46,8 +46,9 @@ class Usuarios extends ActiveRecord
 	}
 	//Actualizamos datos de direccion en caso de ser profesor
 	if(Session::get("tipo") == $this::PROFESOR){
-	    if($datos_direccion[0]["value"] != "" && $datos_direccion[1]["value"] != "" && $datos_direccion[2]["value"] != "" && $datos_direccion[5]["value"] != "" )
+	    if($datos_direccion[0]["value"] != "" && $datos_direccion[1]["value"] != "" && $datos_direccion[2]["value"] != "" )
 	    {
+		
 		$direccion->calle   =  $datos_direccion[0]["value"];
 		$direccion->tipo  = $datos_direccion[1]["value"];
 		$direccion->numero = $datos_direccion[2]["value"];

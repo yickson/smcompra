@@ -22,10 +22,13 @@ endforeach;
 	function startIntro(){
 	     var intro = introJs();
 	       intro.setOptions({
+		 showProgress : true,  
 		 steps: [
 		   { 
-		     intro: "<div style='width:320px'><div style='width:300px; text-align:justify'>Bienvenido al Sistema de Compras de Ediciones SM. <br>Complete el inductivo hasta el final para conocer todas las funcionalidades que proporciona el sistema. </div><br> <strong>Suerte!</strong> </div>",
-		     position: 'top'
+		     intro: "<div text-align:justify'>Bienvenido al Sistema de Compras de Ediciones SM. <br>Complete el inductivo hasta el final para conocer todas las funcionalidades que proporciona el sistema.<br> <strong>Suerte!</strong> </div>",
+		     position: 'top',
+		     tooltipClass: "intro-bienvenida",
+		     showProgress: true
 		    },
 		   {
 		     element: document.querySelector('#definicion1'),
@@ -43,11 +46,22 @@ endforeach;
 		   },
 		   {
 		     element: document.querySelectorAll('.definicion4')[0],
-		     intro: "Este es nuestro visualizador y seleccionador de productos. <br> En esta sección podrá visualizar todos los productos disponibles para su pupilo(a).",
+		     intro: "Este es nuestro visualizador y seleccionador de productos. <br> En esta sección podrá visualizar todos los productos disponibles para su pupilo(a), para añadirlos al carrito de compras, solo debes hacer click ensima de alguno de ellos.",
 		     position: 'top'
 		   },
 		   {
-		     intro: 'Fin'
+		    element: document.querySelectorAll('.definicion5')[0],
+		     intro: "Presionando el boton <strong>Comprar Todo</strong> automaticamente añadiras todos los productos asociados a tus pupilos al carrito de compras.",
+		     position: 'top'
+		   },
+		   {
+		     element: document.querySelectorAll('.definicion6')[0],
+		     intro: "Presiona el Boton <strong>Contrinuar</strong> para proceder con el proceso de compra.",
+		     position: 'top'
+		   },	   
+		   {
+		     intro: "<div style='width:320px' >Haz completado exitosamente el inductivo del sistema de compras.<br> Ahora estas preparado para comprar. <br> Si tienes dudas puedes llamar a nuestro Callcenter <strong> (600 381 1312)</strong>",
+		     tooltipClass: "intro-fin"
 		   }
 		 ]
 	       });
@@ -102,7 +116,7 @@ endforeach;
 		<div class="row">
 		    <div class="col-md-6">
 			<h4 style="float:left">Lista de Productos </h4>
-			<button class="btn btn-primary todos">Comprar Todo</button>
+			<button class="btn btn-primary todos definicion5">Comprar Todo</button>
 		    </div>
 		    <div class="col-md-6">
 			<span class="text-success" style="float:right; margin-top:15px"><strong><label id="cantidad_productos">0</label> productos encontrados </strong></span>
@@ -147,7 +161,7 @@ endforeach;
 			    <input id="productos_submit" type="submit" class="hidden">
 			</form>
 			<hr>
-			<button id="continuar_comprar" class="btn btn-success">Continuar</button>
+			<button id="continuar_comprar" class="btn btn-success definicion6">Continuar</button>
 		    </div>
 		    <div class="col-md-1" style="border: 0px solid">
 			<div class="row">

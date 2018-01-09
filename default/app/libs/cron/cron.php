@@ -10,16 +10,18 @@ class Cron {
 	{
         
     $conexion = mysqli_connect("localhost", "servic57_compra", "Dun#X6JG00b*", "servic57_smcompra"); 
+    $fecha_actual = date("Y-m-d 16:00:01");
+    $fecha_anterior = date("Y-m-d 16:00:02" , strtotime("-1 day"));
     
-    $sql = mysqli_query("SELECT p.id, 
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
-					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
-					   wp.buyOrder , wp.monto, wp.fecha
-					   FROM pedidos as p
-					   INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)", $conexion);
+    $sql = mysqli_query($conexion, "SELECT p.id, (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
+			 (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut, wp.buyOrder , wp.monto, wp.fecha
+			  FROM pedidos as p
+			  INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)
+			  WHERE (p.fecha BETWEEN '".$fecha_anterior."' AND '".$fecha_actual."' )");
 					   
-    $informe = mysql_fetch_array($sql);
-    print_r($informe);die();
+    
+   
+    
     $objPHPExcel = New PHPExcel;
    // $informe = new Pedidos();
 //    
@@ -29,11 +31,12 @@ class Cron {
     $objPHPExcel->setActiveSheetIndex(0);
     $columnaActive = 2;
     $definicion_celdas = array(
-	"A" => "Codigo",
-	"B" => "Fecha",
-	"C" => "Nombre",
-	"D" => "Rut",
-	"E" => "Monto"
+	"A" => "ID",
+	"B" => "Codigo",
+	"C" => "Fecha",
+	"D" => "Nombre",
+	"E" => "Rut",
+	"F" => "Monto"
     );
     
     //Construccion cabeceras
@@ -43,19 +46,22 @@ class Cron {
     endforeach;
     
     //Contruccion celdas
-    foreach($informe as $data):
-	$objPHPExcel->getActiveSheet()->setCellValue("A{$columnaActive}", $data["buyOrder"]);
-	$objPHPExcel->getActiveSheet()->setCellValue("B{$columnaActive}", $data["fecha"]);
-	$objPHPExcel->getActiveSheet()->setCellValue("C{$columnaActive}", $data["nombre"]);
-	$objPHPExcel->getActiveSheet()->setCellValue("D{$columnaActive}", $data["rut"]);
-	$objPHPExcel->getActiveSheet()->setCellValue("E{$columnaActive}", $data["monto"]);
+    while( $informe = mysqli_fetch_assoc($sql)){
+    $objPHPExcel->getActiveSheet()->setCellValue("A{$columnaActive}", $informe["id"]);
+	$objPHPExcel->getActiveSheet()->setCellValue("B{$columnaActive}", $informe["buyOrder"]);
+	$objPHPExcel->getActiveSheet()->setCellValue("C{$columnaActive}", $informe["fecha"]);
+	$objPHPExcel->getActiveSheet()->setCellValue("D{$columnaActive}", $informe["nombre"]);
+	$objPHPExcel->getActiveSheet()->setCellValue("E{$columnaActive}", $informe["rut"]);
+	$objPHPExcel->getActiveSheet()->setCellValue("F{$columnaActive}", $informe["monto"]);
 	$columnaActive ++;
-    endforeach;
+    }
+    
+    $filename = date("Y-m-d").".xlsx";
     header('Content-Type: application/vnd.ms-excel'); 
-    header('Content-Disposition: attachment;filename="text.xlsx"'); 
+    header('Content-Disposition: attachment;filename="'.$filename.'"'); 
     header('Cache-Control: max-age=0'); 
     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007'); 
-    $objWriter->save('/home/servic57/public_html/smcompra/files/informes/text.xlsx');
+    $objWriter->save('/home/servic57/public_html/smcompra/files/informes/'.$filename.'');
     
     
      echo "exito";

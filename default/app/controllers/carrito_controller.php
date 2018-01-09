@@ -62,7 +62,16 @@ class CarritoController extends AppController
   public function getProductos(){
       $productos = New Productos();
       Session::set("hijos", $_POST["hijos"]);
-      $alumnos_productos  = $productos->getProductosByUsuario();
+      $array_hijo = array();
+      $alumnos = new Alumnos();
+      foreach($_POST["hijos"] as $key => $hijo):
+	  $array_hijo[$key]["id"] = $alumnos->find($hijo["id"])->id;
+	  $est = $alumnos->find($hijo["id"])->establecimiento_id;
+	  $array_hijo[$key]["rbd"] = (new Establecimientos)->find($est)->rbd;
+	  $array_hijo[$key]["nombre"] = $alumnos->find($hijo["id"])->nombre;
+	  $array_hijo[$key]["curso"] = $alumnos->find($hijo["id"])->curso;
+      endforeach;
+      $alumnos_productos  = $productos->getProductosByUsuario($array_hijo);
       $this->data = $alumnos_productos;
       View::select(null,"json");
   }
@@ -143,9 +152,10 @@ class CarritoController extends AppController
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
         $this->direccion = (New Direcciones)->getFullDireccion();
-        //Email::enviar($usuario->email, $this->detalles, $this->direccion); //Email para el profesor
+        $array_textos = Session::get("carrito");
+	$texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
       }else{
-        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
+        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
         //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
     }
@@ -198,6 +208,8 @@ class CarritoController extends AppController
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
+	    
+	    //licencias
 	    foreach($licencias["message"] as $lic):
 		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id
 							  FROM licences 
@@ -219,7 +231,7 @@ class CarritoController extends AppController
 			array_push($licencias_array, $lic['licencia']);
 		    }
 		}
-	    endforeach;
+	    endforeach; 
 	endforeach;
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
 	View::select(null, "json");

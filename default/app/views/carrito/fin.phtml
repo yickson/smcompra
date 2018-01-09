@@ -22,7 +22,7 @@
     <script>
 	$(document).ready(function(){
 	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
-	                                 "flujo"   : "ES"});
+	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
 	   
 	});
     </script>

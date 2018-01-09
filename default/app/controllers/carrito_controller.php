@@ -158,6 +158,7 @@ class CarritoController extends AppController
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
         //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
+      $this->data_alumnos = (new Alumnos)->buscar_colegio();
     }
   }
 
@@ -211,11 +212,10 @@ class CarritoController extends AppController
 	    
 	    //licencias
 	    foreach($licencias["message"] as $lic):
-		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id
+		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id, estado, usuario_id
 							  FROM licences
-							  WHERE usuario_id = $id_usuario
-							  AND alumno_id    = $al->id
-							  AND producto_id  = ".$lic['store_id'][1]." ");
+							  WHERE alumno_id    = $al->id
+							  AND producto_id  = ".$lic['store_id'][1]."");
 		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
 		{
 		    if(in_array($lic['licencia'], $licencias_array))
@@ -224,8 +224,9 @@ class CarritoController extends AppController
 
 		    }else
 		    {
-			$licencia->codigo   = $lic['licencia'];
-			$licencia->tipo     = 'conecta';
+			$licencia->codigo     = $lic['licencia'];
+			$licencia->tipo       = 'conecta';
+			$licencia->usuario_id = $id_usuario;
 			$licencia->estado   = 1;
 			$licencia->save();
 			array_push($licencias_array, $lic['licencia']);
@@ -252,6 +253,29 @@ class CarritoController extends AppController
 	$region = Input::post("region");
 	$comunas = (new Comunas)->find_all_by_id_region($region);
 	$this->data = $comunas;
+	View::select(null, "json");
+    }
+    
+    public function setLicenciaEs(){
+	$id = Input::post("alumno");
+	$carrito = json_decode(Session::get("carrito"));
+	foreach($carrito as $carro):
+	    if($carro[0] == $id){
+		$licencias = (new Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $carro[1]");
+		if($licencias->id != null){
+		    $licencias->tipo  = "espania";
+		    $licencias->usuario_id = Session::get("iduser");
+		    $licencias->estado = true;
+		    if($licencias->save()){
+			$this->data = "OK";
+		    }else{
+			$this->data = "errrr";
+		    }
+		}
+	    }
+	endforeach;
+	die();
+	
 	View::select(null, "json");
     }
 }

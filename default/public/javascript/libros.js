@@ -17,49 +17,66 @@ var Libros = function(params){
         $.extend($this , params);
     };
     
-    //Determinara de donde sacar licencias, si por servicio REST o Local
-    switch($this.flujo){
-        case $this.ESPANIOL : //Ajax local para generar licencias por sistema.
-            $.ajax({
-        
-            });
-        break;
-        
-        case $this.CHILE :  //Consume servicio rest de generacion de licencias, devuelve licencias por cada producto de alumno en session
-            $.ajax({
-                type  : "post",
-                cache : false,
-                url   : "https://www.smconecta.cl/API/codes/create",
-                crossDomain : true,
-                beforeSend: function (xhr) {
-                /* Authorization header */
-                    xhr.setRequestHeader("X-Public", $this.public);
-                    xhr.setRequestHeader("X-Hash", $this.hash);
-                },
-                data:{"libros": $this.libros},
-                success: function(result){
-                    console.log(result);
-                    console.log("Conexion realizada con exito");
-                    $.ajax({
-                        type  : "post",
-                        cache : false,
-                        url   : "setLicencias",
-                        data  : {"data" : result},
-                        success: function(resultado){
-                            console.log("exito en el ingreso dinamico de licencias");
-                            console.log(resultado);
-                            var rest_licencias = new Licencias();
-                        },
-                        error: function(){
-                            console.log("error con el ingreso de licencias");
-                        }
-                    });
-                },
-                error: function(){
-                    console.log("error en consumo rest Libros");
-                }
-            }); 
-        break;
-    }
+    $.each($this.flujo, function(i, value){
+        //Determinara de donde sacar licencias, si por servicio REST o Local
+        switch(value.pais){
+            case $this.ESPANIOL : //Ajax local para generar licencias por sistema.
+                $.ajax({
+                    type:"post",
+                    cache : false,
+                    url   : "setLicenciaEs",
+                    data  : {"alumno": value.id},
+                    success: function(result){
+                        console.log(result);
+                    },
+                    error: function( jqXHR, textStatus, errorThrown){
+                        console.log(jqXHR);
+                    }      
+                });
+            break;
+
+            case $this.CHILE :  //Consume servicio rest de generacion de licencias, devuelve licencias por cada producto de alumno en session
+                var libros = [];
+                $.each($this.libros, function(key,val){     
+                    if(val[0] == value.id){
+                        libros = [val[0], val[1]];
+                    }
+                });
+                $.ajax({
+                    type  : "post",
+                    cache : false,
+                    url   : "https://www.smconecta.cl/API/codes/create",
+                    crossDomain : true,
+                    beforeSend: function (xhr) {
+                    /* Authorization header */
+                        xhr.setRequestHeader("X-Public", $this.public);
+                        xhr.setRequestHeader("X-Hash", $this.hash);
+                    },
+                    data:{"libros": libros},
+                    success: function(result){
+                        console.log(result);
+                        console.log("Conexion realizada con exito");
+                        $.ajax({
+                            type  : "post",
+                            cache : false,
+                            url   : "setLicencias",
+                            data  : {"data" : result},
+                            success: function(resultado){
+                                console.log("exito en el ingreso dinamico de licencias");
+                                console.log(resultado);
+                                var rest_licencias = new Licencias();
+                            },
+                            error: function(){
+                                console.log("error con el ingreso de licencias");
+                            }
+                        });
+                    },
+                    error: function(){
+                        console.log("error en consumo rest Libros");
+                    }
+                }); 
+            break;
+        }
+    });
 };
 

@@ -57,6 +57,21 @@ class Alumnos extends ActiveRecord
     }
     return $arreglo;
   }
+
+  public function buscar_colegio()
+  {
+    //Buscar colegio del alumno
+    $alumnos = Session::get('hijos');
+    foreach ($alumnos as $key => $valor) {
+        $datos = (New Alumnos)->find($valor['id']);
+        $est = (New Establecimientos)->find($datos->establecimiento_id);
+        $colegio[] = array('id'   => $datos->id,
+                           'rbd'  => $est->rbd,
+                           'pais' => $est->pais);
+    }
+
+    return $colegio;
+  }
 }
 
 

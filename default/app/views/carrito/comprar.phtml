@@ -147,7 +147,8 @@
 	  $(".table-responsive").on("click", ".eliminar", function(e){
 	      var alumno   = $(this).data("alumno");
 	      var producto = $(this).data("prod");
-	      var item = [alumno, producto]
+	      var item = [alumno, producto];
+	      console.log(item);
 	      $this.carro = carrito.preCargarCarritoSession($this.carro);
 	      $this.carro = carrito.eliminarItem($this.carro, item);
 	      console.log( $this.carro);

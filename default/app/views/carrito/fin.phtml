@@ -21,7 +21,8 @@
     <?php echo Tag::js("licencias"); ?>
     <script>
 	$(document).ready(function(){
-	   var rest_libros = new Libros(<?php echo Session::get("carrito") ?>);
+	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
+	                                 "flujo"   : "ES"});
 	   
 	});
     </script>

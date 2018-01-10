@@ -153,7 +153,7 @@ class CarritoController extends AppController
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
         $this->direccion = (New Direcciones)->getFullDireccion();
         $array_textos = Session::get("carrito");
-	$texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
+	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
       }else{
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
         //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
@@ -209,7 +209,7 @@ class CarritoController extends AppController
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
-	    
+
 	    //licencias
 	    foreach($licencias["message"] as $lic):
 		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id, estado, usuario_id
@@ -232,7 +232,7 @@ class CarritoController extends AppController
 			array_push($licencias_array, $lic['licencia']);
 		    }
 		}
-	    endforeach; 
+	    endforeach;
 	endforeach;
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
 	View::select(null, "json");
@@ -255,29 +255,43 @@ class CarritoController extends AppController
 	$this->data = $comunas;
 	View::select(null, "json");
     }
-    
-    public function setLicenciaEs(){
-	$id = Input::post("alumno");
-	$carrito = json_decode(Session::get("carrito"));
-	foreach($carrito as $carro):
-	    if($carro[0] == $id){
-		$licencias = (new Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $carro[1]");
-		if($licencias->id != null){
-		    $licencias->tipo  = "espania";
-		    $licencias->usuario_id = Session::get("iduser");
-		    $licencias->estado = true;
-		    if($licencias->save()){
-			$this->data = "OK";
-		    }else{
-			$this->data = "errrr";
-		    }
-		}
-	    }
-	endforeach;
-	die();
-	
-	View::select(null, "json");
-    }
+
+public function setLicenciaEs(){
+  	$id = Input::post("alumno");
+  	$carrito = json_decode(Session::get("carrito"));
+  	foreach($carrito as $carro):
+  	    if($carro[0] == $id){
+  		$licencias = (new Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $carro[1]");
+  		if($licencias->id != null){
+          $d = (New Alumnos);
+          $alumno = $d->find($id);
+          $rbd = $d->getColegio($alumno->establecimiento_id);
+          if($rbd == 2200 AND $alumno->curso == 8 AND $carro[1] == 360){ //Si el colegio es 2200 y curso es 8 setea 3 licencias en una
+            for ($i=0; $i < 3; $i++) {
+              $licencias->tipo  = "espania";
+      		    $licencias->usuario_id = Session::get("iduser");
+      		    $licencias->estado = true;
+              $licencias->save();
+            }
+          }
+          else{
+            $licencias->tipo  = "espania";
+    		    $licencias->usuario_id = Session::get("iduser");
+    		    $licencias->estado = true;
+    		    if($licencias->save()){
+    			$this->data = "OK";
+    		    }else{
+    			$this->data = "errrr";
+    		    }
+          }
+
+  		}
+  	    }
+  	endforeach;
+  	die();
+
+  	View::select(null, "json");
+  }
 }
 
 ?>

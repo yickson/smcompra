@@ -72,6 +72,13 @@ class Alumnos extends ActiveRecord
 
     return $colegio;
   }
+
+  public function getColegio($id_est)
+  {
+    $colegio = (New Establecimientos)->find($id_est);
+
+    return $colegio->rbd;
+  }
 }
 
 

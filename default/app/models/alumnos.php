@@ -67,7 +67,8 @@ class Alumnos extends ActiveRecord
         $est = (New Establecimientos)->find($datos->establecimiento_id);
         $colegio[] = array('id'   => $datos->id,
                            'rbd'  => $est->rbd,
-                           'pais' => $est->pais);
+                           'pais' => $est->pais,
+                           'curso' => $datos->curso);
     }
 
     return $colegio;
@@ -78,6 +79,31 @@ class Alumnos extends ActiveRecord
     $colegio = (New Establecimientos)->find($id_est);
 
     return $colegio->rbd;
+  }
+
+  public function caso_especial()
+  {
+    $lic = array(379, 380, 381);
+    $hijos = Session::get('hijos');
+    $hijos_ohiggin = array();
+    $resultado = array();
+    $resp = '';
+    foreach ($hijos as $key => $value) {
+      $alumno = (New Alumnos)->find($value['id']);
+      $rbd = (New Establecimientos)->find($alumno->establecimiento_id);
+      if($alumno->curso == 8 AND $rbd->rbd == 2200){
+        $hijos_ohiggin[] = $alumno->id;
+      }
+    }
+    foreach ($hijos_ohiggin as $value) {
+      foreach ($lic as $valor) {
+        $licencia = (New Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $value AND producto_id = $valor");
+        $resp .= $licencia->codigo.'<br>';
+      }
+      $resultado[] = $resp;
+      $resp = '';
+    }
+    return $resultado;
   }
 }
 

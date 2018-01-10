@@ -155,7 +155,8 @@ class CarritoController extends AppController
         $array_textos = Session::get("carrito");
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
       }else{
-        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
+        $this->lic3 = (New Alumnos)->caso_especial();
+        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.producto_id, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
         //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
       $this->data_alumnos = (new Alumnos)->buscar_colegio();
@@ -262,33 +263,40 @@ public function setLicenciaEs(){
   	foreach($carrito as $carro):
   	    if($carro[0] == $id){
   		$licencias = (new Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $carro[1]");
+      //print_r("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $carro[1]");
   		if($licencias->id != null){
           $d = (New Alumnos);
           $alumno = $d->find($id);
           $rbd = $d->getColegio($alumno->establecimiento_id);
           if($rbd == 2200 AND $alumno->curso == 8 AND $carro[1] == 360){ //Si el colegio es 2200 y curso es 8 setea 3 licencias en una
+            $lic = array(379, 380, 381);
             for ($i=0; $i < 3; $i++) {
-              $licencias->tipo  = "espania";
-      		    $licencias->usuario_id = Session::get("iduser");
-      		    $licencias->estado = true;
-              $licencias->save();
+              $licencia = (New Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $lic[$i]");
+              $licencia->tipo  = "espania";
+      		    $licencia->usuario_id = Session::get("iduser");
+      		    $licencia->estado = true;
+              if($licencia->save()){
+          			$this->data = "OK";
+          		}else{
+          			$this->data = "errrr";
+          		}
             }
           }
           else{
+            //print_r("pasa en las otras licencia");die();
             $licencias->tipo  = "espania";
     		    $licencias->usuario_id = Session::get("iduser");
     		    $licencias->estado = true;
     		    if($licencias->save()){
-    			$this->data = "OK";
-    		    }else{
-    			$this->data = "errrr";
+        			$this->data = "OK";
+        		    }else{
+        			$this->data = "errrr";
     		    }
           }
 
   		}
   	    }
   	endforeach;
-  	die();
 
   	View::select(null, "json");
   }

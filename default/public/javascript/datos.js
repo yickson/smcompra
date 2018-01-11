@@ -38,8 +38,10 @@ $(document).ready(function(){
             if(result !== false){
               $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
               $("#nombre").prop("disabled", true);
-              $('.email').attr("value", result['email']);
-              $(".email").prop("disabled", true);
+              if(result['email'] !== ''){
+                $('.email').attr("value", result['email']);
+                $(".email").prop("disabled", true);
+              }
               $("#validar").prop("disabled", false);
             }
             else{
@@ -107,7 +109,7 @@ $(document).ready(function(){
                           );
                       $('#cap').empty().load('usuario/principal');
                           break;
-                      
+
                   }
                 }
               })
@@ -164,6 +166,10 @@ $(document).ready(function(){
     }
     else{
       $("#nombre").prop("disabled", true);
+      var email = $('.email').val();
+      if(email !== ''){
+        $(".email").prop("disabled", true);
+      }
       $(".email").prop("disabled", true);
     }
 })

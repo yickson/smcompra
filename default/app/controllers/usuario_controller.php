@@ -136,6 +136,10 @@ class UsuarioController extends AppController
         $this->data = 1;
       }
     }else{
+      if($usuario->email == '' OR $usuario->email == null){
+        $usuario->email = $correo;
+        $usuario->save();
+      }
         if($tipo == $usuario->tipo){
           $this->data = 1;
         }

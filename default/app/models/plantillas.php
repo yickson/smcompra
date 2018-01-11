@@ -75,7 +75,7 @@ class Plantillas
               </table>
               <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>
               <!-- Aquí se encuentra el bucle del los pedidos -->';
-              
+
               $total = 0;
               foreach ($detalles as $value) {
                 $contenido .= '<tr>';
@@ -129,6 +129,7 @@ class Plantillas
 
   public function apoderado($detalles)
   {
+    $lic3 = (New Alumnos)->caso_especial();
     $contenido = '<table max-width="800" cellpadding="0" cellspacing="0" align="center">
       <tr>
         <td height="80" align="left" valign="middle" bgcolor="ffffff" style="font-family:Arial, Helvetica, sans-serif; color:#ffffff;">
@@ -189,11 +190,18 @@ class Plantillas
               <!-- Aquí se encuentra el bucle del los pedidos -->
               <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>';
               $total = 0;
+              $i = 0;
               foreach ($detalles as $value) {
                 $contenido .= '<tr>';
                 $contenido .= '<td width="162">'.$value->proyecto.'</td>';
                 $contenido .= '<td width="162">'.$value->nombre.'</td>';
-                $contenido .= '<td width="162">'.$value->codigo.'</td>';
+                if($value->id == 360){
+                  $contenido .= '<td width="162">'.$lic3[$i].'</td>';
+                  $i++;
+                }else{
+                  $contenido .= '<td width="162">'.$value->codigo.'</td>'
+                }
+
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';
                 $total += $value->valor;
                 if($value === end($detalles)){

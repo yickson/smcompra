@@ -2,7 +2,8 @@
 class apiController extends AppController{
     
     //Constantes
-    const PROFESOR = 2;
+    const APODERADO = 1;
+    const PROFESOR  = 2;
     
     /**
      * 
@@ -364,7 +365,7 @@ class apiController extends AppController{
         $tipo = PHPExcel_IOFactory::identify($archivo);
         $excel = PHPExcel_IOFactory::createReader($tipo);
         $excel_reader = $excel->load($archivo);
-	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E635');
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:H107');
 	
 	//Variables
 	$primera = true;
@@ -426,24 +427,46 @@ class apiController extends AppController{
 			}
 		    endforeach;
 		    
-		    //Buscamos si existe tupla en $establecimiento_proyecto
+		    //Buscamos si existe tupla en $producto
 		    $producto->find_by_codigo($codigo);
 		    if($producto->id != null){
+			//Buscamos si existe tupla en $establecimiento_proyecto
 			$establecimiento_proyecto->find_by_sql('SELECT * FROM establecimiento_proyecto WHERE rbd = "'.$rbd.'" AND curso_id="'.$curso.'" AND proyecto_id = "'.$proyecto.'" AND producto_id = '.$producto->id.'');
 			if($establecimiento_proyecto->id != null){
 			    //existe no hagas nada
 			    //print_r("existe".$establecimiento_proyecto->id );
 			}else{
-			    //print_r("No existe".$establecimiento_proyecto->id );
+			    $establecimiento_proyecto->rbd = $rbd;
+			    $establecimiento_proyecto->curso_id = $curso;
+			    $establecimiento_proyecto->proyecto_id = $proyecto;
+			    $establecimiento_proyecto->producto_id = $producto->id;
+			    $establecimiento_proyecto->save();
 			}
 		    }else{
+			print_r("no existe producto");
+			$producto->descripcion = $nombre;
+			$producto->tipo        = $this::APODERADO;
+			$producto->nivel_id    = $curso;
+			$producto->codigo      = $codigo;
+			$producto->save();
+			$establecimiento_proyecto->find_by_sql('SELECT * FROM establecimiento_proyecto WHERE rbd = "'.$rbd.'" AND curso_id="'.$curso.'" AND proyecto_id = "'.$proyecto.'" AND producto_id = '.$producto->id.'');
+			if($establecimiento_proyecto->id != null){
+			    //existe no hagas nada
+			    print_r("existe".$establecimiento_proyecto->id );
+			}else{
+			    print_r("No existe");
+			    $establecimiento_proyecto->rbd = $rbd;
+			    $establecimiento_proyecto->curso_id = $curso;
+			    $establecimiento_proyecto->proyecto_id = $proyecto;
+			    $establecimiento_proyecto->producto_id = $producto->id;
+			    $establecimiento_proyecto->save();
+			}
 			print_r("no existe producto ".$codigo." ");
 		    }
 		}
 		$primera  = false;
 	    endforeach;
 	endforeach;
-	die();
 	$this->data = "Perfecto!";
 	View::select(null, "json");
     }

@@ -24,7 +24,8 @@ class CarritoController extends AppController
   {
     //Esta vista no debería cargar nada
 	if(Input::post('alumno')){
-      $l = new Alumnos;
+	    $this->action_name;
+	    $l = new Alumnos;
 	    $alumnos = $l->filtrar(Input::post('alumno'));
 	    $datos = $l->verificar($alumnos);
 	    foreach ($alumnos as $key => $valor) {

@@ -44,8 +44,12 @@
 		success: function(data){
 		console.log(data);
 		    $('#direccion').modal('show');
-		    $("#calle").val(data.calle);
-		    $("#tipo option[value="+data.tipo+"]").attr('selected', 'selected');
+		    if(data.calle != ""){
+			$("#calle").val(data.calle);
+		    }
+		    if(data.tipo != ""){
+			$("#tipo option[value="+data.tipo+"]").attr('selected', 'selected');
+		    }
 		    $("#numero").val(data.numero);
 		    if(data.id_region != null){
 			$("#id_region option[value="+data.id_region+"]").attr('selected', 'selected');

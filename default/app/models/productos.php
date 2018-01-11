@@ -40,13 +40,13 @@ class Productos extends ActiveRecord
 		endforeach;
 		
 	        $alumnos = (new Productos)->find_all_by_sql("SELECT  ep.id, ep.rbd, ep.producto_id as id_producto, p.proyecto,
-							    (SELECT nombre FROM proyectos WHERE id = ep.proyecto_id) as proyecto, p.nombre as asignatura, ep.curso_id as nivel, p.imagen as img,
-							    (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, al.id as id_alumno
+							    (SELECT nombre FROM proyectos WHERE id = ep.proyecto_id) as proyecto, p.nombre as asignatura, ep.curso_id as nivel, p.imagen as img, 
+							    (SELECT nombre FROM productos_tipo WHERE id = p.tipo) as tipo, p.valor, al.id as id_alumno,
+							    (SELECT estado FROM licences WHERE producto_id = ep.producto_id AND alumno_id = al.id) as estado
 							    FROM establecimiento_proyecto as ep 
 							    INNER JOIN productos p ON (ep.producto_id = p.id AND ep.curso_id = p.nivel_id) 
 							    INNER JOIN alumnos al ON (al.curso = ep.curso_id AND ($sql2))
 							    WHERE $sql");
-	
 	  break;
 	  case $this::PROFESOR:
 	        foreach($hijos as $hijo):

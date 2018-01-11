@@ -17,7 +17,7 @@ class apiController extends AppController{
 	Load::lib("php_excel");
 	
 	//Ubicacion y carga de archivo
-	$archivo = "../public/files/cargas_masivas/1carga.xlsx";
+	$archivo = "../public/files/cargas_masivas/1carga_hijo_profesor.xlsx";
         $tipo = PHPExcel_IOFactory::identify($archivo);
         $excel = PHPExcel_IOFactory::createReader($tipo);
         $excel_reader = $excel->load($archivo);
@@ -163,7 +163,7 @@ class apiController extends AppController{
 			
 			//No existe profesor, lo creamos...
 			$profesor->rut      = $rut_p;
-			$profesor->nombre   = $producto;
+			$profesor->nombre   = $nombre_pro;
 			$profesor->tipo     = $this::PROFESOR;
 			$profesor->telefono = $telefono; 
 			$profesor->save();
@@ -274,6 +274,176 @@ class apiController extends AppController{
 		$primera  = false;
 	    endforeach;
 	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
+    
+    public function cargaLicenciasCL(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/cargas_masivas/1carga_licencias_cl.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E635');
+	
+	//Variables
+	$primera = true;
+	$rbd  = null; $rut = null; $nombre = null; $curso = null;
+	
+	//Instancias
+	$establecimiento = new Establecimientos();
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$alumno = new Alumnos();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //RBD
+			    if($colIndex == "A"){
+				$rbd = $cell->getCalculatedValue();
+			    }
+			    
+			    //rut
+			    if($colIndex == "C"){
+				$rut = $cell->getCalculatedValue();
+			    }
+			    
+			    //Nombre
+			    if($colIndex == "D"){
+				$nombre = $cell->getCalculatedValue();
+			    }
+			    
+			    //curso
+			    if($colIndex == "E"){
+				$curso = $cell->getCalculatedValue();
+			    }
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe alumno
+		    $alumno->find_by_rut($rut);
+		    if($alumno->id != null){
+			//existe no hagas nada
+		    }else{
+			$alumno->nombre = $nombre;
+			$alumno->rut    = $rut;
+			$alumno->curso  = $curso;
+			$alumno->establecimiento_id = $establecimiento->find_by_rbd($rbd)->id;
+			$alumno->save();
+		    }
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
+    
+    public function cargaEstProyectos(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/cargas_masivas/establecimiento_poyecto.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E635');
+	
+	//Variables
+	$primera = true;
+	$rbd  = null; $rut = null; $nombre = null; $curso = null;
+	
+	//Instancias
+	$establecimiento = new Establecimientos();
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$establecimiento_proyecto = new EstablecimientoProyecto();
+		$producto = new Productos();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //RBD
+			    if($colIndex == "A"){
+				$rbd = $cell->getCalculatedValue();
+			    }
+			    
+			    //Codigo
+			    if($colIndex == "C"){
+				$codigo = $cell->getCalculatedValue();
+			    }
+			    
+			    //Nombre
+			    if($colIndex == "D"){
+				$nombre = $cell->getCalculatedValue();
+			    }
+			    
+			    //Proyecto
+			    if($colIndex == "E"){
+				$proyecto = $cell->getCalculatedValue();
+			    }
+			    
+			    //Asignatura
+			    if($colIndex == "F"){
+				$asignatura = $cell->getCalculatedValue();
+			    }
+			    
+			    //Curso
+			    if($colIndex == "G"){
+				$curso = $cell->getCalculatedValue();
+			    }
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe tupla en $establecimiento_proyecto
+		    $producto->find_by_codigo($codigo);
+		    if($producto->id != null){
+			$establecimiento_proyecto->find_by_sql('SELECT * FROM establecimiento_proyecto WHERE rbd = "'.$rbd.'" AND curso_id="'.$curso.'" AND proyecto_id = "'.$proyecto.'" AND producto_id = '.$producto->id.'');
+			if($establecimiento_proyecto->id != null){
+			    //existe no hagas nada
+			    //print_r("existe".$establecimiento_proyecto->id );
+			}else{
+			    //print_r("No existe".$establecimiento_proyecto->id );
+			}
+		    }else{
+			print_r("no existe producto ".$codigo." ");
+		    }
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	die();
 	$this->data = "Perfecto!";
 	View::select(null, "json");
     }

@@ -23,7 +23,7 @@
 	$(document).ready(function(){
 	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
 	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
-	   
+
 	});
     </script>
   <div class="row">
@@ -45,6 +45,7 @@
           <?php //endforeach ?>
           <p>¡Le agradecemos su preferencia!</p>
           <p>Usted ha adquirido los siguientes productos:</p>
+          <?php //var_export($lic3); ?>
           <div class="well">
 	    <div class="table-responsive">
 	      <table class="table table-hover table-light">
@@ -57,15 +58,22 @@
 		  </tr>
 		</thead>
 		<?php $licencias = array();?>
-		<?php foreach ($detalles as $key => $valor): 
+    <?php $i = 0; ?>
+		<?php foreach ($detalles as $key => $valor):
 			  array_push($licencias, $valor->codigo);
 		  ?>
 		    <tr>
 		      <td><?php echo $valor->proyecto ?></td>
 		      <td><?php echo $valor->nombre .' - '.$valor->nivel ?></td>
-		      <td><?php echo $valor->codigo ?></td>
+          <?php if($valor->producto_id == 360): ?>
+		          <td><?php echo $lic3[$i] ?></td>
+              <?php $i++; ?>
+          <?php else: ?>
+              <td><?php echo $valor->codigo ?></td>
+          <?php endif ?>
 		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
 		    </tr>
+
 		<?php endforeach ?>
 		<tr>
 		  <td></td>
@@ -156,4 +164,3 @@
     </div>
   <?php endif ?>
 <?php endif ?>
-

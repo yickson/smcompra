@@ -38,7 +38,7 @@ var Carrito = function(params){
 	$.ajax({
 	    type  : "POST",
 	    cache : false,
-	    url   : "carrito/getProductos",
+	    url   : window.location.href+"/getProductos",
 	    data  : {"id_usuario": id_usuario,
                      "tipo": tipo,
                      "hijos" : $this.hijos},
@@ -246,7 +246,7 @@ var Carrito = function(params){
         $.ajax({
 	    type  : "POST",
 	    cache : false,
-	    url   : "carrito/getProductos",
+	    url   : window.location.href+"/getProductos",
 	    data  : {"id_usuario": id_usuario,
                      "tipo": tipo,
                      "hijos": $this.hijos},
@@ -322,7 +322,7 @@ var Carrito = function(params){
 	$.ajax({
 	      type : "POST",
 	      cache: false,
-	      url  : "carrito/getAlumno",
+	      url  : window.location.href+"/getAlumno",
 	      dataType: 'json',
 	      data : {"id" : id},
 	      success: function(data){

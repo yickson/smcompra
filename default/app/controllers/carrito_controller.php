@@ -156,7 +156,7 @@ class CarritoController extends AppController
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
       }else{
         $this->lic3 = (New Alumnos)->caso_especial();
-        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.proyecto, p.nombre, p.valor, l.producto_id, l.codigo, p.nivel FROM pedidos_productos pp INNER JOIN productos p ON p.id = pp.producto_id INNER JOIN licences l ON l.producto_id = pp.producto_id AND l.usuario_id = $id WHERE pp.usuario_id = 1280 AND pp.pedido_id = $pedido->id");
+        $this->detalles = (New PedidosProductos)->encontrar_pedidos(); //Trae los productos evitando incongruencias
         //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
       $this->data_alumnos = (new Alumnos)->buscar_colegio();
@@ -269,8 +269,8 @@ public function setLicenciaEs(){
           $alumno = $d->find($id);
           $rbd = $d->getColegio($alumno->establecimiento_id);
           if($rbd == 2200 AND $alumno->curso == 8 AND $carro[1] == 360){ //Si el colegio es 2200 y curso es 8 setea 3 licencias en una
-            $lic = array(379, 380, 381);
-            for ($i=0; $i < 3; $i++) {
+            $lic = array(379, 380, 381, 360); //ID de licencia de caso Ohiggin
+            for ($i=0; $i < 4; $i++) {
               $licencia = (New Licences)->find_by_sql("SELECT * FROM licences WHERE alumno_id = $carro[0] AND producto_id = $lic[$i]");
               $licencia->tipo  = "espania";
       		    $licencia->usuario_id = Session::get("iduser");

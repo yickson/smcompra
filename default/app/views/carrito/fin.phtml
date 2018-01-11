@@ -45,7 +45,6 @@
           <?php //endforeach ?>
           <p>¡Le agradecemos su preferencia!</p>
           <p>Usted ha adquirido los siguientes productos:</p>
-          <?php //var_export($lic3); ?>
           <div class="well">
 	    <div class="table-responsive">
 	      <table class="table table-hover table-light">
@@ -65,7 +64,8 @@
 		    <tr>
 		      <td><?php echo $valor->proyecto ?></td>
 		      <td><?php echo $valor->nombre .' - '.$valor->nivel ?></td>
-          <?php if($valor->producto_id == 360): ?>
+          <?php if($valor->id == 360): ?>
+              <?php if($lic3[$i]) ?>
 		          <td><?php echo $lic3[$i] ?></td>
               <?php $i++; ?>
           <?php else: ?>

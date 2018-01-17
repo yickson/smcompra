@@ -11,11 +11,17 @@ $(document).ready(function(){
     .on('rutInvalido', function(){
       $(this).parents(".form-group").addClass("has-danger");
       $(this).addClass("is-invalid");
+      $("#invalido").append('Rut inválido vuelva a ingresar el rut');
+      $("#nombre").prop("disabled", true);
+      $(".email").prop("disabled", true);
       rutv = '';
     })
     .on('rutValido', function(){
       $(this).parents(".form-group").removeClass("has-danger");
       $(this).removeClass("is-invalid");
+      $("#invalido").empty();
+      $("#nombre").prop("disabled", false);
+      $(".email").prop("disabled", false);
     })
     .on('rutValido', function(e, rut){
       rutv = rut;

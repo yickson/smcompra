@@ -6,10 +6,10 @@
 		    "apoderado"  : '1',
 		    "profesor"   : '2'
 		};
-	
+
     var table = $('#tabla_usuarios').DataTable( {
       "ajax": {
-               "url": "listar_pedidos",
+               "url": "pedidos/listar_pedidos",
                "dataType": "json",
                "cache": false,
              },
@@ -27,7 +27,7 @@
 	  { "data": "boton" }
       ]
     });
-    
+
     $("#tabla_usuarios").on("click", ".hijos", function(){
 	var usuario = $(this).data("id");
 	var tipo = null;
@@ -37,7 +37,7 @@
 	    url: "consultarHijos",
 	    data: {"usuario" : usuario},
 	    success: function(data){
-		
+
 	    },
 	    error: function(){
 
@@ -99,9 +99,9 @@
 					<div class="col-md-12">
 					    <div class="row">
 						<div class="col-md-12" style="margin-top:6px">
-						    
+
 						    <label class="nombre_usuario"></label>
-						    
+
 						</div>
 					    </div>
 					</div>
@@ -127,7 +127,7 @@
 						<input type="text" id="ciudad"  class="form-control form-sm"><br>
 					    </div>
 					</div>-->
-					<div class="col-md-12">    
+					<div class="col-md-12">
 					    <ul class="nav nav-tabs">
 						<li class="active"><a href="#"><i class="fa fa-graduation-cap"></i> Alumno(s)</a></li>
 						<table class="dataTable" style="border: 1px solid #ddd">

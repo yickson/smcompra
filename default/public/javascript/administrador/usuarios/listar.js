@@ -39,9 +39,10 @@ $(document).ready(function() {
 		//Info modal Cabecera
 		(data[0].tipo == $this.apoderado)?tipo = "Apoderado": tipo = "Profesor";
 		$(".titulo").text("Datos "+tipo+" / alumno(s)");
+                $(".tipo").text(tipo);
 		$(".nombre_usuario").text(data[0].nombre_usuario);
 		$(".rut_usuario").text(data[0].rut_usuario);
-		$(".cantidad_alumnos").text(cantidad_alumnos)
+		$(".cantidad_alumnos").text( cantidad_alumnos)
 		
 		$.each(data, function(i, val)
 		{
@@ -57,5 +58,24 @@ $(document).ready(function() {
 
 	    }
 	});
+    }); 
+    
+     $("#tabla_usuarios").on("click", ".direccion_usuario", function(){
+	var usuario = $(this).data("id");
+        $.ajax({
+           type  : "POST",
+           cache : false,
+           url   : "consultarDireccion",
+           data  : {"usuario" : usuario},
+           success : function(result){
+               console.log(result.calle);
+               $('#direccion_usuario').modal('show');
+               var mapa = new Mapa();
+               mapa.initMap(result.calle);
+           },
+           error : function(){
+               console.log("error en mostrar direccion");
+           }
+        });
     }); 
 });

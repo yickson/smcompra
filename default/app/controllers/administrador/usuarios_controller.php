@@ -37,6 +37,14 @@ class UsuariosController extends AppController
       $this->data = $hijos;
       View::select(null, "json");
   }
+  
+    public function consultarDireccion()
+  {
+      $usuario = Input::post("usuario");
+      $direccion = (New Usuarios)->getDireccionAdmin($usuario);
+      $this->data = $direccion;
+      View::select(null, "json");
+  }
 }
 
 

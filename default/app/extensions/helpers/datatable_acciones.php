@@ -119,4 +119,15 @@ class datatableAcciones
 	$btn = "<button class='btn btn-info'>2</button>";
 	return $btn;
     }
+    
+    /**
+     * Devuelve botones para datatable de lista de usuarios
+     * @param object $usuario
+     */
+    public static function getBtnUsuarios($usuario){
+	$img_mapa = "<img src='".PUBLIC_PATH."img/map1.png' width=45'>";
+	$btn = "<button data-id='".$usuario->id."' class='btn btn-info hijos'> <span class='badge'>$usuario->hijos</span></button>
+		<span class='direccion_usuario' data-id='".$usuario->id."'>$img_mapa</span>";
+	return $btn;
+    }
 }

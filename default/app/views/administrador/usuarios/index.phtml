@@ -49,12 +49,13 @@
 			    <form id="datos_despacho" class="form-horizontal">
 				<div class="col-md-12">
 				    <div class="row">
-					<div class="col-md-6">
-					    <table class="dataTable" style="border: 1px solid #1b6d85">
+					<div class="col-md-6" style="margin-bottom: 2%">
+					    <strong>&nbsp;USUARIO:</strong> <span class="tipo"></span>
+					    <table class="dataTable" style="border-bottom: 0px;">
 					       <thead>
-						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Nombre</th><td> <label class="nombre_usuario"></label> </td></tr>
-						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Rut</th> <td> <label class="rut_usuario"></label> </td></tr>
-						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Cantidad Alumnos</th> <td> <label class="cantidad_alumnos"></label> </td></tr>
+						    <tr><th style="width: 15%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF; border-right: 0px">Nombre</th> <td style="border: 1px solid #ddd;"> <label class="nombre_usuario"></label> </td></tr>
+						    <tr><th style="width: 15%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF; border-right: 0px">Rut   </th> <td style="border: 1px solid #ddd; border-top: 0px"> <label class="rut_usuario"></label> </td></tr>
+						    <tr><th style="width: 15%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF; border: 0px ">Cantidad Alumnos</th> <td style="border: 1px solid #ddd; border-top: 0px"> <label class="cantidad_alumnos"></label> </td></tr>
 						</thead>
 					    </table>
 					</div>
@@ -66,7 +67,7 @@
 						<input type="text" id="ciudad"  class="form-control form-sm"><br>
 					    </div>
 					</div>-->
-					<div class="col-md-12">    
+					<div class="col-md-12" style="margin-bottom: 3%;">    
 					    <ul class="nav nav-tabs">
 						<li class="active" ><a href="#" style="background-color: #31b0d5; border: 1px solid #1b6d85; color: #FFF"><i class="fa fa-graduation-cap"></i> Alumno(s)</a></li>
 						<table class="dataTable hijos_dt" style="border: 1px solid #1b6d85">
@@ -103,3 +104,51 @@
 	</div>
     </div>
 </div>
+
+<!--Modal para ver las direcciones-->
+<div class="modal fade bd-example-modal-lg" id="direccion_usuario" tabindex="-1" role="dialog" aria-labelledby="direccionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content ">
+	    <div class="modal-header">
+		<h5 class="modal-title" id="direccionModalLabel"><label class="titulo"></label></h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+		    <span aria-hidden="true">&times;</span>
+		</button>
+	    </div>
+	    <div class="modal-body">
+		<fieldset>
+		    <div class="form-bottom">
+			<div class="form-group">
+			    <form id="datos_despacho" class="form-horizontal">
+				<div class="col-md-12">
+				    <div class="row">
+					<div class="col-md-12">
+					<div id="map"></div>
+					
+					</div>
+				    </div>
+				</div>
+			    </form>
+			</div>
+		    </div>
+		</fieldset>
+		<div class="modal-footer">
+		    <div class="col-md-12">
+			<div class="row">
+			    <div class="col-md-5">
+				    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar ventana</button>
+			    </div>
+			    <span class="col-md-2"></span>
+			    <div class="col-md-5">
+				<button id="pagar" class="btn btn-primary form-control hidden pagar">Ir a pagar</button>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
+
+<?php echo Tag::js("administrador/usuarios/mapa")?>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOyTGsl-Tc2xOU64ZyKENj4wpDZgnN_1k"></script>

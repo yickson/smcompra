@@ -1,5 +1,7 @@
 <?php
 
+require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
+
 /**
  * Modelo para gestionar los usuarios
  */
@@ -25,6 +27,14 @@ class Usuarios extends ActiveRecord
       }else{
 	return null;
       }
+  }
+  
+  /**
+   * @return object devuelve una instancia de direcciones de usuario
+   */
+  public function getDireccionAdmin($usuario){
+	$direccion = (new Direcciones)->find_by_id_usuario($usuario);
+	return $direccion;
   }
   
   /**
@@ -77,11 +87,11 @@ class Usuarios extends ActiveRecord
 						 GROUP BY u.id");
       $usuarios = array();
       foreach($todos_con_hijos as $key => $usuario):
-	$usuarios[$key]["id"] = $usuario->id;
+	$usuarios[$key]["id"]  = $usuario->id;
         $usuarios[$key]["rut"] = $usuario->rut;
 	$usuarios[$key]["nombre"]  = $usuario->nombre;
 	$usuarios[$key]["tipo"]    = ($usuario->tipo == $this::APODERADO)?"<span>Apoderado</span>":"<span>Profesor</span>";
-	$usuarios[$key]["hijos"]   = "<button data-id='".$usuario->id."' class='btn btn-info hijos'> <span class='badge'>$usuario->hijos</span></button>";
+	$usuarios[$key]["hijos"]   = datatableAcciones::getBtnUsuarios($usuario);
       endforeach;
       return $usuarios;
   }

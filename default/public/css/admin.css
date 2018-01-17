@@ -1,0 +1,8 @@
+.direccion_usuario{
+    cursor: pointer;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}

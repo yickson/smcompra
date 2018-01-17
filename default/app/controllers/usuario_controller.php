@@ -74,9 +74,14 @@ class UsuarioController extends AppController
     $rutc = Input::post('rutc');
     Session::set('rutc', $rutc);
     Session::set('rt', $rut);
+    $tipo = Session::get('tipo');
     $usuario = (New Usuarios)->find_by_rut($rut);
     if(empty($usuario)){
-      $this->data = false;
+      if($tipo == 1){
+        $this->data = 1;
+      }else{
+        $this->data = 2;
+      }
     }else{
       Session::set('iduser', $usuario->id);
       $this->data = $usuario;

@@ -34,8 +34,7 @@ $(document).ready(function(){
           cache: false,
           data: {"rut":rut, "rutc":rutc},
           success: function(result){
-            console.log(result);
-            if(result !== false){
+            if(result !== 1 && result !== 2){
               $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
               $("#nombre").prop("disabled", true);
               if(result['email'] !== ''){
@@ -45,13 +44,22 @@ $(document).ready(function(){
               $("#validar").prop("disabled", false);
             }
             else{
-              swal(
-                    'Usted no se encuentra registrado',
-                    'Coloque su nombre y correo electrónico',
-                    'info'
-                  );
-              $(".form-group").parents(".form-group").append('<div class="invalid-feedback">Este RUT es inválido</div>')
-              $("#validar").prop("disabled", false);
+              if(result == 1){
+                swal(
+                      'Usted no se encuentra registrado',
+                      'Coloque su nombre y correo electrónico',
+                      'info'
+                    );
+                    $("#validar").prop("disabled", false);
+              }
+              if(result == 2){
+                swal(
+                      'Usted no se encuentra registrado como profesor',
+                      'Usted no figura registrado como PROFESOR, es probable que haya equivocado el ingreso, por lo cual deberá dar clic en el botón APODERADO. Si efectivamente es profesor, por favor contáctenos al 6003811312.',
+                      'error'
+                    );
+                $('#cap').empty().load('usuario/principal');
+              }
             }
           }
         })
@@ -72,10 +80,9 @@ $(document).ready(function(){
         }
         if(rutv === undefined){
           $.ajax({
-            type: "POST",
+            type: "GET",
             url: window.location.href+'usuario/rut',
             cache: false,
-            data: {"dato":''},
             success: function(result){
               //console.log("este es mi rut "+result);
               rutv = result;

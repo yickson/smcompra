@@ -65,9 +65,10 @@ class Alumnos extends ActiveRecord
     foreach ($alumnos as $key => $valor) {
         $datos = (New Alumnos)->find($valor['id']);
         $est = (New Establecimientos)->find($datos->establecimiento_id);
-        $colegio[] = array('id'   => $datos->id,
-                           'rbd'  => $est->rbd,
-                           'pais' => $est->pais,
+        $colegio[] = array('id'    => $datos->id,
+			   'rut'   => $datos->rut,
+                           'rbd'   => $est->rbd,
+                           'pais'  => $est->pais,
                            'curso' => $datos->curso);
     }
 

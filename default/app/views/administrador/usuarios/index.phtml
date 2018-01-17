@@ -1,69 +1,7 @@
 <!-- CSS se cargara en el template, primero carga el view luego el template -->
 <?php Tag::css('../bower_components/datatables.net-bs/css/dataTables.bootstrap.min') ?>
-<script type="text/javascript">
-  $(document).ready(function() {
-    var $this = {
-		    "apoderado"  : '1',
-		    "profesor"   : '2'
-		};
-	
-    var table = $('#tabla_usuarios').DataTable( {
-      "ajax": {
-	       "bServerSide": true,
-               "url": "listar_con_hijos",
-               "dataType": "json",
-               "cache": false,
-             },
-	dom: 'Bfrtip',
-	"buttons": [
-	   {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
-	],
-	"columns": [
-	    { "data": "id" },
-	    { "data": "rut" },
-	    { "data": "nombre" },
-	    { "data": "tipo" },
-	    { "data": "hijos" }
-	]
-    });
-    
-    $("#tabla_usuarios").on("click", ".hijos", function(){
-	var usuario = $(this).data("id");
-	var tipo = null;
-	$.ajax({
-	    type: "POST",
-	    cache: false,
-	    url: "consultarHijos",
-	    data: {"usuario" : usuario},
-	    success: function(data){
-		var cantidad_alumnos = data.length;
-		$('.datos_hijos').find('tr').remove().end();
-		$('#hijos_usuario').modal('show');
-		//Info modal Cabecera
-		(data[0].tipo == $this.apoderado)?tipo = "Apoderado": tipo = "Profesor";
-		$(".titulo").text("Datos "+tipo+" / alumno(s)");
-		$(".nombre_usuario").text("Nombre: "+ data[0].nombre_usuario);
-		$(".rut_usuario").text("Rut: "+ data[0].rut_usuario);
-		$(".cantidad_alumnos").text("Cantidad alumnos: "+ cantidad_alumnos)
-		
-		$.each(data, function(i, val)
-		{
-		    //Info modal Alumnos
-		    var info  = "<tr>"+
-				 "<td style='border-bottom:1px solid #ddd;'>"+ val.nombre_alumno + "</td>"+
-				 "<td style='border-bottom:1px solid #ddd;'>"+ val.rut_alumno + "</td>"+
-				"</tr>";
-		    $(".datos_hijos").append(info);
-		});
-	    },
-	    error: function(){
+<?php echo Tag::js('administrador/usuarios/listar') ?>
 
-	    }
-	});
-    });
-
-  });
-</script>
 <div class="row">
   <div class="col-md-12">
     <div class="box box-danger">
@@ -111,28 +49,14 @@
 			    <form id="datos_despacho" class="form-horizontal">
 				<div class="col-md-12">
 				    <div class="row">
-					<div class="col-md-12">
-					    <div class="row">
-						<div class="col-md-12" style="margin-top:6px">
-						    
-						    <label class="nombre_usuario"></label>
-						    
-						</div>
-					    </div>
-					</div>
-					<div class="col-md-12">
-					    <div class="row">
-						<div class="col-md-12" style="margin-top:6px">
-						    <label class="rut_usuario"></label>
-						</div>
-					     </div>
-					</div>
-					<div class="col-md-12">
-					    <div class="row">
-						<div class="col-md-12" style="margin-top:6px">
-						    <label class="cantidad_alumnos"></label>
-						</div>
-					     </div>
+					<div class="col-md-6">
+					    <table class="dataTable" style="border: 1px solid #1b6d85">
+					       <thead>
+						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Nombre</th><td> <label class="nombre_usuario"></label> </td></tr>
+						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Rut</th> <td> <label class="rut_usuario"></label> </td></tr>
+						    <tr><th style="width: 13%; background-color: #31b0d5; border-right:1px solid #1b6d85; color: #FFF">Cantidad Alumnos</th> <td> <label class="cantidad_alumnos"></label> </td></tr>
+						</thead>
+					    </table>
 					</div>
 <!--					<div class="col-md-12">
 					    <div class="col-md-2">
@@ -144,11 +68,11 @@
 					</div>-->
 					<div class="col-md-12">    
 					    <ul class="nav nav-tabs">
-						<li class="active"><a href="#"><i class="fa fa-graduation-cap"></i> Alumno(s)</a></li>
-						<table class="dataTable" style="border: 1px solid #ddd">
-						    <tr style="background-color: #ddd;">
-						    <th style="border-right:1px solid #ccc">Nombre</th>
-						    <th>Rut</th>
+						<li class="active" ><a href="#" style="background-color: #31b0d5; border: 1px solid #1b6d85; color: #FFF"><i class="fa fa-graduation-cap"></i> Alumno(s)</a></li>
+						<table class="dataTable hijos_dt" style="border: 1px solid #1b6d85">
+						    <tr style="background-color: #31b0d5;">
+						    <th style="border-right:1px solid #1b6d85; color: #FFF">Nombre</th>
+						    <th style="color: #FFF">Rut</th>
 						    </tr>
 						    <tbody class="datos_hijos">
 

@@ -2,8 +2,8 @@
 class apiController extends AppController{
     
     //Constantes
-    const APODERADO = 1;
-    const PROFESOR  = 2;
+    const TEXTO = 1;
+    const LICENCIA  = 2;
     
     /**
      * 
@@ -154,7 +154,7 @@ class apiController extends AppController{
 			}else{
 			    print_r("no existe producto");
 			    $productos->descripcion = $nombre_pro;
-			    $productos->tipo        = $this::PROFESOR;
+			    $productos->tipo        = $this::TEXTO;
 			    $productos->nivel_id    = $curso;
 			    $productos->codigo      = $codigo;
 			    $productos->save();
@@ -165,7 +165,7 @@ class apiController extends AppController{
 			//No existe profesor, lo creamos...
 			$profesor->rut      = $rut_p;
 			$profesor->nombre   = $nombre_pro;
-			$profesor->tipo     = $this::PROFESOR;
+			$profesor->tipo     = $this::TEXTO;
 			$profesor->telefono = $telefono; 
 			$profesor->save();
 			
@@ -193,7 +193,7 @@ class apiController extends AppController{
 			    $this->asignarProductos($profesor_alumno_producto, $profesor->id, $alumno_id, $productos->id);
 			}else{
 			    $productos->descripcion = $producto;
-			    $productos->tipo        = $this::PROFESOR;
+			    $productos->tipo        = $this::TEXTO;
 			    $productos->nivel_id    = $curso;
 			    $productos->codigo      = $codigo;
 			    $productos->save();
@@ -358,6 +358,187 @@ class apiController extends AppController{
     }
     
     
+    public function cargaLicenciasES(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/cargas_masivas/1carga_licencias_es.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:C3326');
+	
+	//Variables
+	$primera = true;
+	$producto  = null; $codigo = null;
+	
+	//Instancias
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$producto = new Productos();
+		$licencia = new Licences();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //Producto
+			    if($colIndex == "A"){
+				$codigo_sap = $cell->getCalculatedValue();
+			    }
+			    
+			    //Licencia
+			    if($colIndex == "C"){
+				$codigo_lic = $cell->getCalculatedValue();
+			    }
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe el producto
+		    $producto->find_by_codigo($codigo_sap);
+		    if($producto->id !=null){
+			//Buscamos si existe la licencia
+			$licencia->find_by_codigo($codigo_lic);
+			if($licencia->id != null){
+			    //existe no hagas nada
+			}else{
+			    //Buscamos alumno para asignacion de licencia
+			    $alumno   = new Alumnos();
+			    $alumno->find_by_sql("SELECT al.*, l.producto_id as producto_id_licencia 
+						    FROM alumnos as al 
+						    INNER JOIN establecimiento_proyecto ep ON 
+						    ((al.curso = ".$producto->nivel_id." AND ep.curso_id = ".$producto->nivel_id.") 
+						     AND ep.rbd = (SELECT e.rbd 
+								   FROM establecimientos as e
+								   WHERE e.id = al.establecimiento_id)
+								   AND (ep.rbd != 1788 AND ep.rbd != 14379 AND ep.rbd != 25654) ) 
+						    LEFT JOIN licences l ON (l.producto_id = ep.producto_id AND al.id = l.alumno_id) 
+						    WHERE al.curso = ".$producto->nivel_id." 
+						    AND l.alumno_id is null
+						    AND ep.producto_id = ".$producto->id."
+						    AND al.apoderado_id is null limit 1");
+			   
+			    if($alumno->producto_id_licencia != null){
+				    //existe alumno no lo necesito para agregar mas licencias
+			    }else{
+				$licencia->codigo      = $codigo_lic;
+				$licencia->tipo        = "espania";
+				$licencia->producto_id = $producto->id;
+				$licencia->alumno_id   = $alumno->id;
+				$licencia->estado      = "0";
+				$licencia->save();
+			    }
+			}
+		    }else{
+			
+		    }
+		    
+		    
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
+    
+    public function cargaAlumnos(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/cargas_masivas/2carga_alumnos.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E995');
+	
+	//Variables
+	$primera = true; 
+	$rbd  = null; 
+	$nombre = null; 
+	$curso = null; 
+	$rut = null;
+	
+	//Instancias
+	$establecimiento = new Establecimientos();
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$alumno = new Alumnos();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //RBD
+			    if($colIndex == "A"){
+				$rbd = $cell->getCalculatedValue();
+			    }
+			    
+			    //Rut
+			    if($colIndex == "C"){
+				$rut = $cell->getCalculatedValue();
+			    }
+			    
+			    //Nombre
+			    if($colIndex == "D"){
+				$nombre = $cell->getCalculatedValue();
+			    }
+			    
+			    //Curso
+			    if($colIndex == "E"){
+				$curso = $cell->getCalculatedValue();
+			    }
+			    
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe el alumno
+		    $alumno->find_by_rut($rut);
+		    if($alumno->id !=null){
+			print_r("existo");
+			//si existe el alumno
+		    }else{
+			$alumno->nombre = $nombre;
+			$alumno->rut = $rut;
+			$alumno->curso = $curso;
+			$alumno->establecimiento_id = $establecimiento->find_by_rbd($rbd)->id;
+			$alumno->save();
+			
+		    }
+		    $i++;
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
     public function cargaEstProyectos(){
 	Load::lib("php_excel");
 	
@@ -443,25 +624,21 @@ class apiController extends AppController{
 			    $establecimiento_proyecto->save();
 			}
 		    }else{
-			print_r("no existe producto");
 			$producto->descripcion = $nombre;
-			$producto->tipo        = $this::APODERADO;
+			$producto->tipo        = $this::LICENCIA;
 			$producto->nivel_id    = $curso;
 			$producto->codigo      = $codigo;
 			$producto->save();
 			$establecimiento_proyecto->find_by_sql('SELECT * FROM establecimiento_proyecto WHERE rbd = "'.$rbd.'" AND curso_id="'.$curso.'" AND proyecto_id = "'.$proyecto.'" AND producto_id = '.$producto->id.'');
 			if($establecimiento_proyecto->id != null){
 			    //existe no hagas nada
-			    print_r("existe".$establecimiento_proyecto->id );
 			}else{
-			    print_r("No existe");
 			    $establecimiento_proyecto->rbd = $rbd;
 			    $establecimiento_proyecto->curso_id = $curso;
 			    $establecimiento_proyecto->proyecto_id = $proyecto;
 			    $establecimiento_proyecto->producto_id = $producto->id;
 			    $establecimiento_proyecto->save();
 			}
-			print_r("no existe producto ".$codigo." ");
 		    }
 		}
 		$primera  = false;

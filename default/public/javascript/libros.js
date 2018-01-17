@@ -39,7 +39,7 @@ var Libros = function(params){
                 var libros = [];
                 $.each($this.libros, function(key,val){     
                     if(val[0] == value.id){
-                        libros = [val[0], val[1]];
+                        libros[key]  = [value.rut, val[1]];
                     }
                 });
                 $.ajax({

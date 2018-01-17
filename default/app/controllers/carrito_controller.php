@@ -49,8 +49,10 @@ class CarritoController extends AppController
   public function getAlumno(){
       $id = $_POST["id"];
       $alumno = (new Alumnos)->find($id);
+      $curso = new Cursos();
       $nombre_establecimiento = (new Establecimientos)->getNombreById($alumno->establecimiento_id);
       $alumno->establecimiento_nombre = $nombre_establecimiento;
+      $alumno->curso_nombre = $curso->find($alumno->curso)->nombre;
       $this->data = $alumno;
       View::select(null,"json");
   }
@@ -155,10 +157,11 @@ class CarritoController extends AppController
         $this->direccion = (New Direcciones)->getFullDireccion();
         $array_textos = Session::get("carrito");
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
+	      Email::enviar($usuario->email, $this->detalles, $this->direccion);
       }else{
         $this->lic3 = (New Alumnos)->caso_especial();
         $this->detalles = (New PedidosProductos)->encontrar_pedidos(); //Trae los productos evitando incongruencias
-        //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
+        Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
       $this->data_alumnos = (new Alumnos)->buscar_colegio();
     }
@@ -211,29 +214,33 @@ class CarritoController extends AppController
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
-
+	
 	    //licencias
 	    foreach($licencias["message"] as $lic):
-		$licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id, estado, usuario_id
+		    $licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id, estado, usuario_id
 							  FROM licences
 							  WHERE alumno_id    = $al->id
 							  AND producto_id  = ".$lic['store_id'][1]."");
-		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
-		{
-		    if(in_array($lic['licencia'], $licencias_array))
-		    {
-			array_push($licencias_repetidas, $lic['licencia']);
-
-		    }else
-		    {
-			$licencia->codigo     = $lic['licencia'];
-			$licencia->tipo       = 'conecta';
-			$licencia->usuario_id = $id_usuario;
-			$licencia->estado   = 1;
-			$licencia->save();
-			array_push($licencias_array, $lic['licencia']);
-		    }
-		}
+		
+    		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
+    		{
+    		    // ya existe licencia no se debe guardar
+    		}else{
+    		    if(in_array($lic['licencia'], $licencias_array)){
+    			
+    			array_push($licencias_repetidas, $lic['licencia']);
+    
+    		    }else{
+    			$licencia->codigo      = $lic['licencia'];
+    			$licencia->producto_id = $lic['store_id'][1];
+    			$licencia->alumno_id   = $al->id;
+    			$licencia->tipo        = 'conecta';
+    			$licencia->usuario_id  = $id_usuario;
+    			$licencia->estado      = 1;
+    			$licencia->save();
+    			array_push($licencias_array, $lic['licencia']);
+    		    }
+    		}
 	    endforeach;
 	endforeach;
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";

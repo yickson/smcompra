@@ -68,28 +68,28 @@ var Carrito = function(params){
 		    }
 		    productos_ini = "<div id='alumno"+val.id+"' class='cont-productos col-md-12' style=' display:"+mostrar+"'>"+
 			            "<div class='row'>";
-                                            console.log(data);
-
 		    $.each(data, function(indice, valor){
                         imagen_asignada = '';
                         rel_asignada    = 0;
                         licencia_ocupada = 0;
 			if(val.id === valor.id_alumno){
                             if($this.carrito.indexOf(parseInt(valor.id_producto)) > -1){
-                                imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style=" margin-left:-70%""/>';
+                                imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="'+window.location.href+'/../img/productos/agregado.png" width="70%" style=" margin-left:-70%""/>';
                                 rel_asignada    = 1;
                             }
+                            console.log(caso);
                             if(valor.estado == 1){
                                 licencia_ocupada = "";
                                 var clickeable = "";
                                 var estilo = "style='border: 0px solid; opacity: 0.6'";
                                 caso = casos(valor.nivel, valor.rbd, valor.id_producto);
+                                
                                 switch(caso){
                                     case "ohiggins":
-                                        imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="/smcompra/img/productos/comprado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>';
+                                        imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="'+window.location.href+'/../img/productos/comprado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>';
                                     break;
                                     case "normal":
-                                        imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="/smcompra/img/productos/comprado.png" width="70%" style=" margin-left:-70%"/>';
+                                        imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="'+window.location.href+'/../img/productos/comprado.png" width="70%" style=" margin-left:-70%"/>';
                                     break;
                                 }
                                 rel_asignada    = 1;
@@ -166,11 +166,11 @@ var Carrito = function(params){
             $this.carrito.push($this.item);
             switch(caso){
                 case "ohiggins":
-                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="'+window.location.href+'/../img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
                 break;
                 
                 case "normal":
-                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="'+window.location.href+'/../img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
                 break;
             }
             $(element).data("agregado","1");
@@ -262,7 +262,7 @@ var Carrito = function(params){
                             //existe indice no se vuelve a agregar
                         }else{
                             $this.carrito.push($this.item);
-                            $("#agregado"+val.id_alumno+"-"+val.id_producto).append('<img id="img'+val.id_alumno+'-'+val.id_producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+                            $("#agregado"+val.id_alumno+"-"+val.id_producto).append('<img id="img'+val.id_alumno+'-'+val.id_producto+'" src="'+window.location.href+'/../img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
                             $("#"+val.id_alumno+"-"+val.id_producto).data("agregado","1");
                             $("#carrito_txt").text($this.carrito.length);
                         }
@@ -328,7 +328,7 @@ var Carrito = function(params){
 	      success: function(data){
 		  $(".nombre_alumno").text(data.nombre);
 		  $("#colegio_alumno").text(data.establecimiento_nombre);
-		  $("#curso_alumno").text(data.curso);
+		  $("#curso_alumno").text(data.curso_nombre);
 
 	      },
 	      error: function(data){
@@ -374,11 +374,11 @@ var Carrito = function(params){
             $this.carrito.push($this.item);
             switch(caso){
                 case "ohiggins":
-                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="'+window.location.href+'/../img/productos/agregado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>');
                 break;
                 
                 case "normal":
-                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="/smcompra/img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
+                    $("#alumno_productos div#agregado"+alumno+'-'+producto).append('<img id="img'+alumno+'-'+producto+'" src="'+window.location.href+'/../img/productos/agregado.png" width="70%" style="margin-left:-70%"/>');
                 break;
             }
             $(element).data("agregado","1");
@@ -417,7 +417,7 @@ var Carrito = function(params){
                                 "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
                                     "<div class='row'>"+
                                         "<div id='agregado"+val.id+'-'+valor.id_producto+"' class='col-md-6' style='padding:10px; margin: 0 auto;'>"+
-                                            "<img src='/smcompra/img/productos/"+valor.img+"' alt='producto' style='width:70%; ' />"+
+                                            "<img src='"+window.location.href+"/../img/productos/"+valor.img+"' alt='producto' style='width:70%; ' />"+
                                             imagen_asignada+
                                         "</div>"+
                                     "</div>"+
@@ -440,7 +440,7 @@ var Carrito = function(params){
                                 "<div id='clickeable' class='col-md-12 img-hover' "+clickeable+">"+
                                     "<div class='row'>"+
                                         "<div id='agregado"+val.id+'-'+valor.id_producto+"' class='col-md-12' style='padding:10px; margin: 0 auto;'>"+
-                                            "<img src='/smcompra/img/productos/Se_Protagonista/pack_ohiggins.png' alt='producto' style='width:89%' />"+
+                                            "<img src='"+window.location.href+"/../img/productos/Se_Protagonista/pack_ohiggins.png' alt='producto' style='width:89%' />"+
                                             imagen_asignada+
                                         "</div>"+
                                     "</div>"+

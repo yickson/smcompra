@@ -64,7 +64,7 @@ class Carrito extends ActiveRecord
 			endswitch;
 		    }else{
 			$result = $productos_apo->find_by_sql("SELECT p.nivel_id, p.nivel, p.id as producto_id, p.nombre, p.valor, p.imagen, p.proyecto
-							      FROM Productos as p
+							      FROM productos as p
 							      WHERE p.nivel_id = ". $alumnos->find($hijo["id"])->curso ."
 							      AND p.id =". $producto[1]."");
 			$productos_format[$i]["imagen"] = datatableAcciones::getImagen($result->imagen);

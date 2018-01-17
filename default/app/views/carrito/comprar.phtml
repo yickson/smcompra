@@ -3,10 +3,23 @@
 <script>
     $(document).ready(function(){
 	console.log("pase");
+  setInterval(function(){
+    $.ajax({
+      type: "GET",
+      cache: false,
+      url: "validar_sesion",
+      success: function(result){
+        console.log(result);
+        if(result === false){
+          window.location.href = "https://smcompra.cl";
+        }
+      }
+    });
+  }, 1000);
 	var $this = {
 	    carro : '<?php echo Session::get("carrito")?>'
 	}
-	
+
 	 this.construct = function(){
 	    $.extend($this);
 	};
@@ -35,7 +48,7 @@
 	        { "data": "boton","width":"20%"  }
 	    ]
 	  });
-	 
+
 	 $(".table-responsive").on("click", ".despacho", function(e){
 	     $.ajax({
 		type: "POST",
@@ -55,16 +68,16 @@
 			$("#id_region option[value="+data.id_region+"]").attr('selected', 'selected');
 			$("#id_comuna").find("option").remove();
 			$("#id_comuna").append("<option value='"+data.id_comuna+"'>"+data.nombre_comuna+"</option>").attr('selected', 'selected');
-			
+
 		    }
 		    $("#adicional").val(data.adicional);
 		},
 		error: function(){
-		    
+
 		}
 	     });
 	 });
-	 
+
 	 //Profesor
 	  $("#direccion").on("click", ".pagar", function(e){
 	      swal({
@@ -108,7 +121,7 @@
 				    'Ha ocurrido un error...',
 				    'Favor verificar información ingresada, no deben existir campos vacios',
 				    'error',
-				); 
+				);
 			      };
 			    },
 		      error: function(result){
@@ -120,12 +133,12 @@
 		      }
 		    });
 		} else if (result.dismiss === 'cancel') {
-		
+
 		}
 	      });
 
 	  });
-	  
+
 	  //Apoderado
 	  $(".table-responsive").on("click", ".pagar", function(e){
 	    var arr = $("#productos").val();
@@ -136,18 +149,18 @@
 	      data: {"arr": $this.carro},
 	      success: function(data){
 		    window.location = "pasarela";
-		    
+
 	      },
 	      error: function(result){
 		  console.log("error");
 	      }
 	    });
 	  });
-	  
+
 	  $("#volver").on("click", function(e){
 	      window.location = "../carrito";
 	  });
-	  
+
 	  $(".table-responsive").on("click", ".eliminar", function(e){
 	      var alumno   = $(this).data("alumno");
 	      var producto = $(this).data("prod");
@@ -184,8 +197,8 @@
 		    }
 		});
 	  });
-		
-	  
+
+
 	  function createTable(){
 	       table = $('#tabla_compra').DataTable( {
 		    "ajax": {
@@ -209,7 +222,7 @@
 		    ]
 		  });
 	  }
-	  
+
 	$("#id_region").on("change", function(){
 	    var region = $(this).val();
 	    $("#id_comuna").find("option").remove();
@@ -225,7 +238,7 @@
 		    });
 		},
 		error : function(){
-		    
+
 		}
 	    });
 	});
@@ -247,7 +260,7 @@
 	<div class="card-body text-dark">
 	    <div class="col-xs-12 col-sm-12">
 		<?php
-		    View::partial("steps", "", $step); 
+		    View::partial("steps", "", $step);
 		?>
 	    </div>
 	    <!-- contenido -->
@@ -288,7 +301,7 @@
 		    </div>
 		</div>
 	    </div>
-	    
+
 	    <input type="hidden" id="productos" value="<?php echo $arr?>">
 	    <!-- Modal Verificar Direccion -->
 	    <div class="modal fade" id="direccion" tabindex="-1" role="dialog" aria-labelledby="direccionModalLabel" aria-hidden="true">

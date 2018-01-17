@@ -308,6 +308,17 @@ public function setLicenciaEs(){
 
   	View::select(null, "json");
   }
+
+  public function validar_sesion()
+  {
+    $id = Session::get('iduser');
+    if(empty($id)){
+      $this->data = false;
+    }else{
+      $this->data = true;
+    }
+    View::select(NULL, "json");
+  }
 }
 
 ?>

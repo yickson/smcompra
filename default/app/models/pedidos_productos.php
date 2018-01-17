@@ -34,6 +34,7 @@ class PedidosProductos extends ActiveRecord
    
     return $productos;
   }
+
 }
 
 

@@ -1,0 +1,50 @@
+<!-- CSS se cargara en el template, primero carga el view luego el template -->
+<?php Tag::css('../bower_components/datatables.net-bs/css/dataTables.bootstrap.min') ?>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var table = $('#tabla_licencias').DataTable( {
+      "ajax": {
+               "url": "productos/listar_productos",
+               "dataType": "json",
+               "cache": false,
+             },
+      dom: 'Bfrtip',
+      "buttons": [
+         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
+      ],
+      "columns": [
+          { "data": "id" },
+      	  { "data": "codigo" },
+      	  { "data": "producto" },
+      	  { "data": "usuario" },
+          { "data": "alumno" }
+      ]
+    });
+
+  });
+</script>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title pull-left"> Lista de Productos activos </h3>
+        <br>
+        <hr>
+        <div class="table-responsive col-md-12">
+          <table id="tabla_licencias" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+		                <th>Codigo SAP</th>
+            		    <th>Nombre producto</th>
+            		    <th>Usuario</th>
+                    <th>Alumno</th>
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

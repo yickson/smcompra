@@ -18,7 +18,8 @@ class ProductosController extends AppController
 
   public function listar_productos()
   {
-    $productos = (New Productos)->getProductosActivos();
+    $productos["data"] = (New Productos)->getProductosActivos();
+    $this->data = $productos;
     View::select(NULL, 'json');
   }
 }

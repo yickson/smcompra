@@ -26,6 +26,28 @@ class WebpayTransaccion extends ActiveRecord
       return false;
     }
   }
+
+  public function anulado()
+  {
+    //Metodo para ingresar la transaccion
+    $transaccion = New WebpayTransaccion;
+    $transaccion->usuario_id = Session::get('iduser');
+    $transaccion->buyOrder = 'SM0001112223';
+    $transaccion->cardNumber = '1111';
+    $transaccion->cuotas = '';
+    $transaccion->tipoPago = '';
+    $transaccion->codigoRespuesta = '-9';
+    $transaccion->monto = Session::get('monto');
+    $transaccion->fecha = date("Y-m-d H:i:s");
+    $transaccion->VCI = 'ANUL';
+
+    if($transaccion->save()){
+      return $transaccion->id;
+    }
+    else{
+      return false;
+    }
+  }
 }
 
 

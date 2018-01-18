@@ -23,6 +23,7 @@ class CarritoController extends AppController
   public function index()
   {
     //Esta vista no debería cargar nada
+  Redirect::to('../');
 	if(Input::post('alumno')){
 	    $this->action_name;
 	    $l = new Alumnos;
@@ -144,6 +145,7 @@ class CarritoController extends AppController
     $id = Session::get('iduser');
     $this->tipo = Session::get('tipo');
     if($this->token == '' or $this->token == null){
+      $webpay = (New WebpayTransaccion)->anulado();
       $this->mensaje = true;
     }
     else{
@@ -215,22 +217,22 @@ class CarritoController extends AppController
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
-	
+
 	    //licencias
 	    foreach($licencias["message"] as $lic):
 		    $licencia = (new Licences)->find_by_sql("SELECT id, codigo, producto_id, estado, usuario_id
 							  FROM licences
 							  WHERE alumno_id    = $al->id
 							  AND producto_id  = ".$lic['store_id'][1]."");
-		
+
     		if($lic['store_id'][1] == $licencia->producto_id && $lic["store_id"][0] == $al->id)
     		{
     		    // ya existe licencia no se debe guardar
     		}else{
     		    if(in_array($lic['licencia'], $licencias_array)){
-    			
+
     			array_push($licencias_repetidas, $lic['licencia']);
-    
+
     		    }else{
     			$licencia->codigo      = $lic['licencia'];
     			$licencia->producto_id = $lic['store_id'][1];

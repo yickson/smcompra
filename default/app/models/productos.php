@@ -58,8 +58,8 @@ class Productos extends ActiveRecord
 			    $alumnos[$i]["tipo"] = $lista_productos->tipo;
 			    $alumnos[$i]["valor"] = $lista_productos->valor;
 			    $alumnos[$i]["id_alumno"] = $hijo["id"];
-			    $alumnos[$i]["estado"] = (new Licences)->find_by_sql("SELECT estado FROM licences 
-				                                                  WHERE producto_id = ".$al->producto_id." 
+			    $alumnos[$i]["estado"] = (new Licences)->find_by_sql("SELECT estado FROM licences
+				                                                  WHERE producto_id = ".$al->producto_id."
 				                                                  AND alumno_id = ". $hijo["id"]."")->estado;
 			    $i++;
 			}
@@ -89,6 +89,12 @@ class Productos extends ActiveRecord
 	  break;
       endswitch;
     return $alumnos;
+    }
+
+    public function getProductosActivos()
+    {
+      $productos = (New Productos)->find_all_by_sql("SELECT pa.id, p.nombre as producto, p.codigo, u.nombre as usuario, a.nombre as alumno FROM profesor_alumnos pa INNER JOIN usuarios u ON (u.id = pa.usuario_id) INNER JOIN alumnos a ON (a.id = pa.alumno_id) INNER JOIN productos p ON (p.id = pa.producto_id) WHERE pa.estado = 1");
+      return $productos;
     }
 }
 

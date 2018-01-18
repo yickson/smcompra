@@ -1,8 +1,10 @@
 class Mapa {
     
-    $this = {"asd": 1}
-    
+    static $this(){
+        
+    }
     constructor() {
+       var  $this = {"asd": 1}
     }
     
     initMap(result) {
@@ -14,7 +16,7 @@ class Mapa {
           zoom: 4,
           center: uluru
         });
-        console.log(super.$this.asd);
+        console.log($this.asd);
         
     }
     

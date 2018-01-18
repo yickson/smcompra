@@ -41,12 +41,13 @@ class Productos extends ActiveRecord
 	        $alumno = (new Productos)->find_all_by_sql("SELECT  *
 							    FROM establecimiento_proyecto as ep
 							    WHERE $sql");
+		
 		$lista_productos = new Productos();
 		$alumnos = array();
 		$i=0;
 		foreach($hijos as $hijo):
 		    foreach($alumno as $al):
-			if($hijo["rbd"] == $al->rbd){
+			if($hijo["rbd"] == $al->rbd && $hijo["curso"] == $al->curso_id ){
 			    $lista_productos->find($al->producto_id);
 			    $alumnos[$i]["rbd"] = $al->rbd;
 			    $alumnos[$i]["id_producto"] = $al->producto_id;
@@ -64,6 +65,7 @@ class Productos extends ActiveRecord
 			}
 		    endforeach;
 		endforeach;
+		print_r($alumnos);die();
 	  break;
 	  case $this::PROFESOR:
 	        foreach($hijos as $hijo):
@@ -83,6 +85,7 @@ class Productos extends ActiveRecord
 							    FROM productos as p
 							    INNER JOIN profesor_alumnos pa ON (pa.producto_id = p.id and pa.usuario_id = $id_usuario and ($sql))
 							    ORDER BY pa.alumno_id ASC");
+		
 	  break;
       endswitch;
     return $alumnos;

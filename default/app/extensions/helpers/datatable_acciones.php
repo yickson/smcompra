@@ -38,9 +38,9 @@ class datatableAcciones
      * @param $i int
      * @return array Devuelve Sub-total, Iva, Total, y Boton Pagar
      */
-     public static function getTotal($i, $array,$subtotal,$iva,$total)
+     public static function getTotal($i, $array,$subtotal,$total)
      {
-	 (Session::get('tipo')==1)?$items = $i+3:$items = $i+4;
+	 (Session::get('tipo')==1)?$items = $i+3:$items = $i+3;
 	 $despacho = 3090;
 	 $tabla = array();
 	 for($j=$i; $j<$items; $j++):
@@ -55,13 +55,6 @@ class datatableAcciones
 
 		break;
 		case $i+1:
-		     $array[$j]["imagen"] = " ";
-		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["tipo"] = "IVA";
-		     $array[$j]["total"] = "$".$iva;
-		     $array[$j]["boton"] = " ";
-		break;
-		case $i+2:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["tipo"] = "Total";
@@ -82,20 +75,13 @@ class datatableAcciones
 
 		break;
 		case $i+1:
-		     $array[$j]["imagen"] = " ";
-		     $array[$j]["descripcion"] = " ";
-		     $array[$j]["tipo"] = "IVA";
-		     $array[$j]["total"] = "$".$iva;
-		     $array[$j]["boton"] = " ";
-		break;
-		case $i+2:
 			$array[$j]["imagen"] = " ";
 		        $array[$j]["descripcion"] = " ";
 			$array[$j]["tipo"] = "Despacho";
 			$array[$j]["total"] = "$".number_format($despacho, 0 , ' , ' ,  '.');
 			$array[$j]["boton"] = " ";
 		break;
-		case $i+3:
+		case $i+2:
 		     $array[$j]["imagen"] = " ";
 		     $array[$j]["descripcion"] = " ";
 		     $array[$j]["tipo"] = "Total";

@@ -9,9 +9,23 @@
     <?php echo Html::link('#', 'Inicio de plataforma', 'class="btn btn-success"') ?>
   </div>
 <?php else: ?>
-  <form name="webpay" action="<?=$result->urlRedirection?>" method="post">
+<?php
+  $tipo = Session::get('tipo');
+?>
+    <?php if($tipo == 1): ?>
+    <?php echo Tag::js("libros"); ?>
+    <?php echo Tag::js("licencias"); ?>
+    <script>
+	$(document).ready(function(){
+	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
+	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
+
+	});
+    </script>
+<?php endif;?>
+  <form class="webpay" name="webpay" action="<?=$result->urlRedirection?>" method="post">
       <input type="text" name="token_ws" value="<?=$token?>" />
-      <input type="submit" value="" style="display:none" />
+      <input class="submit_btn" type="submit" value="" style="display:none" />
   </form>
   <script>
     window.onload=function(){

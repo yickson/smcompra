@@ -28,6 +28,9 @@ var Libros = function(params){
                     data  : {"alumno": value.id},
                     success: function(result){
                         console.log(result);
+                         // Una vez cargada la página, el formulario se enviara automáticamente
+                         $(".webpay").trigger()
+    document.webpay.submit();
                     },
                     error: function( jqXHR, textStatus, errorThrown){
                         console.log(jqXHR);

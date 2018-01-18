@@ -17,15 +17,6 @@
   $tipo = Session::get('tipo');
 ?>
     <?php if($tipo == 1): ?>
-    <?php echo Tag::js("libros"); ?>
-    <?php echo Tag::js("licencias"); ?>
-    <script>
-	$(document).ready(function(){
-	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
-	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
-
-	});
-    </script>
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">

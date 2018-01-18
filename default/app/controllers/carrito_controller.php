@@ -125,7 +125,7 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
         $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
         $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
-
+	$this->data_alumnos = (new Alumnos)->buscar_colegio();
         View::template(null);
       }
     }
@@ -138,6 +138,7 @@ class CarritoController extends AppController
   public function fin()
   {
     //Final
+    Session::delete("monto");
     $this->token = $_POST['token_ws'];
     $this->step = $this::STEP_5;
     $id = Session::get('iduser');

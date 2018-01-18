@@ -17,5 +17,8 @@ class IndexController extends AppController
       Session::delete('iduser'); //Limpia la variable del id del usuario
       Session::delete('rutc');
       Session::delete('rt');
+      Session::delete('tipo'); //Limpia la variable del id del usuario
+      Session::delete('monto');
+      Session::delete('descripcion');
     }
 }

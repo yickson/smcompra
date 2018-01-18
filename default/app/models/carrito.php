@@ -74,6 +74,7 @@ class Carrito extends ActiveRecord
 		    $total = $this->total($result->valor);
 		    $total_format += $total;
 		    $productos_format[$i]["total"] = $this->formatNumeros($total);
+		    Session::set("monto", $total);
 		    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($producto[0], $result->producto_id);
 		    $total += $total_format;
 		    $i++;
@@ -83,12 +84,14 @@ class Carrito extends ActiveRecord
 	    
 	
 	$total = $this->valorDespacho($total_format);
-	$subtotal_decimal = round($total / 1.19);
+	
+//	$subtotal_decimal = round($total / 1.19);
+	$subtotal_decimal = round($total_format);
 	$subtotal = $this->formatNumeros($subtotal_decimal);
-	$iva = round($subtotal_decimal * 0.19);
-	$iva = $this->formatNumeros($iva);
-	$total = $this->formatNumeros($total);
-	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $iva, $total);
+//	$iva = round($subtotal_decimal * 0.19);
+//	$iva = $this->formatNumeros($iva);
+//	$total = $this->formatNumeros($total);
+	$productos["data"] = datatableAcciones::getTotal($i, $productos_format, $subtotal, $total);
 	return  $productos;
     }
     
@@ -134,7 +137,11 @@ class Carrito extends ActiveRecord
 	       $monto = $monto;
 	    break;
 	    case $this::PROFESOR:
-		$monto = $monto + $this::VALOR_DESPACHO;
+	    if(Session::get("iduser") == 429){
+	 	 $monto = $monto;
+	    }else{
+	    	$monto = $monto + $this::VALOR_DESPACHO;
+	    }
 	    break;
 	endswitch;
 

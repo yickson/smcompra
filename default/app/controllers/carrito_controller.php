@@ -115,11 +115,11 @@ class CarritoController extends AppController
     $webpay = New Webpago;
     $result = $webpay->inicioWebpay();
     if(is_object($result)){
-      $this->result = $webpay->inicioWebpay();  
+      $this->result = $webpay->inicioWebpay();
     }else{
       Redirect::to('../');
     }
-    
+
     View::template(null);
   }
 
@@ -128,8 +128,8 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $logs = new Logs();
-    
-    
+
+
     $this->token = $_POST['token_ws'];
     try {
       $this->result = $webpay->retornoWebpay($this->token);
@@ -174,7 +174,7 @@ class CarritoController extends AppController
 
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->getFullDireccion();
+        $this->direccion = (New Direcciones)->getDireccionCorreo();
         $array_textos = $_COOKIE["carritoSM"];
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
 	     // Email::enviar($usuario->email, $this->detalles, $this->direccion);

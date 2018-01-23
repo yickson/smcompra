@@ -48,7 +48,8 @@ class Plantillas
                 <td width="295">En 15 días hábiles a partir de la fecha de la compra
                     Dirección de envío
                     Calle: '.$direccion->calle.' '.$direccion->numero.'
-                    Comuna: '.$direccion->comuna_nombre.', Región: '.$direccion->region_nombre.'</td>
+                    Comuna: '.$direccion->comuna.', Región: '.$direccion->region.'
+                    Adicional: '.$direccion->adicional.', Tipo de vivienda: '.$direccion->tipoVivienda.'</td>
               </tr>
             </table>
           </td>

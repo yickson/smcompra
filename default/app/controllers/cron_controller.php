@@ -13,12 +13,16 @@ class Cron {
     
     $fecha_actual = date("Y-m-d 16:00:01", strtotime("-2 day"));
     $fecha_anterior = date("Y-m-d 16:00:02" , strtotime("-3 day"));
-    $sql = mysqli_query($conexion, "SELECT p.id, (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
-			 (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut, wp.buyOrder , wp.monto, wp.fecha
-			  FROM pedidos as p
-			  INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)
-			  WHERE (p.fecha BETWEEN '".$fecha_anterior."' AND '".$fecha_actual."' )");
-
+    $sql = mysqli_query($conexion, "SELECT pa.id, p.nombre as producto, p.codigo as sap, ROUND(p.valor*0.5) as precio, u.nombre as usuario, a.nombre as alumno, r.nombre as region, co.nombre as comuna, d.calle 
+				    FROM profesor_alumnos pa INNER JOIN usuarios u ON (u.id = pa.usuario_id) 
+				    INNER JOIN alumnos a ON (a.id = pa.alumno_id)
+				    INNER JOIN productos p ON (p.id = pa.producto_id) 
+				    INNER JOIN pedidos pe ON (pe.producto_id = pa.producto_id)
+				    INNER JOIN direcciones d ON (d.id_usuario = u.id) 
+				    INNER JOIN regiones r ON (r.id = d.id_region) 
+				    INNER JOIN comunas co ON (co.id = r.id) 
+				    WHERE pa.estado = 1 (pe.fecha BETWEEN '".$fecha_anterior."' AND '".$fecha_actual."' )");
+    
     Load::lib("php_excel");
     $objPHPExcel = New PHPExcel;
    // $informe = new Pedidos();

@@ -10,9 +10,9 @@ class Pedidos extends ActiveRecord
   {
     //Datos del pedido
     $datos = New Pedidos;
-    $datos->usuario_id = Session::get('iduser');
+    $datos->usuario_id = $_COOKIE["clienteSM"];
     $datos->transaccion_id = $idtransaccion;
-    $datos->total = Session::get('total');
+    $datos->total = $_COOKIE["totalSM"];
     $datos->fecha = date("Y-m-d H:i:s");
 
     if($datos->save()){

@@ -75,6 +75,7 @@ class Carrito extends ActiveRecord
 		    $total_format += $total;
 		    $productos_format[$i]["total"] = $this->formatNumeros($total);
 		    Session::set("monto", $total);
+		    setcookie("montoSM", Session::get("monto"),time()+86400*30);
 		    $productos_format[$i]["boton"] = datatableAcciones::getBtnCarrito($producto[0], $result->producto_id);
 		    $total += $total_format;
 		    $i++;

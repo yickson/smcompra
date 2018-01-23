@@ -1,7 +1,10 @@
 $(document).ready(function() {
+  
    var $this = {
-		    "apoderado"  : '1',
-		    "profesor"   : '2'
+		    "apoderado"    : '1',
+		    "profesor"     : '2',
+                    "loadmapaOn"   :  $("#loadmap").removeClass("hidden"),
+                    "loadmapaOff"  :  $("#loadmap").addClass("hidden")
 		};
 	
     var table = $('#tabla_usuarios').DataTable( {
@@ -60,22 +63,40 @@ $(document).ready(function() {
 	});
     }); 
     
-     $("#tabla_usuarios").on("click", ".direccion_usuario", function(){
+    $("#tabla_usuarios").on("click", ".direccion_usuario", function(){
 	var usuario = $(this).data("id");
         $.ajax({
            type  : "POST",
            cache : false,
            url   : "consultarDireccion",
            data  : {"usuario" : usuario},
+           beforeSend:function(){
+                 $("#loadmap").removeClass("hidden")
+            },
            success : function(result){
-               console.log(result.calle);
-               $('#direccion_usuario').modal('show');
-               var mapa = new Mapa();
-               mapa.initMap(result.calle);
+                $('#direccion_usuario').modal({"show": true});
+                var mapa = new Mapa();
+                mapa.initMap(result.calle, result.region);
+                mapa.setCalle(result.calle);
+                mapa.setRegion(result.region);
+                mapa.setComuna(result.comuna);
+                mapa.setNumero(result.numero);
+                mapa.setTipo(result.tipo);
+                mapa.setAdicional(result.adicional);
+                
+                $("#datos_usuario").on("blur", "#calle" , function(){
+                    var calle = $(this).val();
+                    console.log(calle);
+                    $("#loadmap").removeClass("hidden");
+                    mapa.recargarMapa(calle, result.region)
+                });
+                
            },
            error : function(){
                console.log("error en mostrar direccion");
            }
         });
     }); 
+    
+     
 });

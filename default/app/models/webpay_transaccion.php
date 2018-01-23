@@ -9,7 +9,7 @@ class WebpayTransaccion extends ActiveRecord
   {
     //Metodo para ingresar la transaccion
     $transaccion = New WebpayTransaccion;
-    $transaccion->usuario_id = Session::get('iduser');
+    $transaccion->usuario_id = $_COOKIE["clienteSM"];
     $transaccion->buyOrder = $pago->detailOutput->buyOrder;
     $transaccion->cardNumber = $pago->cardDetail->cardNumber;
     $transaccion->cuotas = $pago->detailOutput->sharesNumber;
@@ -31,13 +31,13 @@ class WebpayTransaccion extends ActiveRecord
   {
     //Metodo para ingresar la transaccion
     $transaccion = New WebpayTransaccion;
-    $transaccion->usuario_id = Session::get('iduser');
+    $transaccion->usuario_id = $_COOKIE["clienteSM"];
     $transaccion->buyOrder = 'SM0001112223';
     $transaccion->cardNumber = '1111';
     $transaccion->cuotas = '';
     $transaccion->tipoPago = '';
     $transaccion->codigoRespuesta = '-9';
-    $transaccion->monto = Session::get('monto');
+    $transaccion->monto = $_COOKIE["montoSM"];
     $transaccion->fecha = date("Y-m-d H:i:s");
     $transaccion->VCI = 'ANUL';
 

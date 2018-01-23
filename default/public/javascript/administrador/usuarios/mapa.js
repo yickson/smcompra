@@ -1,37 +1,111 @@
 class Mapa {
     
-    static $this(){
-        
-    }
     constructor() {
-       var  $this = {"asd": 1}
+       this.mapa       = null;
+       this.geocoder   = new google.maps.Geocoder();
+       this.initLatLng = {lat: -33.447898, lng: -70.667972}; 
+       this.markers    = [];
     }
     
-    initMap(result) {
-        console.log(result)
-        var direccion = result ;
-        var uluru = {lat: -25.363, lng: 131.044};
+    initMap(calle, region) {
+       this.buscarDireccion(this.mapa, this.geocoder, this.initLatLng, calle, region, this.markers)
+    }
+    
+    buscarDireccion(mapa, geocoder, initLatLng, calle, region, marcadores){
+        console.log(region);
+        geocoder.geocode( { 'address': calle, 
+                            'region' : region,
+                                componentRestrictions: {
+                                    country : 'CL',
+                                    route   : calle,
+                            }}, function(results, status) {
+            if (status == 'OK') {
+                console.log(results[0]);
+                var mapOptions = {
+                    center: results[0].geometry.location,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                setTimeout(function(){
+                    $("#loadmap").addClass("hidden")
+                    mapa = new google.maps.Map($("#map").get(0), mapOptions);
+                    mapa.fitBounds(results[0].geometry.viewport);
+                    var markerOptions = { position: results[0].geometry.location }
+                    var marker = new google.maps.Marker(markerOptions);
+                    marker.setMap(mapa);
+                    
+                    // Escucha Evento Click
+                    mapa.addListener('click', function(e) {
+                        console.log(results[0]);
+                        for (var i = 0; i < marcadores.length; i++) {
+                            marcadores[i].setMap(null);
+                        }
+                        var marker = new google.maps.Marker({
+                            position: e.latLng,
+                            map: mapa
+                        });
+                        mapa.panTo(e.latLng);
+                        marcadores.push(marker);
+//                        $("#calle").val(results[0].address_components[0].long_name);
+                    });
+                    //** Fin evento click **//
+                    
+                }, 3000);
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
+            } else {
+                setTimeout(function(){
+                    $("#loadmap").addClass("hidden")
+                    mapa = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 12,
+                        center: initLatLng
+                    });
+                    
+                    // Escucha Evento Click
+                    mapa.addListener('click', function(e) {
+                        console.log(results[0]);
+                        for (var i = 0; i < marcadores.length; i++) {
+                            marcadores[i].setMap(null);
+                        }
+                        var marker = new google.maps.Marker({
+                            position: e.latLng,
+                            map: mapa
+                        });
+                        mapa.panTo(e.latLng);
+                        marcadores.push(marker);
+//                        $("#calle").val(results[0].address_components[0].long_name);
+                    });
+                    //** Fin evento click **//
+                    
+              }, 3000);
+            }
         });
-        console.log($this.asd);
-        
     }
     
-    buscarDireccion(map, direccion){
-        //console.log(this.GOOGLE.map);
-//      geocoder.geocode( { 'address': direccion}, function(results, status) {
-//        if (status == 'OK') {
-//          this.GOOGLE.map.setCenter(results[0].geometry.location);
-//          var marker = new google.maps.Marker({
-//              map: map,
-//              position: results[0].geometry.location
-//          });
-//        } else {
-//          alert('Geocode was not successful for the following reason: ' + status);
-//        }
-//      });
+    
+    recargarMapa(calle, region){
+        this.buscarDireccion(this.mapa, this.geocoder, this.initLatLng, calle, region, this.markers)
+    }
+    
+    setCalle(calle){
+        $("#calle").val(calle);
+    }
+    
+    setRegion(region){
+        $("#region").val(region);
+    }
+    
+    setComuna(comuna){
+        $("#comuna").val(comuna);
+    }
+    
+    setNumero(numero){
+        $("#numero").val(numero);
+    }
+    
+    setTipo(tipo){
+        $("#tipo").val(tipo);
+    }
+    
+    setAdicional(adicional){
+        $("#adicional").val(adicional);
     }
 }

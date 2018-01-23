@@ -41,7 +41,7 @@ $(document).ready(function(){
           data: {"rut":rut, "rutc":rutc},
           success: function(result){
             if(result !== 1 && result !== 2){
-              $("#nombre").attr("value", result['nombre'] +' '+ result['apellido']);
+              $("#nombre").attr("value", result['nombre']);
               $("#nombre").prop("disabled", true);
               if(result['email'] !== ''){
                 $('.email').attr("value", result['email']);

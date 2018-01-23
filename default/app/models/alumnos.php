@@ -85,7 +85,7 @@ class Alumnos extends ActiveRecord
   public function caso_especial()
   {
     $lic = array(379, 380, 381);
-    $hijos = Session::get('hijos');
+    $hijos = $_COOKIE["hijosSM"];
     $hijos_ohiggin = array();
     $resultado = array();
     $resp = '';

@@ -34,6 +34,8 @@ class Usuarios extends ActiveRecord
    */
   public function getDireccionAdmin($usuario){
 	$direccion = (new Direcciones)->find_by_id_usuario($usuario);
+	$direccion->region = (new Regiones)->getNombre($direccion->id_region);
+	$direccion->comuna = (new Comunas)->getNombre($direccion->id_comuna);
 	return $direccion;
   }
   
@@ -43,12 +45,18 @@ class Usuarios extends ActiveRecord
    */
   public function enviarPago($datos_direccion)
   {
+        //crear Cookie
+	setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
+	setcookie("carritoSM", Session::get("carrito"),time()+86400*30);
+	setcookie("hijosSM", Session::get("hijos"),time()+86400*30);
+	
         //Setenado datos carrito
 	$carrito = New Carrito();
 	$total = $carrito->getTotalByTipoUsuario();
 	$total = $carrito->valorDespacho($total);
 	Session::set('total', $total);
-	$direccion = (new Direcciones)->find_by_id_usuario(Session::get("iduser"));
+	setcookie("totalSM", Session::get("total"),time()+86400*30);
+	$direccion = (new Direcciones)->find_by_id_usuario($_COOKIE["clienteSM"]);
 	if($direccion){
 	    // ya existe direccion
 	}else{
@@ -71,7 +79,46 @@ class Usuarios extends ActiveRecord
 		$total = null;
 	    }
 	}
-	
+	$nombre_archivo = "log_compras.txt"; 
+	if(file_exists($nombre_archivo))
+	{
+	    if(empty(Session::get("iduser"))){
+		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
+		$mensaje .= "* ID_USUARIO: ".Session::get("iduser")."\n";
+		$mensaje .= "* CARRITO: ".Session::get("carrito")."\n";
+		$mensaje .= "* HIJOS: ".json_encode(Session::get("hijos"));
+	    }
+	}
+
+	else
+	{
+	    if(empty(Session::get("iduser"))){
+		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
+		$mensaje .= "* ID_USUARIO: ".Session::get("iduser")."\n";
+		$mensaje .= "* CARRITO: ".Session::get("carrito")."\n";
+		$mensaje .= "* HIJOS: ".json_encode(Session::get("hijos"));
+	    }
+	}
+
+	if($archivo = fopen($nombre_archivo, "a"))
+	{
+	    if(fwrite($archivo, date("Y-m-d H:i:s"). " ". $mensaje. "\n"))
+	    {
+
+	    }
+	    else
+	    {
+
+	    }
+
+	    fclose($archivo);
+	}
 	return $total;
   }
   

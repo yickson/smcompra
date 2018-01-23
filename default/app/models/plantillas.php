@@ -199,7 +199,7 @@ class Plantillas
                   $contenido .= '<td width="162">'.$lic3[$i].'</td>';
                   $i++;
                 }else{
-                  $contenido .= '<td width="162">'.$value->codigo.'</td>'
+                  $contenido .= '<td width="162">'.$value->codigo.'</td>';
                 }
 
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';

@@ -20,8 +20,9 @@ class Webpago
     $configuration->setPublicCert($certificate->public_cert);
     $configuration->setWebpayCert($certificate->webpay_cert);
     $webpay = new Webpay($configuration);
-    $amount    = Session::get('total');//10990; //Input::post('total');
+    $amount    = $_COOKIE["clienteSM"];//10990; //Input::post('total');
     $buyOrder  = Carrito::generarOrden(10); //Generarorden();
+    $buyOrderSession = setcookie("buyOrderSM", $buyOrder,time()+86400*30);
     $sessionId = uniqid().rand(0,99999); //Random
     $urlReturn = $this->urlR;
     $urlFinal  = $this->urlF;

@@ -1,5 +1,6 @@
 <?php
 require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
+require_once APP_PATH ."extensions/helpers/logs.php";
 //Load::lib('libwebpay/webpay');
 
 /**
@@ -23,7 +24,6 @@ class CarritoController extends AppController
   public function index()
   {
     //Esta vista no debería cargar nada
-  Redirect::to('../');
 	if(Input::post('alumno')){
 	    $this->action_name;
 	    $l = new Alumnos;
@@ -35,7 +35,8 @@ class CarritoController extends AppController
 	    Session::set('alumno', $alumno );
 	}
 
-
+    $log = new Logs();
+    $log->accesoCarrito();
     $this->step    = $this::STEP_3;
     $this->usuario = Session::get('iduser');
     $this->tipo    = Session::get('tipo');
@@ -106,9 +107,19 @@ class CarritoController extends AppController
 
   public function pasarela()
   {
+    $id = $_COOKIE["clienteSM"];
+    if(empty($id) or !isset($id)){
+        Redirect::to('../');
+    }
     Load::lib('webpago');
     $webpay = New Webpago;
-    $this->result = $webpay->inicioWebpay();
+    $result = $webpay->inicioWebpay();
+    if(is_object($result)){
+      $this->result = $webpay->inicioWebpay();  
+    }else{
+      Redirect::to('../');
+    }
+    
     View::template(null);
   }
 
@@ -116,6 +127,9 @@ class CarritoController extends AppController
   {
     Load::lib('webpago');
     $webpay = New Webpago;
+    $logs = new Logs();
+    
+    
     $this->token = $_POST['token_ws'];
     try {
       $this->result = $webpay->retornoWebpay($this->token);
@@ -131,8 +145,10 @@ class CarritoController extends AppController
       }
     }
     catch(Exception $ex) {
-      die('Error inesperado en transkbank: ' . $ex->getMessage());
+      echo $ex->getMessage();
+      $logs->respuestaWebpayException($_POST['token_ws'], $this->result->detailOutput->responseCode, $ex->getMessage());
     }
+    $logs->respuestaWebpay($_POST['token_ws'], $this->result->detailOutput->responseCode);
     //View::select(null, null);
   }
 
@@ -142,8 +158,9 @@ class CarritoController extends AppController
     Session::delete("monto");
     $this->token = $_POST['token_ws'];
     $this->step = $this::STEP_5;
-    $id = Session::get('iduser');
-    $this->tipo = Session::get('tipo');
+    $id = $_COOKIE["clienteSM"];
+    $tipo = (new Usuarios)->find($id)->tipo;
+    $this->tipo = $tipo;
     if($this->token == '' or $this->token == null){
       $webpay = (New WebpayTransaccion)->anulado();
       $this->mensaje = true;
@@ -158,13 +175,13 @@ class CarritoController extends AppController
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
         $this->direccion = (New Direcciones)->getFullDireccion();
-        $array_textos = Session::get("carrito");
+        $array_textos = $_COOKIE["carritoSM"];
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
-	      Email::enviar($usuario->email, $this->detalles, $this->direccion);
+	     // Email::enviar($usuario->email, $this->detalles, $this->direccion);
       }else{
         $this->lic3 = (New Alumnos)->caso_especial();
         $this->detalles = (New PedidosProductos)->encontrar_pedidos(); //Trae los productos evitando incongruencias
-        Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
+       //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }
       $this->data_alumnos = (new Alumnos)->buscar_colegio();
     }

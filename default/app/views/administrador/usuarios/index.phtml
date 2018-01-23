@@ -119,24 +119,70 @@
 		<fieldset>
 		    <div class="form-bottom">
 			<div class="form-group">
-			    <form id="datos_despacho" class="form-horizontal">
+			    <div id="datos_despacho" class="form-horizontal">
 				<div class="col-md-12">
 				    <div class="row">
 					<div class="col-md-12">
 					<div id="map"></div>
-					
+					<div id="loadmap" class="hidden" style="    position: absolute; z-index: 1; margin: -33% 0% 0% 40%;">
+					    <img src="../../img/load.gif"></div>
 					</div>
 				    </div>
 				</div>
-			    </form>
+				<div class="row"></div>
+				<div class="col-md-12">
+				    <div id="datos_usuario" class="box box-danger">
+					<div class="box-header with-border">
+					  <h3  class="box-title">Direccion Usuario</h3>
+					</div>
+					<div class="box-body">
+					    <div class="row">
+						<div class="col-xs-5">
+						    Region
+						    <input id="region" name="region" type="text" class="form-control" placeholder="region">
+						</div>
+						<div class="col-xs-4">
+						    Comuna
+						    <input id="comuna" name="comuna" type="text" class="form-control" placeholder=".col-xs-5">
+						</div>
+						<div class="col-xs-3">
+						    Tipo
+						    <input id="tipo" name="tipo" type="text" class="form-control" placeholder=".col-xs-3">
+						</div>
+					    </div>
+					    <br>
+					    <div class="row">
+						<div class="col-xs-9">
+						    Calle
+						    <input id="calle" name="calle" type="text" class="form-control" placeholder="dato adicional" />
+						</div>  
+						<div class="col-xs-3">
+						    Numero
+						    <input id="numero" name="numero" type="text" class="form-control" placeholder="dato adicional" />
+						</div>  
+					    </div>
+					    <br>
+					    <div class="row">
+						<div class="col-xs-12">
+						    Adicional
+						    <textarea id="adicional" name="adicional" type="text" class="form-control" placeholder="dato adicional"></textarea>
+						</div>  
+					    </div>
+					</div>
+					<!-- /.box-body -->
+				      </div>
+				    
+				</div>
+			    </div>
 			</div>
 		    </div>
 		</fieldset>
 		<div class="modal-footer">
 		    <div class="col-md-12">
 			<div class="row">
-			    <div class="col-md-5">
+			    <div class="col-md-12 pull-right">
 				    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar ventana</button>
+				    <button type="button" class="btn btn-success" >Guardar</button>
 			    </div>
 			    <span class="col-md-2"></span>
 			    <div class="col-md-5">

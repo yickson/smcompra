@@ -7,13 +7,13 @@
  */
 class Logs
 {
-   
+
     public function __construct() {
 
     }
-  
+
     public function accesoCarrito(){
-	$nombre_archivo = "log_acceso_carrito.txt"; 
+	$nombre_archivo = "log_acceso_carrito.txt";
 	if(file_exists($nombre_archivo))
 	{
 	    if(empty(Session::get("iduser"))){
@@ -96,25 +96,25 @@ class Logs
 	}
     }
     
-    public function respuestaWebpay($token, $status){
-	$nombre_archivo = "log_resp_webpay.txt"; 
+
+    public function respuestaWebpay($token, $status, $resp){
+	$nombre_archivo = "log_resp_webpay.txt";
 	if(file_exists($nombre_archivo))
 	{
 	    if(empty(Session::get("iduser"))){
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
-		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
-		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
-		$mensaje .= "* TOKEN: ".$token."\n";
-		$mensaje .= "* STATUS: ".$status->responseCode."\n";
-        $mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
-	    }else{
-		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
-		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
 		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* MONTO: ".$status->amount."\n";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
+		$mensaje .= "* TOKEN: ".$token."\n";
+		$mensaje .= "* STATUS: ".$status->responseCode."\n";
+		$mensaje .= "* BuyOrder: ".$_COOKIE["buyOrderSM"];
 	    }
 	}
 
@@ -122,19 +122,19 @@ class Logs
 	{
 	    if(empty(Session::get("iduser"))){
 		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
-		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
-		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
-		$mensaje .= "* TOKEN: ".$token."\n";
-		$mensaje .= "* STATUS: ".$status->responseCode."\n";
-        $mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
-	    }else{
-		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
-		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
 		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* MONTO: ".$status->amount."\n";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
+		$mensaje .= "* TOKEN: ".$token."\n";
+		$mensaje .= "* STATUS: ".$status->responseCode."\n";
+		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
+		$mensaje .= "* MONTO: ".$status->amount."\n";
 	    }
 	}
 
@@ -152,23 +152,23 @@ class Logs
 	    fclose($archivo);
 	}
     }
-    
-     public function respuestaWebpayException($token, $status, $ex){
-	$nombre_archivo = "log_resp_webpay_ex.txt"; 
+
+     public function respuestaWebpayException($token, $status, $ex, $resp){
+	$nombre_archivo = "log_resp_webpay_ex.txt";
 	if(file_exists($nombre_archivo))
 	{
 	    if(empty(Session::get("iduser"))){
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
-		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
-		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
-        $mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
+		$mensaje .= "* MONTO: ".$status->amount."\n";
 		$mensaje .= "* Exception: ".$ex;
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
-		$mensaje .= "* ID_USUARIO: ".$_COOKIE["clienteSM"]."\n";
+		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status."\n";
 		$mensaje .= "* Exception: ".$ex."\n";
@@ -180,12 +180,12 @@ class Logs
 	{
 	    if(empty(Session::get("iduser"))){
 		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
-		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.";
 		$mensaje .= "* ID_USUARIO: ".$status->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
-        $mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
-        $mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
+		$mensaje .= "* MONTO: ".$status->amount."\n";
 		$mensaje .= "* Exception: ".$ex;
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";

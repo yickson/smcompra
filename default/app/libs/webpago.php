@@ -23,6 +23,7 @@ class Webpago
     $amount    = $_COOKIE["totalSM"];//10990; //Input::post('total');
     $buyOrder  = Carrito::generarOrden(10); //Generarorden();
     $buyOrderSession = setcookie("buyOrderSM", $buyOrder,time()+86400*30);
+    //$sessionId = $_COOKIE['clienteSM']; //Random
     $sessionId = ""; //Random
     $urlReturn = $this->urlR;
     $urlFinal  = $this->urlF;
@@ -42,8 +43,13 @@ class Webpago
     $configuration->setPrivateKey($certificate->private_key);
     $configuration->setPublicCert($certificate->public_cert);
     $configuration->setWebpayCert($certificate->webpay_cert);
-    $webpay = new Webpay($configuration);
-    return $webpay->getNormalTransaction()->getTransactionResult($token);
+    $id = $_COOKIE['clienteSM'];
+    if(empty($id)){
+      Redirect::to('../'); //Redirige al principio
+    }else{
+      $webpay = new Webpay($configuration);
+      return $webpay->getNormalTransaction()->getTransactionResult($token);
+    }
   }
 }
 

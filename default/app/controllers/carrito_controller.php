@@ -146,9 +146,9 @@ class CarritoController extends AppController
     }
     catch(Exception $ex) {
       echo $ex->getMessage();
-      $logs->respuestaWebpayException($_POST['token_ws'], $this->result->detailOutput->responseCode, $ex->getMessage());
+      $logs->respuestaWebpayException($_POST['token_ws'], $this->result->detailOutput, $ex->getMessage(), $this->result);
     }
-    $logs->respuestaWebpay($_POST['token_ws'], $this->result->detailOutput->responseCode);
+    $logs->respuestaWebpay($_POST['token_ws'], $this->result->detailOutput, $this->result);
     //View::select(null, null);
   }
 

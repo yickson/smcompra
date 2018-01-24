@@ -34,7 +34,8 @@ class CarritoController extends AppController
 	    }
 	    Session::set('alumno', $alumno );
 	}
-
+	
+    setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
     $log = new Logs();
     $log->accesoCarrito();
     $this->step    = $this::STEP_3;
@@ -97,8 +98,33 @@ class CarritoController extends AppController
   }
 
   public function datatableValidarPago(){
-    $datos_direccion = Input::post("datos_direccion");
-    $total  = (New Usuarios)->enviarPago($datos_direccion);
+//    $datos_direccion = Input::post("datos_direccion");
+    $telefono = "";  $region = "";  $comuna    = "";  
+    $calle    = "";  $numero = "";  $adicional = "";  $tipo = "";
+    if(Input::hasPost("tel")){
+	$telefono = Input::post("tel");
+    }
+    if(Input::hasPost("region")){
+	$region = Input::post("region");
+    }
+    if(Input::hasPost("comuna")){
+	$comuna = Input::post("comuna");
+    }
+    if(Input::hasPost("tipo")){
+	$tipo = Input::post("tipo");
+    }
+    if(Input::hasPost("calle")){
+	$calle = Input::post("calle");
+    }
+    if(Input::hasPost("numero")){
+	$numero = Input::post("numero");
+    }
+    if(Input::hasPost("adicional")){
+	$adicional = Input::post("adicional");
+    }else{
+	$adicional = null;
+    }
+    $total  = (New Usuarios)->enviarPago($telefono, $region, $comuna, $tipo, $calle, $numero, $adicional);
     $data["tipo"]  = Session::get('tipo');
     $data["total"] = $total;
     $this->data   = $data;
@@ -109,13 +135,17 @@ class CarritoController extends AppController
   {
     $id = $_COOKIE["clienteSM"];
     if(empty($id) or !isset($id)){
+	
         Redirect::to('../');
+    }else{
+	$rut = (new Usuarios)->find($id)->rut;
     }
+    
     Load::lib('webpago');
     $webpay = New Webpago;
-    $result = $webpay->inicioWebpay();
+    $result = $webpay->inicioWebpay($rut);
     if(is_object($result)){
-      $this->result = $webpay->inicioWebpay();  
+      $this->result = $webpay->inicioWebpay($rut);  
     }else{
       Redirect::to('../');
     }
@@ -137,6 +167,7 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
+	$this->webpay = $this->result;
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
         $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
         $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido

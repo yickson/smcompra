@@ -43,12 +43,11 @@ class Usuarios extends ActiveRecord
    * @param Direcciones $direccion
    * @return boolean actualiza direccion de un usuario
    */
-  public function enviarPago($datos_direccion)
+  public function enviarPago($telefono, $region, $comuna, $tipo, $calle, $numero, $adicional)
   {
         //crear Cookie
-	setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
 	setcookie("carritoSM", Session::get("carrito"),time()+86400*30);
-	setcookie("hijosSM", Session::get("hijos"),time()+86400*30);
+	setcookie("hijosSM",   json_encode(Session::get("hijos")),time()+86400*30);
 	
         //Setenado datos carrito
 	$carrito = New Carrito();
@@ -64,17 +63,20 @@ class Usuarios extends ActiveRecord
 	}
 	//Actualizamos datos de direccion en caso de ser profesor
 	if(Session::get("tipo") == $this::PROFESOR){
-	    if($datos_direccion[0]["value"] != "" && $datos_direccion[1]["value"] != "" && $datos_direccion[2]["value"] != "" )
+	    if($region != "" && $comuna !="" && $numero !="" && $telefono !="" && $calle !="")
 	    {
-		
-		$direccion->calle   =  $datos_direccion[0]["value"];
-		$direccion->tipo  = $datos_direccion[1]["value"];
-		$direccion->numero = $datos_direccion[2]["value"];
-		$direccion->id_comuna = $datos_direccion[3]["value"];;
-		$direccion->id_region = $datos_direccion[4]["value"];
-		$direccion->adicional = $datos_direccion[5]["value"];
+		$direccion->calle      = $calle;
+		$direccion->tipo       = $tipo;
+		$direccion->numero     = $numero;
+		$direccion->id_comuna  = $comuna;
+		$direccion->id_region  = $region;
+		$direccion->adicional  = $adicional;
 		$direccion->id_usuario = Session::get("iduser");
 		$direccion->save();
+		
+		$usuario = (new Usuarios)->find($_COOKIE["clienteSM"]);
+		$usuario->telefono = $telefono;
+		$usuario->save();
 	    }else{
 		$total = null;
 	    }

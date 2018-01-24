@@ -23,6 +23,7 @@
 	});
     </script>
 <?php endif;?>
+    <?php echo $webpay->sessionId; ?>
   <form class="webpay" name="webpay" action="<?=$result->urlRedirection?>" method="post">
       <input type="text" name="token_ws" value="<?=$token?>" />
       <input class="submit_btn" type="submit" value="" style="display:none" />
@@ -30,7 +31,7 @@
   <script>
     window.onload=function(){
     // Una vez cargada la página, el formulario se enviara automáticamente
-    document.webpay.submit();
+    //document.webpay.submit();
     }
   </script>
 <?php endif ?>

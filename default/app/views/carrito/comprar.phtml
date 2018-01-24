@@ -63,6 +63,11 @@
 		    if(data.tipo != ""){
 			$("#tipo option[value="+data.tipo+"]").attr('selected', 'selected');
 		    }
+		    
+		    if(data.telefono != ""){
+			$("#tel").val(data.telefono); // telefono
+		    }
+		    
 		    $("#numero").val(data.numero);
 		    if(data.id_region != null){
 			$("#id_region option[value="+data.id_region+"]").attr('selected', 'selected');
@@ -95,15 +100,27 @@
 		reverseButtons: true
 	      }).then((result) => {
 		if (result.value) {
-		    var datos_direccion = $("#direccion").find("#datos_despacho").serializeArray();
-		    console.log(datos_direccion);
+//		    var datos_direccion = $("#direccion").find("#datos_despacho").serializeArray();
+		    var telefono = $("#direccion").find("#tel").val();
+		    var region = $("#direccion").find("#id_region").val();
+		    var comuna = $("#direccion").find("#id_comuna").val();
+		    var calle = $("#direccion").find("#calle").val();
+		    var numero = $("#direccion").find("#numero").val();
+		    var adicional = $("#direccion").find("#adicional").val();
+		    var tipo = $("#direccion").find("#tipo").val();
 		    var arr = $("#productos").val();
 		    $.ajax({
 		      type: "POST",
 		      cache: false,
 		      url : "datatableValidarPago",
 		      data : {"arr" : $this.carro,
-			      "datos_direccion" : datos_direccion},
+			      "tel" : telefono,
+			      "tipo" : tipo,
+			      "region" : region,
+			      "comuna" : comuna,
+			      "calle" : calle,
+			      "numero" : numero,
+		              "adicional" : adicional},
 		      success: function(data){
 			    if(data.total != null){
 				swal({
@@ -351,22 +368,12 @@
 							    </div>
 							 </div>
 						    </div>
-	    <!--					<div class="col-md-12">
-							<div class="col-md-2">
-							    <label for="inputEmail3" class="control-label">Ciudad</label>
+						    <div class="col-md-12">
+							<div class="col-md-12">
+							    <label for="inputEmail3" class="control-label">* Telefono</label>
 							</div>
 							<div class="col-md-10">
-							    <input type="text" id="ciudad"  class="form-control form-sm"><br>
-							</div>
-						    </div>-->
-						    <div class="col-md-12">
-							<div class="col-lg-12">
-							    <label for="inputEmail3" class="control-label">Comuna</label>
-							</div>
-							<div class="col-md-12">
-							    <select id="id_comuna" name="id_comuna" class="form-control form-sm" readonly>
-								<option value="" disabled selected >Seleccione...</option>
-							    </select>
+							    <input type="text" id="tel"  class="form-control form-sm"><br>
 							</div>
 						    </div>
 						    <div class="col-md-12">
@@ -394,6 +401,17 @@
 							    </select>
 							</div>
 						    </div>
+						    <div class="col-md-12" style="margin-bottom:20px">
+							<div class="col-lg-12">
+							    <label for="inputEmail3" class="control-label">Comuna</label>
+							</div>
+							<div class="col-md-12">
+							    <select id="id_comuna" name="id_comuna" class="form-control form-sm" readonly>
+								<option value="" disabled selected >Seleccione...</option>
+							    </select>
+							</div>
+						    </div>
+						    <div ></div>
 						    <div class="col-md-12">
 							<div class="col-lg-12">
 							    <label for="inputEmail3" class="control-label">Información adicional despacho(opcional)</label>

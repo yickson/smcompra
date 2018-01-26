@@ -9,7 +9,7 @@ class Webpago
   public $urlR = 'https://localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
   public $urlF = 'https://localhost/smcompra/carrito/fin'; //URL de vista final segun caso
 
-  public function inicioWebpay($rut)
+  public function inicioWebpay()
   {
     //Load::lib('libwebpay/configuration');
     $certificate = Load::lib('libwebpay/cert-normal');
@@ -23,12 +23,17 @@ class Webpago
     $amount    = $_COOKIE["totalSM"];//10990; //Input::post('total');
     $buyOrder  = Carrito::generarOrden(10); //Generarorden();
     $buyOrderSession = setcookie("buyOrderSM", $buyOrder,time()+86400*30);
-    //$sessionId = $_COOKIE['clienteSM']; //Random
-    $sessionId = ""; //Random
-    $urlReturn = $this->urlR;
-    $urlFinal  = $this->urlF;
-
-    return $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
+    
+    if(empty($_COOKIE['clienteSM'] || $_COOKIE['clienteSM'] == " " ))
+    { 
+	Flash::error("Ha ocurrido un problema, su Sesión se ha perdido, intente nuevamente comprar los productos. Gracias");
+	Redirect::to('../', 5);
+    }else{
+	$sessionId = $_COOKIE['clienteSM']; //Random
+	$urlReturn = $this->urlR;
+	$urlFinal  = $this->urlF;
+	return $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
+    }
   }
 
   public function retornoWebpay($token)
@@ -43,13 +48,9 @@ class Webpago
     $configuration->setPrivateKey($certificate->private_key);
     $configuration->setPublicCert($certificate->public_cert);
     $configuration->setWebpayCert($certificate->webpay_cert);
-    $id = $_COOKIE['clienteSM'];
-    if(empty($id)){
-      Redirect::to('../'); //Redirige al principio
-    }else{
-      $webpay = new Webpay($configuration);
-      return $webpay->getNormalTransaction()->getTransactionResult($token);
-    }
+    
+    $webpay = new Webpay($configuration);
+    return $webpay->getNormalTransaction()->getTransactionResult($token);
   }
 }
 

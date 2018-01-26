@@ -13,25 +13,25 @@
   $tipo = Session::get('tipo');
 ?>
     <?php if($tipo == 1): ?>
+    <?php echo Tag::js('jquery3') ?>
     <?php echo Tag::js("libros"); ?>
     <?php echo Tag::js("licencias"); ?>
     <script>
-	$(document).ready(function(){
-	   var rest_libros = new Libros({"carrito" : <?php echo Session::get("carrito") ?>,
+	
+	   var rest_libros = new Libros({"carrito" : <?php echo $_COOKIE["carritoSM"] ?>,
 	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
 
-	});
+	
     </script>
-<?php endif;?>
-    <?php echo $webpay->sessionId; ?>
-  <form class="webpay" name="webpay" action="<?=$result->urlRedirection?>" method="post">
-      <input type="text" name="token_ws" value="<?=$token?>" />
-      <input class="submit_btn" type="submit" value="" style="display:none" />
-  </form>
-  <script>
-    window.onload=function(){
-    // Una vez cargada la página, el formulario se enviara automáticamente
-    //document.webpay.submit();
-    }
+    <?php else: ?>
+   <script>
+       $("#regreso").trigger("click");
   </script>
+    
+     <?php endif; ?>
+    <form name="webpay" action="<?=$result->urlRedirection?>" method="post">
+      <input type="text" name="token_ws" value="<?=$token?>" style="display:none"/>
+      <input id="regreso" type="submit" value="" style="display:none" />
+    </form>
+
 <?php endif ?>

@@ -4,6 +4,8 @@ class apiController extends AppController{
     //Constantes
     const TEXTO = 1;
     const LICENCIA  = 2;
+    const PROFESOR = 2;
+    const APODERADO  = 1;
     
     /**
      * 
@@ -18,30 +20,32 @@ class apiController extends AppController{
 	Load::lib("php_excel");
 	
 	//Ubicacion y carga de archivo
-	$archivo = "../public/files/cargas_masivas/1carga_hijo_profesor.xlsx";
+	$archivo = "../public/files/cargas_masivas/2carga_hijo_profesor.xlsx";
         $tipo = PHPExcel_IOFactory::identify($archivo);
         $excel = PHPExcel_IOFactory::createReader($tipo);
         $excel_reader = $excel->load($archivo);
 	
-	//Variables
+	//Variables Globales
 	$primera    = true;
 	$fila_vacia = false;
-	$rbd        = null; $colegio  = null; $rut_p      = null;
-	$nombre_pro = null; $nombre_h = null; $rut_h      = null;
-	$curso      = null; $codigo   = null;  $producto  = null;
-	$telefono   = null; $numero   = null; $casa_depto = null;
-	$calle      = null; $comuna   = null; $region     = null;
 	
-	//Instancias
+	//Instancias Globales
 	$establecimiento = new Establecimientos();
 	
-	
 	//Seleccionador de Celdas
-	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:R1493');
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:S240');
 	
 	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
             $i = 1;
+	    $x = 1;
             foreach ($worksheet->getRowIterator() as $fila=>$row):
+		//Variables locales
+		//$rbd        = null; $colegio  = null; $rut_p      = null;
+		$nombre_pro = null; $nombre_h = null; $rut_h      = null;
+		$curso      = null; $codigo   = null;  $producto  = null;
+		$telefono   = null; $numero   = null; $casa_depto = null;
+		$calle      = null; $comuna   = null; $region     = null;
+		
 		//Instancias
 		$profesor  = new Usuarios();
 		$alumno    = new Alumnos();
@@ -140,11 +144,14 @@ class apiController extends AppController{
 			}
 		    endforeach;
 		    
+		    
 		    //Buscar Profesor
 		    $profesor->find_by_rut($rut_p);
-		    if($profesor->id != null){ 
+		    
+		    if($profesor->id != null){
+			$x++;
+			 print_r("ya existe!!! profesor". $profesor->id);
 			$alumno_id = $this->asignarAlumnos($alumno, $rut_h, $profesor->id, $nombre_h, $curso, $establecimiento->find_by_rbd($rbd)->id);
-			
 			//Asignamos el producto
 			$productos->find_by_codigo($codigo);
 			if($productos->id != null){
@@ -160,19 +167,36 @@ class apiController extends AppController{
 			    $productos->save();
 			    $this->asignarProductos($profesor_alumno_producto, $profesor->id, $alumno_id, $productos->id);
 			}
-		    }else{
 			
+			$direccion->find_by_sql('SELECT * FROM direcciones WHERE calle = "'.$calle.'" AND id_region = "'.$region.'" AND id_comuna = "'.$comuna.'" AND numero = "'.$numero.'" AND id_usuario="'.$profesor->id.'" ');
+			if($direccion->id != null){
+			    // existe direccion no la volvemos a crear.
+			}else{
+			    $direccion->id_region  = $region;
+			    $direccion->id_comuna  = $comuna;
+			    $direccion->id_usuario = $profesor->id;
+			    $direccion->calle      = $calle;
+			    $direccion->numero     = $numero;
+			    $direccion->save();
+			}
+		    }else{
+			 print_r("no existe!!! profesor ". $profesor->id);
 			//No existe profesor, lo creamos...
 			$profesor->rut      = $rut_p;
 			$profesor->nombre   = $nombre_pro;
-			$profesor->tipo     = $this::TEXTO;
+			$profesor->tipo     = $this::PROFESOR;
 			$profesor->telefono = $telefono; 
 			$profesor->save();
 			
 			//Le asignamos una direccion
-			$direccion->find_by_sql('SELECT * FROM direcciones WHERE calle = "'.$calle.'" AND id_region = "'.$region.'" AND id_comuna = "'.$comuna.'" AND numero = "'.$numero.'"');
+			$direccion->find_by_sql('SELECT * FROM direcciones WHERE calle = "'.$calle.'" AND id_region = "'.$region.'" AND id_comuna = "'.$comuna.'" AND numero = "'.$numero.'" AND id_usuario="'.$profesor->id.'" ');
 			if($direccion->id != null){
-			    // existe direccion no la volvemos a crear.
+			    $direccion->id_region  = $region;
+			    $direccion->id_comuna  = $comuna;
+			    $direccion->id_usuario = $profesor->id;
+			    $direccion->calle      = $calle;
+			    $direccion->numero     = $numero;
+			    $direccion->create();
 			}else{
 			    $direccion->id_region  = $region;
 			    $direccion->id_comuna  = $comuna;
@@ -205,6 +229,7 @@ class apiController extends AppController{
 		$primera = false;
 	    endforeach;
 	endforeach;
+	print_r("total:".$x);
 	$this->data = "Perfecto!";
 	View::select(null, "json");
     }

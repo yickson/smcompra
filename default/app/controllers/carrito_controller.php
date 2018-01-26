@@ -133,23 +133,21 @@ class CarritoController extends AppController
 
   public function pasarela()
   {
+    $logs = new Logs();
+    $logs->envioWebpay();
     $id = $_COOKIE["clienteSM"];
-    if(empty($id) or !isset($id)){
-	
+    if(empty($id) or $id == ' '){
         Redirect::to('../');
-    }else{
-	$rut = (new Usuarios)->find($id)->rut;
     }
-    
     Load::lib('webpago');
     $webpay = New Webpago;
-    $result = $webpay->inicioWebpay($rut);
+    $result = $webpay->inicioWebpay();
     if(is_object($result)){
-      $this->result = $webpay->inicioWebpay($rut);  
+      $this->result = $webpay->inicioWebpay();  
     }else{
       Redirect::to('../');
     }
-
+    
     View::template(null);
   }
 
@@ -158,8 +156,8 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $logs = new Logs();
-
-
+    
+    
     $this->token = $_POST['token_ws'];
     try {
       $this->result = $webpay->retornoWebpay($this->token);
@@ -167,12 +165,11 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
-	$this->webpay = $this->result;
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
-        $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
-        $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
+        $pedido = (New Pedidos)->ingresar($transaccion, $this->result); // Pedidos Master
+        $productos = (New PedidosProductos)->almacenar($pedido, $this->result); //Productos de ese pedido
 	$this->data_alumnos = (new Alumnos)->buscar_colegio();
-        View::template(null);
+        View::template(null, "json");
       }
     }
     catch(Exception $ex) {
@@ -205,7 +202,7 @@ class CarritoController extends AppController
 
       if($this->tipo == 2){
         $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->getDireccionCorreo();
+        $this->direccion = (New Direcciones)->getFullDireccion();
         $array_textos = $_COOKIE["carritoSM"];
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
 	     // Email::enviar($usuario->email, $this->detalles, $this->direccion);

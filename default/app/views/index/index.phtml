@@ -1,5 +1,50 @@
-<?php echo Tag::js('tipousuario') ?>
+<script type="text/javascript">(function($){$.browserTest=function(a,z){var u='unknown',x='X',m=function(r,h){for(var i=0;i<h.length;i=i+1){r=r.replace(h[i][0],h[i][1]);}return r;},c=function(i,a,b,c){var r={name:m((a.exec(i)||[u,u])[1],b)};r[r.name]=true;r.version=(c.exec(i)||[x,x,x,x])[3];if(r.name.match(/safari/)&&r.version>400){r.version='2.0';}if(r.name==='presto'){r.version=($.browser.version>9.27)?'futhark':'linear_b';}r.versionNumber=parseFloat(r.version,10)||0;r.versionX=(r.version!==x)?(r.version+'').substr(0,1):x;r.className=r.name+r.versionX;return r;};a=(a.match(/Opera|Navigator|Minefield|KHTML|Chrome/)?m(a,[[/(Firefox|MSIE|KHTML,\slike\sGecko|Konqueror)/,''],['Chrome Safari','Chrome'],['KHTML','Konqueror'],['Minefield','Firefox'],['Navigator','Netscape']]):a).toLowerCase();$.browser=$.extend((!z)?$.browser:{},c(a,/(camino|chrome|firefox|netscape|konqueror|lynx|msie|opera|safari)/,[],/(camino|chrome|firefox|netscape|netscape6|opera|version|konqueror|lynx|msie|safari)(\/|\s)([a-z0-9\.\+]*?)(\;|dev|rel|\s|$)/));$.layout=c(a,/(gecko|konqueror|msie|opera|webkit)/,[['konqueror','khtml'],['msie','trident'],['opera','presto']],/(applewebkit|rv|konqueror|msie)(\:|\/|\s)([a-z0-9\.]*?)(\;|\)|\s)/);$.os={name:(/(win|mac|linux|sunos|solaris|iphone)/.exec(navigator.platform.toLowerCase())||[u])[0].replace('sunos','solaris')};if(!z){$('html').addClass([$.os.name,$.browser.name,$.browser.className,$.layout.name,$.layout.className].join(' '));}};$.browserTest(navigator.userAgent);})(jQuery);</script>
+<script type="text/javascript">
+    console.log($.browser.name); 
+    console.log($.browser.version);
+    $(document).ready(function(){
+	
+	if( ($.browser.name == "chrome"  && $.browser.version > "62") ||
+	    ($.browser.name == "firefox" && $.browser.version > "56") ||
+	    ($.browser.name == "opera" && $.browser.version > "48")){
+	    //console.log("bien");
+	   var data = [ $.browser.name,
+		        $.browser.version
+		      ]; 
+	    $("#navegador").data("info", data);
+	    $.ajax({
+	      type : "POST",
+	      cache: false,
+	      url  : window.location.href+"index/setNavegador",
+	      dataType: 'json',
+	      data : {"data" : data},
+	      success: function(data){
+		  console.log("exito navegador");
+	      },
+	      error: function(data){
+		console.log("error en setear navegador");
+	      }
+	    });
+	    $("#txt-botones").removeClass("hidden");
+	    $("#txt-aviso").addClass("hidden");
+	}else{
+	    $("#txt-botones").addClass("hidden");
+	    $("#txt-aviso").removeClass("hidden");
+	    console.log("mal");
+	    $("#btn1").remove();
+	    $("#btn2").remove();
+	}
+    });
+   
+</script>
+<style>
+    .hidden{
+	display:none;
+    }    
+</style>
+    <?php echo Tag::js('tipousuario') ?>
 <br>
+<div id="navegador" data-info=""></div>  
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8 col-xs-12 cont-home">
@@ -14,8 +59,12 @@
             <p class="card-text">Por favor, lea todas las instrucciones antes de continuar.</p>
             <p class="card-text">Este asistente está diseñado para que la compra la realice el apoderado del o los alumnos.
     Es muy importante que complete la información con datos reales y de un mayor de edad responsable de la compra, ya que estos serán asociados a la Licencia o Texto que adquiera.</p>
-            <p class="card-text">Al presionar en el botón continuar usted declara conocer y comprender las instrucciones de uso del asistente.</p>
-              <button id="btn1" type="button" name="button" value="profesor" class="btn btn-primary"><i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            <p id="txt-botones" class="card-text">Al presionar en el botón continuar usted declara conocer y comprender las instrucciones de uso del asistente.</p>
+            <div id="txt-aviso" class="hidden"> 
+		<p class="card-text"><strong>Su Navegador actual no está actualizado, por motivos de seguridad de su transacción final de compra, le recomendamos que actualice su navegador.</strong></p>
+		<p class="card-text "> <strong> Recomendamos utilizar los siguientes Navegadores: Chrome, Firefox, Opera </strong></p>
+	    </div>
+	    <button id="btn1" type="button" name="button" value="profesor" class="btn btn-primary"><i class="fa fa-graduation-cap" aria-hidden="true"></i>
  Profesor</button>
               <input id="profe" type="hidden" name="" value="profesor">
               <button id="btn2" type="button" name="button" value="apoderado" class="btn btn-primary"><i class="fa fa-user" aria-hidden="true"></i>

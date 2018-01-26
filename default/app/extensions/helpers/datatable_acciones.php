@@ -7,7 +7,7 @@
  */
 class datatableAcciones
 {
-   
+
     public function __construct() {
 
     }
@@ -23,7 +23,7 @@ class datatableAcciones
                    </button>";
          return $botones;
      }
-     
+
      /**
      * @param $imagen string
      * @return string Devuelve etiqueta imagen, segun ruta enviada.
@@ -33,7 +33,7 @@ class datatableAcciones
         $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='".$with."'>";
          return $img;
      }
-     
+
      /**
      * @param $i int
      * @return array Devuelve Sub-total, Iva, Total, y Boton Pagar
@@ -95,7 +95,7 @@ class datatableAcciones
 	 endfor;
          return $array;
      }
-    
+
      /**
       * Devuelve boton para datatable de pedidos
       * @return string | $btn
@@ -105,7 +105,7 @@ class datatableAcciones
 	$btn = "<button class='btn btn-info'>2</button>";
 	return $btn;
     }
-    
+
     /**
      * Devuelve botones para datatable de lista de usuarios
      * @param object $usuario
@@ -115,5 +115,12 @@ class datatableAcciones
 	$btn = "<button data-id='".$usuario->id."' class='btn btn-info hijos'> <span class='badge'>$usuario->hijos</span></button>
 		<span class='direccion_usuario' data-id='".$usuario->id."'>$img_mapa</span>";
 	return $btn;
+    }
+
+    public static function getBtnMail($rut, $orden){
+      //$usuario = (New Usuarios)->find_by_rut($rut);
+      //print_r($usuario); die();
+      $btn = "<button id = '".$rut."' value = '".$orden."' class='btn btn-mail btn-success'> <i class='fa fa-envelope' aria-hidden='true'></i></button>";
+      return $btn;
     }
 }

@@ -22,11 +22,11 @@ class Pedidos extends ActiveRecord
       return false;
     }
   }
-  
-  public function getPedidos() 
+
+  public function getPedidos()
   {
-	$pedidos = $this->find_all_by_sql("SELECT p.id, 
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
+	$pedidos = $this->find_all_by_sql("SELECT p.id,
+					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
 					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
 					   wp.buyOrder , wp.monto, wp.fecha
 					   FROM pedidos as p
@@ -44,17 +44,39 @@ class Pedidos extends ActiveRecord
 	endforeach;
 	return $pedidos_format;
   }
-  
+
     public function getInforme()
     {
-	$informe = $this->find_all_by_sql("SELECT p.id, 
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
+	$informe = $this->find_all_by_sql("SELECT p.id,
+					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
 					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
 					   wp.buyOrder , wp.monto, wp.fecha
 					   FROM pedidos as p
 					   INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)");
 	return $informe;
     }
+
+  public function getPedidosMail()
+  {
+    $pedidos = $this->find_all_by_sql("SELECT p.id,
+  					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
+  					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
+  					   wp.buyOrder , wp.monto, wp.fecha
+  					   FROM pedidos as p
+  					   INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)");
+  	//formatear no mas
+  	$pedidos_format = array();
+  	foreach($pedidos as $k => $pedido):
+  	    $pedidos_format[$k]["id"] = $pedido->id;
+  	    $pedidos_format[$k]["nombre"] = $pedido->nombre;
+  	    $pedidos_format[$k]["rut"] = $pedido->rut;
+  	    $pedidos_format[$k]["buyOrder"] = $pedido->buyOrder;
+  	    $pedidos_format[$k]["monto"] = $pedido->monto;
+  	    $pedidos_format[$k]["fecha"] = $pedido->fecha;
+  	    $pedidos_format[$k]["boton"] = datatableAcciones::getBtnMail($pedido->rut, $pedido->buyOrder);
+  	endforeach;
+  	return $pedidos_format;
+  }
 }
 
 

@@ -1,0 +1,79 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    var $this = {
+		    "apoderado"  : '1',
+		    "profesor"   : '2'
+		};
+
+    var table = $('#tabla_usuarios').DataTable( {
+      "ajax": {
+               "url": "listar_pedidos_mailer",
+               "dataType": "json",
+               "cache": false,
+             },
+      dom: 'Bfrtip',
+      "buttons": [
+         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
+      ],
+      "columns": [
+          { "data": "id" },
+      	  { "data": "buyOrder" },
+      	  { "data": "fecha" },
+      	  { "data": "nombre" },
+      	  { "data": "rut" },
+          { "data": "monto" },
+	        { "data": "boton" }
+      ]
+    });
+
+    $("#tabla_usuarios").on("click", ".btn-mail", function(){
+  	var smcompra = $(this).attr("value");
+    console.log(smcompra);
+  	var tipo = null;
+    	$.ajax({
+    	    type: "POST",
+    	    cache: false,
+    	    url: "enviarMail",
+    	    data: {"orden" : smcompra},
+    	    success: function(data){
+            console.log(data);
+    	    },
+    	    error: function(){
+            console.log('Hay un error con el envio del correo');
+    	    }
+    	});
+        });
+
+    });
+</script>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title pull-left"> Lista de Apoderados </h3>
+        <br><p>
+        <button  class="btn btn-success nuevo_usuario pull-right">
+          <i class="fa fa-plus pull-left"> Nuevo </i>
+        </button>
+        <br>
+        <hr>
+        <div class="table-responsive col-md-12">
+          <table id="tabla_usuarios" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+		                <th>Orden de Compra</th>
+		                <th>Fecha</th>
+		                <th>Nombre</th>
+		                <th>Rut</th>
+                    <th>Monto</th>
+		                <th>Opciones</th>
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

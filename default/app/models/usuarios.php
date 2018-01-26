@@ -28,7 +28,7 @@ class Usuarios extends ActiveRecord
 	return null;
       }
   }
-  
+
   /**
    * @return object devuelve una instancia de direcciones de usuario
    */
@@ -38,7 +38,7 @@ class Usuarios extends ActiveRecord
 	$direccion->comuna = (new Comunas)->getNombre($direccion->id_comuna);
 	return $direccion;
   }
-  
+
   /**
    * @param Direcciones $direccion
    * @return boolean actualiza direccion de un usuario
@@ -49,7 +49,7 @@ class Usuarios extends ActiveRecord
 	setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
 	setcookie("carritoSM", Session::get("carrito"),time()+86400*30);
 	setcookie("hijosSM", Session::get("hijos"),time()+86400*30);
-	
+
         //Setenado datos carrito
 	$carrito = New Carrito();
 	$total = $carrito->getTotalByTipoUsuario();
@@ -66,7 +66,7 @@ class Usuarios extends ActiveRecord
 	if(Session::get("tipo") == $this::PROFESOR){
 	    if($datos_direccion[0]["value"] != "" && $datos_direccion[1]["value"] != "" && $datos_direccion[2]["value"] != "" )
 	    {
-		
+
 		$direccion->calle   =  $datos_direccion[0]["value"];
 		$direccion->tipo  = $datos_direccion[1]["value"];
 		$direccion->numero = $datos_direccion[2]["value"];
@@ -79,7 +79,7 @@ class Usuarios extends ActiveRecord
 		$total = null;
 	    }
 	}
-	$nombre_archivo = "log_compras.txt"; 
+	$nombre_archivo = "log_compras.txt";
 	if(file_exists($nombre_archivo))
 	{
 	    if(empty(Session::get("iduser"))){
@@ -121,13 +121,13 @@ class Usuarios extends ActiveRecord
 	}
 	return $total;
   }
-  
+
   /**
    * Consulta para traer todos los usarios con sus hijos
    * @return object
    */
   public function getTodos_con_hijos()
-  { 
+  {
       $todos_con_hijos = $this->find_all_by_sql("SELECT u.id, u.nombre, u.tipo, u.rut, COUNT(a.id) as hijos
 						 FROM usuarios as u
 						 LEFT JOIN alumnos a ON (a.apoderado_id = u.id)
@@ -142,7 +142,7 @@ class Usuarios extends ActiveRecord
       endforeach;
       return $usuarios;
   }
-  
+
   /**
    * Devuelve los hijos de un usuario
    * @return object | $hijos
@@ -156,7 +156,24 @@ class Usuarios extends ActiveRecord
 				     WHERE apoderado_id = $usuario ");
     return $hijos;
   }
-  
+
+  public function getTipoMail($ordenCompra)
+  {
+    $id = (New WebpayTransaccion)->find_by_buyOrder($ordenCompra)->usuario_id;
+    $usuario = (New Usuarios)->find($id);
+    if($usuario->tipo == 1){
+      $this->detalles = (New WebpayTransaccion)->find_all_by_sql("SELECT l.codigo, pr.proyecto, pr.nombre, pr.valor, pr.nivel FROM webpay_transaccion wt INNER JOIN pedidos p ON (p.transaccion_id = wt.id) INNER JOIN pedidos_productos pp ON (pp.pedido_id = p.id) INNER JOIN productos pr ON (pr.id = pp.producto_id) INNER JOIN usuarios u ON (u.id = wt.usuario_id) INNER JOIN licences l ON (l.producto_id = pr.id AND l.usuario_id = u.id) WHERE wt.buyOrder = '$ordenCompra'");
+      //Email::enviar_a($usuario->email, $this->detalles);
+      return 1;
+    }
+    else{
+      $this->detalles = (New WebpayTransaccion)->find_all_by_sql("SELECT pr.proyecto, pr.nombre, ROUND(pr.valor * 0.5) as valor, pr.nivel FROM webpay_transaccion wt INNER JOIN pedidos p ON (p.transaccion_id = wt.id) INNER JOIN pedidos_productos pp ON (pp.pedido_id = p.id) INNER JOIN productos pr ON (pr.id = pp.producto_id) INNER JOIN usuarios u ON (u.id = wt.usuario_id) WHERE wt.buyOrder = '$ordenCompra'");
+      $this->direccion = (New Direcciones)->getDireccionAdmin($usuario->id);
+      //Email::enviar($usuario->email, $this->detalles, $this->direccion);
+      return 1;
+    }
+  }
+
 
   public function validar($rut)
   {

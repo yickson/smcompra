@@ -31,6 +31,12 @@ class Direcciones extends ActiveRecord
     return $direccion;
   }
 
+  public function getDireccionAdmin($id)
+  {
+    $direccion = (New Direcciones)->find_by_sql("SELECT r.nombre as region, c.nombre as comuna, d.calle, d.numero, d.adicional, IF(d.tipo = 1, 'casa', 'depto') as tipoVivienda FROM direcciones d INNER JOIN regiones r ON (r.id = d.id_region) INNER JOIN comunas c ON (c.id = d.id_comuna) WHERE d.id_usuario = $id");
+    return $direccion;
+  }
+
 
 }
 

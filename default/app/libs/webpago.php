@@ -9,7 +9,7 @@ class Webpago
   public $urlR = 'https://localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
   public $urlF = 'https://localhost/smcompra/carrito/fin'; //URL de vista final segun caso
 
-  public function inicioWebpay()
+  public function inicioWebpay($rut)
   {
     //Load::lib('libwebpay/configuration');
     $certificate = Load::lib('libwebpay/cert-normal');
@@ -23,7 +23,8 @@ class Webpago
     $amount    = $_COOKIE["totalSM"];//10990; //Input::post('total');
     $buyOrder  = Carrito::generarOrden(10); //Generarorden();
     $buyOrderSession = setcookie("buyOrderSM", $buyOrder,time()+86400*30);
-    $sessionId = $_COOKIE['clienteSM']; //Random
+    //$sessionId = $_COOKIE['clienteSM']; //Random
+    $sessionId = ""; //Random
     $urlReturn = $this->urlR;
     $urlFinal  = $this->urlF;
 

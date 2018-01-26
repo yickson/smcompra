@@ -11,7 +11,8 @@ class Direcciones extends ActiveRecord
    */
   public function getDireccion(){
       $direccion = (new Direcciones)->find_by_id_usuario(Session::get("iduser"));
-      return $direccion;
+      $direccion->telefono = (new Usuarios)->find(Session::get("iduser"))->telefono;
+      return $direccion; 
   }
 
   /**

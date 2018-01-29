@@ -9,12 +9,22 @@ class PedidosProductos extends ActiveRecord
   {
 
     $carro = json_decode($_COOKIE["carritoSM"]); //La sesion es un string
+    $tipo = (New Usuarios)->find($_COOKIE["clienteSM"])->tipo;
 
     foreach ($carro as $key => $valor) {
       $producto = (New Productos)->find($valor[1]); //Encontrar producto
-
       $productos = New PedidosProductos;
       $productos->producto_id = $valor[1];
+      $productos->cantidad = $producto->valor;
+      $productos->usuario_id = $_COOKIE["clienteSM"];
+      $productos->pedido_id = $idpedido;
+      $productos->fecha = date("Y-m-d H:i:s");
+      $productos->save();
+    }
+    if($tipo == 2){
+      $producto = (New Productos)->find(418); //Encontrar producto
+      $productos = New PedidosProductos;
+      $productos->producto_id = 418;
       $productos->cantidad = $producto->valor;
       $productos->usuario_id = $_COOKIE["clienteSM"];
       $productos->pedido_id = $idpedido;
@@ -31,7 +41,7 @@ class PedidosProductos extends ActiveRecord
       $productos[$i] = (New PedidosProductos)->find_by_sql("SELECT l.codigo, p.id, p.proyecto, p.nombre, p.valor, p.nivel FROM licences l, productos p WHERE l.producto_id = p.id AND l.producto_id = $valor[1] AND l.alumno_id = $valor[0]");
       $i++;
     }
-   
+
     return $productos;
   }
 

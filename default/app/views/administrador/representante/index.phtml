@@ -1,0 +1,30 @@
+<?php echo Tag::js("administrador/representante/listar");?>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title pull-left"> Lista </h3>
+        <br><p>
+        <br>
+        <hr>
+        <div class="table-responsive col-md-12">
+          <table id="tabla" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>RBD</th>
+		    <th>Nombre colegio</th>
+		    <th>Nombre profesor</th>
+		    <th>Alumnos(s)</th>
+		    <th>Opciones</th>
+                </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal para ver los usuarios-->
+<?php echo View::partial("modal_representante")?>

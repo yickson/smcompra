@@ -6,13 +6,13 @@ require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
  */
 class Pedidos extends ActiveRecord
 {
-  public function ingresar($idtransaccion)
+  public function ingresar($idtransaccion, $webpay)
   {
     //Datos del pedido
     $datos = New Pedidos;
-    $datos->usuario_id = $_COOKIE["clienteSM"];
+    $datos->usuario_id = $webpay->sessionId;
     $datos->transaccion_id = $idtransaccion;
-    $datos->total = $_COOKIE["totalSM"];
+    $datos->total = $webpay->detailOutput->amount;
     $datos->fecha = date("Y-m-d H:i:s");
 
     if($datos->save()){
@@ -22,11 +22,11 @@ class Pedidos extends ActiveRecord
       return false;
     }
   }
-
-  public function getPedidos()
+  
+  public function getPedidos() 
   {
-	$pedidos = $this->find_all_by_sql("SELECT p.id,
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
+	$pedidos = $this->find_all_by_sql("SELECT p.id, 
+					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
 					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
 					   wp.buyOrder , wp.monto, wp.fecha
 					   FROM pedidos as p
@@ -44,11 +44,11 @@ class Pedidos extends ActiveRecord
 	endforeach;
 	return $pedidos_format;
   }
-
+  
     public function getInforme()
     {
-	$informe = $this->find_all_by_sql("SELECT p.id,
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
+	$informe = $this->find_all_by_sql("SELECT p.id, 
+					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
 					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
 					   wp.buyOrder , wp.monto, wp.fecha
 					   FROM pedidos as p

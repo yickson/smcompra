@@ -135,7 +135,11 @@ class Carrito extends ActiveRecord
     public function valorDespacho($monto){
 	switch(Session::get('tipo')):
 	    case $this::APODERADO:
-	       $monto = $monto;
+		if(Session::get("iduser") == 429){
+		   $monto = 11;
+		}else{
+		   $monto = $monto;
+		}
 	    break;
 	    case $this::PROFESOR:
 	    if(Session::get("iduser") == 429){

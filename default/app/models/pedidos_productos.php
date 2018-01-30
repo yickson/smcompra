@@ -5,7 +5,7 @@
  */
 class PedidosProductos extends ActiveRecord
 {
-  public function almacenar($idpedido)
+  public function almacenar($idpedido, $webpay)
   {
 
     $carro = json_decode($_COOKIE["carritoSM"]); //La sesion es un string
@@ -16,7 +16,7 @@ class PedidosProductos extends ActiveRecord
       $productos = New PedidosProductos;
       $productos->producto_id = $valor[1];
       $productos->cantidad = $producto->valor;
-      $productos->usuario_id = $_COOKIE["clienteSM"];
+      $productos->usuario_id = $webpay->sessionId;
       $productos->pedido_id = $idpedido;
       $productos->fecha = date("Y-m-d H:i:s");
       $productos->save();

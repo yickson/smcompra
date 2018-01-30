@@ -10,10 +10,12 @@
   </div>
 <?php else: ?>
 <?php
-  $tipo = Session::get('tipo');
+    echo Tag::js('jquery3');
+    $tipo = Session::get('tipo');
+  
 ?>
     <?php if($tipo == 1): ?>
-    <?php echo Tag::js('jquery3') ?>
+    
     <?php echo Tag::js("libros"); ?>
     <?php echo Tag::js("licencias"); ?>
     <script>
@@ -25,7 +27,9 @@
     </script>
     <?php else: ?>
    <script>
-       $("#regreso").trigger("click");
+       $(document).ready(function(){
+	    $("#regreso").trigger("click");
+       });
   </script>
     
      <?php endif; ?>

@@ -9,7 +9,7 @@ class IndexController extends AppController
   function before_filter()
   {
     View::template('main');
-    //$auth = (New Administrador)->logged();
+    $auth = (New Administrador)->logged();
     $accion = $this->action_name;
     if(!$auth and $accion != 'entrar'){
       Redirect::to('administrador/index/entrar');
@@ -21,7 +21,7 @@ class IndexController extends AppController
 
   public function index()
   {
-    //$auth = (New Administrador)->logged();
+    $auth = (New Administrador)->logged();
     if(!$auth){
       Redirect::to('administrador/index/entrar');
     }

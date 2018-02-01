@@ -21,6 +21,26 @@
     </div>
   </div>
 <!-- Fin grafico N°1 -->
+<!-- Grafico N°2 : Compras hechas por usuarios -->
+  <div class="col-md-6">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Número de compras por usuario</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="chart">
+          <canvas id="chart2" width="510" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Fin grafico N°2 -->
 
 </div>
 
@@ -28,7 +48,7 @@
   $(document).ready(function(){
     //Grafico para obtener número de usuarios
     $.ajax({
-        type    : "POST",
+        type    : "GET",
         cache   : false,
         url     : "estadisticas/getUsuarios",
         success: function(result) {
@@ -38,5 +58,16 @@
             grafico_n1.estadistica(result);
         }
       });
+    $.ajax({
+      type    : "GET",
+      cache   : false,
+      url     : "estadisticas/getComprasByUsuario",
+      success: function(result) {
+          var grafico_n2 = new Graficos({tipo    : "line",
+                                         canvas  : "chart2",
+                                         legenda : "Compras por usuario"});
+          grafico_n2.estadistica2(result);
+      }
+    })
   })
 </script>

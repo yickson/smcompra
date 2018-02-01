@@ -29,6 +29,13 @@ class EstadisticasController extends AppController
     $this->data = $datos;
     View::select(null, 'json');
   }
+
+  public function getComprasByUsuario()
+  {
+    $datos = (New Usuarios)->find_all_by_sql("SELECT IF(u.tipo = 1, 'apoderado', 'profesor') as tipo, COUNT(u.tipo) as cantidad FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id) WHERE wt.codigoRespuesta = 0 GROUP BY u.tipo ");
+    $this->data = $datos;
+    View::select(null, 'json');
+  }
 }
 
 

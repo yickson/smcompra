@@ -34,7 +34,7 @@ class CarritoController extends AppController
 	    }
 	    Session::set('alumno', $alumno );
 	}
-	
+
     setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
     setcookie("alumnosSM", json_encode(Session::get("alumno")),time()+86400*30);
     $log = new Logs();
@@ -100,7 +100,7 @@ class CarritoController extends AppController
 
   public function datatableValidarPago(){
 //    $datos_direccion = Input::post("datos_direccion");
-    $telefono = "";  $region = "";  $comuna    = "";  
+    $telefono = "";  $region = "";  $comuna    = "";
     $calle    = "";  $numero = "";  $adicional = "";  $tipo = "";
     if(Input::hasPost("tel")){
 	$telefono = Input::post("tel");
@@ -140,6 +140,7 @@ class CarritoController extends AppController
     if(empty($id) or $id == ' '){
         Redirect::to('../');
     }
+
     Load::lib('webpago');
     $webpay = New Webpago;
     $result = $webpay->inicioWebpay();
@@ -202,8 +203,8 @@ class CarritoController extends AppController
       $productos = (New PedidosProductos)->find_all_by_sql("SELECT producto_id FROM pedidos_productos WHERE pedido_id = ".$pedido->id."");
 
       if($this->tipo == 2){
-        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
-        $this->direccion = (New Direcciones)->getFullDireccion();
+        $this->detalles = (New PedidosProductos)->find_all_by_sql("SELECT pp.id, p.descripcion, p.proyecto, p.nombre, u.nombre as usuario, u.rut, ROUND(p.valor * 0.5) as valor FROM productos p, pedidos_productos pp INNER JOIN usuarios u ON u.id = pp.usuario_id WHERE p.id = pp.producto_id AND pp.usuario_id = $id AND pp.pedido_id = $pedido->id");
+        $this->direccion = (New Direcciones)->getDireccionCorreo();
         $array_textos = $_COOKIE["carritoSM"];
 	      $texto = (new ProfesorAlumnos)->DesactivarTexto($array_textos);
 	     // Email::enviar($usuario->email, $this->detalles, $this->direccion);

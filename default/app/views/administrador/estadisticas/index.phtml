@@ -1,0 +1,42 @@
+<?php echo Tag::js("../bower_components/charts/dist/chart") ?>
+<?php echo Tag::js("administrador/estadisticas/graficos") ?>
+<div class="row">
+<!-- Grafico N°1 : Uso de cupones -->
+  <div class="col-md-6">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Número de usuarios en la plataforma</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="chart">
+          <canvas id="chart1" width="510" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Fin grafico N°1 -->
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    //Grafico para obtener número de usuarios
+    $.ajax({
+        type    : "POST",
+        cache   : false,
+        url     : "estadisticas/getUsuarios",
+        success: function(result) {
+            var grafico_n1 = new Graficos({tipo    : "line",
+                                           canvas  : "chart1",
+                                           legenda : "Numero de usuarios"});
+            grafico_n1.estadistica(result);
+        }
+      });
+  })
+</script>

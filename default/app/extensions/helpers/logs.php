@@ -95,6 +95,55 @@ class Logs
 	}
     }
     
+    
+    public function restConnecta($data){
+	$nombre_archivo = "log_rest_connecta.txt"; 
+	if(file_exists($nombre_archivo))
+	{
+	    if(empty(Session::get("iduser"))){
+		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
+		$mensaje .= "* ID_USUARIO: ".$_COOKIE["clienteSM"]."\n";
+		$mensaje .= "* HIJOS: ".$_COOKIE["alumnosSM"]."\n";
+		$mensaje .= "* RESULT: ".json_encode($data)."\n";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
+		$mensaje .= "* ID_USUARIO: ".$_COOKIE["clienteSM"]."\n";
+		$mensaje .= "* HIJOS: ".$_COOKIE["alumnosSM"]."\n";
+		$mensaje .= "* RESULT: ".json_encode($data)."\n";
+	    }
+	}
+
+	else
+	{
+	    if(empty(Session::get("iduser"))){
+		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
+		$mensaje .= "La session de usuario se ha perdido y no se ha podido crear un registro.\n";
+		$mensaje .= "* ID_USUARIO: ".$_COOKIE["clienteSM"]."\n";
+		$mensaje .= "* HIJOS: ".$_COOKIE["alumnosSM"]."\n";
+		$mensaje .= "* RESULT: ".json_encode($data)."\n";
+	    }else{
+		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
+		$mensaje .= "* ID_USUARIO: ".$_COOKIE["clienteSM"]."\n";
+		$mensaje .= "* HIJOS: ".$_COOKIE["alumnosSM"]."\n";
+		$mensaje .= "* RESULT: ".json_encode($data)."\n";
+	    }
+	}
+	if($archivo = fopen($nombre_archivo, "a"))
+	{
+	    if(fwrite($archivo, date("Y-m-d H:i:s"). " ". $mensaje. "\n"))
+	    {
+
+	    }
+	    else
+	    {
+
+	    }
+
+	    fclose($archivo);
+	}
+    }
+    
 
     public function respuestaWebpay($token, $status, $resp){
 	$nombre_archivo = "log_resp_webpay.txt";
@@ -108,12 +157,14 @@ class Logs
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
 		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
 		$mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* CARRITO: ".$_COOKIE["carritoSM"];
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
 		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";
 		$mensaje .= "* TOKEN: ".$token."\n";
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
-		$mensaje .= "* BuyOrder: ".$_COOKIE["buyOrderSM"];
+		$mensaje .= "* BuyOrder: ".$_COOKIE["buyOrderSM"]."\n";
+		$mensaje .= "* CARRITO: ".$_COOKIE["carritoSM"];
 	    }
 	}
 

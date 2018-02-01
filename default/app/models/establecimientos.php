@@ -14,6 +14,11 @@ class Establecimientos extends ActiveRecord
     $establecimiento = (New Establecimientos)->find($id);
     return $establecimiento->nombre;
   }
+  
+  public function getEstByRepresentante($zona) {
+      $establecimientos = $this->find_all_by_zona($zona);
+      return $establecimientos;
+  }
 }
 
 

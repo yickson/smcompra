@@ -1,16 +1,16 @@
 $(document).ready(function() {
-  
+
    var $this = {
 		    "apoderado"    : '1',
 		    "profesor"     : '2',
                     "loadmapaOn"   :  $("#loadmap").removeClass("hidden"),
                     "loadmapaOff"  :  $("#loadmap").addClass("hidden")
 		};
-	
+
     var table = $('#tabla_usuarios').DataTable( {
       "ajax": {
 	       "bServerSide": true,
-               "url": "listar_con_hijos",
+               "url": "usuarios/listar_con_hijos",
                "dataType": "json",
                "cache": false,
              },
@@ -23,17 +23,18 @@ $(document).ready(function() {
 	    { "data": "rut" },
 	    { "data": "nombre" },
 	    { "data": "tipo" },
-	    { "data": "hijos" }
+	    { "data": "hijos" },
+      { "data": "acciones" }
 	]
     });
-    
+
     $("#tabla_usuarios").on("click", ".hijos", function(){
 	var usuario = $(this).data("id");
 	var tipo = null;
 	$.ajax({
 	    type: "POST",
 	    cache: false,
-	    url: "consultarHijos",
+	    url: "usuarios/consultarHijos",
 	    data: {"usuario" : usuario},
 	    success: function(data){
 		var cantidad_alumnos = data.length;
@@ -46,7 +47,7 @@ $(document).ready(function() {
 		$(".nombre_usuario").text(data[0].nombre_usuario);
 		$(".rut_usuario").text(data[0].rut_usuario);
 		$(".cantidad_alumnos").text( cantidad_alumnos)
-		
+
 		$.each(data, function(i, val)
 		{
 		    //Info modal Alumnos
@@ -61,8 +62,8 @@ $(document).ready(function() {
 
 	    }
 	});
-    }); 
-    
+    });
+
     $("#tabla_usuarios").on("click", ".direccion_usuario", function(){
 	var usuario = $(this).data("id");
         $.ajax({
@@ -83,20 +84,20 @@ $(document).ready(function() {
                 mapa.setNumero(result.numero);
                 mapa.setTipo(result.tipo);
                 mapa.setAdicional(result.adicional);
-                
+
                 $("#datos_usuario").on("blur", "#calle" , function(){
                     var calle = $(this).val();
                     console.log(calle);
                     $("#loadmap").removeClass("hidden");
                     mapa.recargarMapa(calle, result.region)
                 });
-                
+
            },
            error : function(){
                console.log("error en mostrar direccion");
            }
         });
-    }); 
-    
-     
+    });
+
+
 });

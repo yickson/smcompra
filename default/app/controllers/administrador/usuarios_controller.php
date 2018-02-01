@@ -10,17 +10,22 @@ class UsuariosController extends AppController
   {
     View::template('admin');
     $valido = New Administrador;
-    if(!$valido->logged()){
+    /*if(!$valido->logged()){
       Redirect::to("administrador/index/entrar");
-    }
+    }*/
   }
-  
-  
+
+
   public function index()
   {
-     
+
   }
-  
+
+  public function editar($id)
+  {
+    $this->usuario = (New Usuarios)->find($id);
+  }
+
   /**
    * Listar usuarios con hijos
    */
@@ -30,14 +35,27 @@ class UsuariosController extends AppController
     $this->data = $usuarios;
     View::select(null, "json");
   }
-  
+
+  public function editar_usuario()
+  {
+    $id = Input::post('id');
+    $nombre = Input::post('nombre');
+    $rut = Input::post('rut');
+    $correo = Input::post('correo');
+    $tel = Input::post('tel');
+    $usuarios = (New Usuarios)->editar_usuario($id, $nombre, $rut, $correo, $tel);
+    $this->data = $usuarios;
+    View::select(null, 'json');
+
+  }
+
   public function consultarHijos()
   {
       $hijos = (New Usuarios)->getHijos();
       $this->data = $hijos;
       View::select(null, "json");
   }
-  
+
     public function consultarDireccion()
   {
       $usuario = Input::post("usuario");

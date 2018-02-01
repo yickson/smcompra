@@ -137,10 +137,11 @@ class Usuarios extends ActiveRecord
       $usuarios = array();
       foreach($todos_con_hijos as $key => $usuario):
 	$usuarios[$key]["id"]  = $usuario->id;
-        $usuarios[$key]["rut"] = $usuario->rut;
+  $usuarios[$key]["rut"] = $usuario->rut;
 	$usuarios[$key]["nombre"]  = $usuario->nombre;
 	$usuarios[$key]["tipo"]    = ($usuario->tipo == $this::APODERADO)?"<span>Apoderado</span>":"<span>Profesor</span>";
-	$usuarios[$key]["hijos"]   = datatableAcciones::getBtnUsuarios($usuario);
+	$usuarios[$key]["hijos"]   = DatatableAcciones::getBtnUsuarios($usuario);
+  $usuarios[$key]["acciones"]   = DatatableAcciones::getBtnUser($usuario->id);
       endforeach;
       return $usuarios;
   }
@@ -219,6 +220,21 @@ class Usuarios extends ActiveRecord
     $rut = $this->limpia_rut($rut); //Deja solo numeros
     $rut = $this->digito_rut($rut); //Elimina digito verificador
     return $rut;
+  }
+
+  public function editar_usuario($id, $nombre, $rut, $correo, $tel)
+  {
+    $usuario = (New Usuarios)->find($id);
+    $usuario->nombre = $nombre;
+    $usuario->rut = $rut;
+    $usuario->email = $correo;
+    $usuario->telefono = $tel;
+
+    if($usuario->update()){
+      return 1;
+    }else{
+      return 2; //Error no almaceno
+    }
   }
 }
 

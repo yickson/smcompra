@@ -36,6 +36,7 @@ class CarritoController extends AppController
 	}
 	
     setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
+    setcookie("alumnosSM", json_encode(Session::get("alumno")),time()+86400*30);
     $log = new Logs();
     $log->accesoCarrito();
     $this->step    = $this::STEP_3;
@@ -169,7 +170,7 @@ class CarritoController extends AppController
         $pedido = (New Pedidos)->ingresar($transaccion, $this->result); // Pedidos Master
         $productos = (New PedidosProductos)->almacenar($pedido, $this->result); //Productos de ese pedido
 	$this->data_alumnos = (new Alumnos)->buscar_colegio();
-        View::template(null, "json");
+	View::template(null);
       }
     }
     catch(Exception $ex) {
@@ -256,9 +257,10 @@ class CarritoController extends AppController
      */
     public function setLicencias()
     {
-	$licencias = Input::post("data");
-	$alumnos = Session::get("alumno");
-	$id_usuario = Session::get("iduser");
+	$log = new Logs();
+	$licencias  = Input::post("data");
+	$alumnos    = json_decode($_COOKIE["alumnosSM"]);
+	$id_usuario = $_COOKIE["clienteSM"];
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
@@ -292,6 +294,7 @@ class CarritoController extends AppController
 	    endforeach;
 	endforeach;
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
+	$log->restConnecta(Input::post("data"));
 	View::select(null, "json");
     }
 

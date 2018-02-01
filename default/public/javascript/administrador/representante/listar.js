@@ -1,21 +1,47 @@
 $(document).ready(function(){
+    
+    $('select').selectize({ maxItems: 3 });
+    
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red'
+   });
+    
     var table = $('#tabla').DataTable( {
       "ajax": {
+               "type" : "post",
                "url": "representante/data_representante",
-               "dataType": "json",
                "cache": false,
              },
       dom: 'Bfrtip',
-      "buttons": [
-         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
-      ],
+      "buttons": [],
       "columns": [
           { "data": "rbd" },
 	  { "data": "colegio" },
 	  { "data": "profesor" },
+          { "data": "profesor_rut" },
 	  { "data": "alumno" },
 	  { "data": "boton" }
       ]
+    });
+    
+    $("#buscar").on("click", function(){
+        var buscar = [];
+        buscar["establecimientos"] =  $("#establecimientos").val();
+        buscar["profesor" ]        =  $("#profesor").val();
+        console.log(buscar);
+        $.ajax({
+            type  : "post",
+            cache : false,
+            url   : "representante/data_representante",
+            data  : {"buscar" : buscar},
+            success: function(result){
+              
+              setTimeout( function () {
+                table.ajax.reload();
+            }, 1000 );
+            }
+        })
     });
     
     $("#tabla").on("click", ".hijos", function(){
@@ -41,7 +67,7 @@ $(document).ready(function(){
             error: function(){
                 console.log("error en lista de hijos productos");
             }
-        })
+        });
         $('#hijos_usuario').modal('show');
     });
 });

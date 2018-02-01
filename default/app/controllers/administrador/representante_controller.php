@@ -19,7 +19,11 @@ class RepresentanteController extends AppController
 
   public function index()
   {
-
+	$zona = (new RepresentanteZona)->find_by_representante(Session::get("id", "administrador"))->zona;
+	$establecimientos = (new Establecimientos)->getEstByRepresentante($zona);
+	
+	
+	$this->filtro_est = $establecimientos;
   }
 
   /**
@@ -27,14 +31,19 @@ class RepresentanteController extends AppController
    */
   public function data_representante()
   {
+    $buscar = null;
+    if(Input::hasPost("buscar")){
+	$buscar = Input::post("buscar");  
+    }
     $representante = new ProfesorAlumnos();
-    $data = $representante->getFullData();
+    $data = $representante->getFullData($buscar);
     $arr = array();
     $i=0;
     foreach($data as $r):
 	$arr[$i]["rbd"] = $r->rbd;
 	$arr[$i]["colegio"] = $r->colegio;
 	$arr[$i]["profesor"] = $r->profesor;
+	$arr[$i]["profesor_rut"] = $r->profesor_rut;
 	$arr[$i]["alumno"] = datatableAcciones::getBtnHijos($r->id_profesor, $r->hijos);
 	$arr[$i]["boton"] = "En construcción.";
 	++$i;
@@ -61,7 +70,6 @@ class RepresentanteController extends AppController
     $this->data = $profesor;
     View::select(null,"json");
   }
-
 }
 
 

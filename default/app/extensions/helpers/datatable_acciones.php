@@ -123,6 +123,7 @@ class datatableAcciones
       $btn = "<button id = '".$rut."' value = '".$orden."' class='btn btn-mail btn-success'> <i class='fa fa-envelope' aria-hidden='true'></i></button>";
       return $btn;
     }
+
     
     public static function getBtnHijos($usuario, $hijos){
 	$btn = "<button data-id='".$usuario."' class='btn btn-info hijos'> <span class='badge'>$hijos</span></button>";
@@ -139,5 +140,13 @@ class datatableAcciones
 	    break;
 	endswitch;
 	return $badge;
+    }
+    
+    public function getBtnUser($id)
+    {
+      $btn = "<button value='$id' class='btn btn-success editar'>
+                     <i class='fa fa-edit'></i>
+                   </button>";
+      return $btn;
     }
 }

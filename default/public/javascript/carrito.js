@@ -18,12 +18,12 @@ var Carrito = function(params){
     this.construct = function(params){
         $.extend($this , params);
     };
-
+    
     /**
      * Metodo para cargar lista de productos disponibles para hijos de usuarios.
      * @param integer usuario
      * @param integer tipo
-     * @returns html
+     * @returns html 
      */
     this.cargarProductos = function(usuario, tipo){
         var id_usuario = usuario;
@@ -58,7 +58,7 @@ var Carrito = function(params){
 		    productos_ini   = "";
 		    productos_item  = "";
 		    productos_fin   = "";
-
+                    
 		    if(display === 0){
 			mostrar = "block";
 			dataAlumno(val.id);
@@ -77,13 +77,11 @@ var Carrito = function(params){
                                 imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="'+window.location.href+'/../img/productos/agregado.png" width="70%" style=" margin-left:-70%""/>';
                                 rel_asignada    = 1;
                             }
-                            console.log(caso);
                             if(valor.estado == 1){
                                 licencia_ocupada = "";
                                 var clickeable = "";
                                 var estilo = "style='border: 0px solid; opacity: 0.6'";
                                 caso = casos(valor.nivel, valor.rbd, valor.id_producto);
-
                                 switch(caso){
                                     case "ohiggins":
                                         imagen_asignada = '<img id="img'+val.id+'-'+valor.id_producto+'" src="'+window.location.href+'/../img/productos/comprado_2.png" style="margin-left: -86%;width: 86%;position: absolute; margin-top: 7%;"/>';
@@ -98,10 +96,10 @@ var Carrito = function(params){
                                 var clickeable = "style='cursor: pointer'";
                                 var estilo = "style='border: 0px solid'";
                             }
-
+                            
                             //Se determina tratamiento tiene el producto para ser visualizado en carrito
                             caso = casos(valor.nivel, valor.rbd, valor.id_producto);
-
+                            
                             switch(caso){
                                 case "ohiggins":
                                     productos_item += casoOhiggins(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada);
@@ -110,7 +108,7 @@ var Carrito = function(params){
                                     productos_item += construirProducto(val, valor, licencia_ocupada, rel_asignada, estilo, clickeable, imagen_asignada);
                                 break;
                             }
-
+			    
                             cantidad_productos++;
                             product_x_alumno++;
 			}
@@ -130,10 +128,10 @@ var Carrito = function(params){
 		});
 		$("#alumno_productos").html(productos_html);
                 $("#cantidad_productos").text(cantidad_productos);
-
+                
                 var carrito = $("#carrito").data("info").replace(/['"]+/g, "");
                 if(carrito != ""){
-                    console.log(carrito);
+
                         $.each(JSON.parse(carrito), function(i,val){
                             var element = "#"+val[0]+"-"+val[1];
                             var caso = $(element).data("caso");
@@ -144,13 +142,13 @@ var Carrito = function(params){
                     console.log(err);
                 };
 	    },
-
+                
 	    error: function(xhr, textStatus, errorThrown){
                 console.log(xhr.responseText);
 	    }
 	});
     };
-
+    
     /**
      * Metodo para guardar id de productos en un array de productos almacenado en sesion
      * @param {integer} producto
@@ -182,7 +180,7 @@ var Carrito = function(params){
         }
         $("#carrito_txt").text($this.carrito.length);
     };
-
+    
     /**
      * Metodo para obtener datos del alumno
      * @param {integer} id
@@ -193,7 +191,7 @@ var Carrito = function(params){
 	    $(".cont-productos").css("display", "none");
 	    $("#alumno"+id).css("display", "block");
     }
-
+    
     /**
      * Metodo que devuelve el contenido del carrito
      * @returns {array}
@@ -201,7 +199,7 @@ var Carrito = function(params){
     this.almacenCarrito = function(){
         return $this.carrito;
     }
-
+    
     /**
      * Metodo que devuelve el carrito precargado con items de session
      * @param {string} params
@@ -212,7 +210,7 @@ var Carrito = function(params){
         $this.carrito = productos;
         return $this.carrito;
     }
-
+    
     /**
      * Metodo para ejecutar la eliminacion de un item en el carrito
      * @param {array} arr
@@ -223,7 +221,7 @@ var Carrito = function(params){
         var carrito = eliminarItemDeCarrito(arr, item.toString());
         return $this.carrito = carrito;
     }
-
+    
     /**
      * Metodo para verificar si el carrito esta vacio o no.
      * @returns {html}
@@ -241,7 +239,7 @@ var Carrito = function(params){
             );
         }
     }
-
+    
     this.marcarTodos = function(id_usuario, tipo){
         $.ajax({
 	    type  : "POST",
@@ -274,16 +272,16 @@ var Carrito = function(params){
             }
         });
     }
-
+    
     /**
      * Devuelve estado de licencia pagado o no pagado.
      * @param {string} codigo_producto
-     * @returns {json|boolean}
+     * @returns {json|boolean} 
      */
     this.simulacionRest = function(codigo_producto){
         var codigo = codigo_producto;
         console.log(codigo);
-        var usuario = "test2";
+        var usuario = "test2"; 
         var pass = "123";
         $.ajax({
             type  : "get",

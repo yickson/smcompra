@@ -173,6 +173,13 @@ class UsuarioController extends AppController
     Session::delete('iduser'); //Limpia la variable del id del usuario
     View::template(null);
   }
+  
+   public function setNavegador(){
+	Session::set("navegador", Input::post("data"));
+	$this->data = "exito";
+	View::select(null, "json");
+    }
+    
 }
 
 

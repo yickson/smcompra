@@ -21,4 +21,10 @@ class IndexController extends AppController
       Session::delete('monto');
       Session::delete('descripcion');
     }
+    
+    public function setNavegador(){
+	Session::set("navegador", Input::post("data"));
+	$this->data = "exito";
+	View::select(null, "json");
+    }
 }

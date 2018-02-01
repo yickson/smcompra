@@ -5,24 +5,24 @@
  */
 class Direcciones extends ActiveRecord
 {
-
+    
   /**
    * @return object devuelve una instancia de direcciones de usuario logeado Solo ID's
-   */
+   */  
   public function getDireccion(){
       $direccion = (new Direcciones)->find_by_id_usuario(Session::get("iduser"));
       $direccion->telefono = (new Usuarios)->find(Session::get("iduser"))->telefono;
       return $direccion; 
   }
-
+  
   /**
    * @return object devuelve una instancia de direcciones de usuario logeado con nombre de Comuna y Region
-   */
+   */  
   public function getFullDireccion(){
       $direccion = (new Direcciones)->find_by_id_usuario($_COOKIE["clienteSM"]);
       $direccion->nombre_region = (new Regiones)->find($direccion->id_region)->nombre;
       $direccion->nombre_comuna = (new Comunas)->find($direccion->id_comuna)->nombre;
-      return $direccion;
+      return $direccion; 
   }
 
   public function getDireccionCorreo()

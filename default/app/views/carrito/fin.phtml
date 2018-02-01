@@ -19,6 +19,7 @@
   $tipo = Session::get('tipo');
 ?>
     <?php if($tipo == 1): ?>
+
   <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
@@ -57,13 +58,7 @@
 		    <tr>
 		      <td><?php echo $valor->proyecto ?></td>
 		      <td><?php echo $valor->nombre .' - '.$valor->nivel ?></td>
-          <?php if($valor->id == 360): ?>
-              <?php if($lic3[$i]) ?>
-		          <td><?php echo $lic3[$i] ?></td>
-              <?php $i++; ?>
-          <?php else: ?>
-              <td><?php echo $valor->codigo ?></td>
-          <?php endif ?>
+		      <td><?php echo $valor->codigo ?></td>
 		      <td><?php echo 'CLP $'.number_format($valor->valor, 0, ' ', '.'); ?></td>
 		    </tr>
 

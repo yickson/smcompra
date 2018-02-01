@@ -7,7 +7,7 @@
  */
 class datatableAcciones
 {
-
+   
     public function __construct() {
 
     }
@@ -23,7 +23,7 @@ class datatableAcciones
                    </button>";
          return $botones;
      }
-
+     
      /**
      * @param $imagen string
      * @return string Devuelve etiqueta imagen, segun ruta enviada.
@@ -33,7 +33,7 @@ class datatableAcciones
         $img = "<img src='".PUBLIC_PATH."img/productos/$imagen'/ width='".$with."'>";
          return $img;
      }
-
+     
      /**
      * @param $i int
      * @return array Devuelve Sub-total, Iva, Total, y Boton Pagar
@@ -95,7 +95,7 @@ class datatableAcciones
 	 endfor;
          return $array;
      }
-
+    
      /**
       * Devuelve boton para datatable de pedidos
       * @return string | $btn
@@ -124,6 +124,24 @@ class datatableAcciones
       return $btn;
     }
 
+    
+    public static function getBtnHijos($usuario, $hijos){
+	$btn = "<button data-id='".$usuario."' class='btn btn-info hijos'> <span class='badge'>$hijos</span></button>";
+	return $btn;
+    }
+    public static function getBtnEstados($estado){
+	$badge = null;
+	switch($estado):
+	    case 0:
+		$badge = "<span class='label label-success' style='font-size:0.9em'>Disponible</span>";
+	    break;
+	    case 1:
+		$badge = "<span class='label label-danger' style='font-size:0.9em'>Comprado</span>";
+	    break;
+	endswitch;
+	return $badge;
+    }
+    
     public function getBtnUser($id)
     {
       $btn = "<button value='$id' class='btn btn-success editar'>

@@ -36,6 +36,7 @@ class CarritoController extends AppController
 	}
 
     setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
+    setcookie("alumnosSM", json_encode(Session::get("alumno")),time()+86400*30);
     $log = new Logs();
     $log->accesoCarrito();
     $this->step    = $this::STEP_3;
@@ -133,23 +134,22 @@ class CarritoController extends AppController
 
   public function pasarela()
   {
+    $logs = new Logs();
+    $logs->envioWebpay();
     $id = $_COOKIE["clienteSM"];
-    if(empty($id) or !isset($id)){
-
+    if(empty($id) or $id == ' '){
         Redirect::to('../');
-    }else{
-	$rut = (new Usuarios)->find($id)->rut;
     }
 
     Load::lib('webpago');
     $webpay = New Webpago;
-    $result = $webpay->inicioWebpay($rut);
+    $result = $webpay->inicioWebpay();
     if(is_object($result)){
-      $this->result = $webpay->inicioWebpay($rut);
+      $this->result = $webpay->inicioWebpay();  
     }else{
       Redirect::to('../');
     }
-
+    
     View::template(null);
   }
 
@@ -158,8 +158,8 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $logs = new Logs();
-
-
+    
+    
     $this->token = $_POST['token_ws'];
     try {
       $this->result = $webpay->retornoWebpay($this->token);
@@ -167,12 +167,11 @@ class CarritoController extends AppController
         $transaccion = (New WebpayTransaccion)->ingresar($this->result);
         Redirect::to('carrito/error');
       }else{
-	$this->webpay = $this->result;
         $transaccion = (New WebpayTransaccion)->ingresar($this->result); //Webpay
-        $pedido = (New Pedidos)->ingresar($transaccion); // Pedidos Master
-        $productos = (New PedidosProductos)->almacenar($pedido); //Productos de ese pedido
+        $pedido = (New Pedidos)->ingresar($transaccion, $this->result); // Pedidos Master
+        $productos = (New PedidosProductos)->almacenar($pedido, $this->result); //Productos de ese pedido
 	$this->data_alumnos = (new Alumnos)->buscar_colegio();
-        View::template(null);
+	View::template(null);
       }
     }
     catch(Exception $ex) {
@@ -259,9 +258,10 @@ class CarritoController extends AppController
      */
     public function setLicencias()
     {
-	$licencias = Input::post("data");
-	$alumnos = Session::get("alumno");
-	$id_usuario = Session::get("iduser");
+	$log = new Logs();
+	$licencias  = Input::post("data");
+	$alumnos    = json_decode($_COOKIE["alumnosSM"]);
+	$id_usuario = $_COOKIE["clienteSM"];
 	$licencias_array = array();
 	$licencias_repetidas = array();
 	foreach($alumnos as $al):
@@ -295,6 +295,7 @@ class CarritoController extends AppController
 	    endforeach;
 	endforeach;
 	$this->data = "exito, ".count($licencias_repetidas)."licencias repetidas son";
+	$log->restConnecta(Input::post("data"));
 	View::select(null, "json");
     }
 

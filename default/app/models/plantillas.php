@@ -58,7 +58,7 @@ class Plantillas
           <!-- 4 column layout with 0px spacing -->
           <tr>
           <td>
-            <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>
+            <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;">
               <tr>
                 <th width="162">
                   <h3>Proyecto</h3>
@@ -74,7 +74,7 @@ class Plantillas
                 </th>
               </tr>
               </table>
-              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>
+              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;">
               <!-- Aquí se encuentra el bucle del los pedidos -->';
 
               $total = 0;
@@ -101,9 +101,13 @@ class Plantillas
           </tr>
           <!-- 1 column layout with 0px spacing -->
           <tr>
-            <td align="center" valign="middle" style="padding-bottom:5px;">
-              <img src="http://serviciosm.cl/img/divider.gif" width="650" height="28">
-            </td>
+          <table width="650" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="center" valign="middle" style="padding-bottom:5px;">
+                  <img src="http://serviciosm.cl/img/divider.gif" width="650" height="28">
+                </td>
+            </tr>
+          </table>
           </tr>
           <tr>
           <td>
@@ -173,7 +177,7 @@ class Plantillas
           <!-- 4 column layout with 0px spacing -->
           <tr>
           <td>
-            <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>
+            <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;">
               <tr>
                 <th width="162">
                   <h3>Proyecto</h3>
@@ -189,7 +193,7 @@ class Plantillas
                 </th>
               </tr>
               <!-- Aquí se encuentra el bucle del los pedidos -->
-              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;>';
+              <table width="650" cellpadding="0" cellspacing="0" align="center" border="1" style="font-family:Arial, Helvetica, sans-serif;">';
               $total = 0;
               $i = 0;
               foreach ($detalles as $value) {

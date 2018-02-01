@@ -30,7 +30,7 @@ var Libros = function(params){
                         console.log(result);
                          // Una vez cargada la página, el formulario se enviara automáticamente
                          $(".webpay").trigger()
-    document.webpay.submit();
+                         document.webpay.submit();
                     },
                     error: function( jqXHR, textStatus, errorThrown){
                         console.log(jqXHR);
@@ -68,6 +68,7 @@ var Libros = function(params){
                                 console.log("exito en el ingreso dinamico de licencias");
                                 console.log(resultado);
                                 var rest_licencias = new Licencias();
+                                $("#regreso").trigger("click");
                             },
                             error: function(){
                                 console.log("error con el ingreso de licencias");

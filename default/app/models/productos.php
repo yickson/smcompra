@@ -65,7 +65,6 @@ class Productos extends ActiveRecord
 			}
 		    endforeach;
 		endforeach;
-		print_r($alumnos);die();
 	  break;
 	  case $this::PROFESOR:
 	        foreach($hijos as $hijo):

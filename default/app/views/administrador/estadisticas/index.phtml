@@ -1,7 +1,7 @@
 <?php echo Tag::js("../bower_components/charts/dist/chart") ?>
 <?php echo Tag::js("administrador/estadisticas/graficos") ?>
 <div class="row">
-<!-- Grafico N°1 : Uso de cupones -->
+<!-- Grafico N°1 : Número de usuarios por tipo -->
   <div class="col-md-6">
     <div class="box box-primary">
       <div class="box-header with-border">
@@ -63,7 +63,7 @@
       cache   : false,
       url     : "estadisticas/getComprasByUsuario",
       success: function(result) {
-          var grafico_n2 = new Graficos({tipo    : "line",
+          var grafico_n2 = new Graficos({tipo    : "bar",
                                          canvas  : "chart2",
                                          legenda : "Compras por usuario"});
           grafico_n2.estadistica2(result);

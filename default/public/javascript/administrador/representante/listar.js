@@ -1,20 +1,38 @@
 $(document).ready(function(){
     
+    var $this = {"establecimientos" : "", 
+                 "profesor"         : "",
+                 "estado"           : ""};
+    
+    /**
+     * Constructor
+     * @param {string} params
+     * @returns {array}
+     */
+    this.construct = function(params){
+        $.extend($this , params);
+    };
+    
     $('select').selectize({ maxItems: 3 });
     
     $('input').iCheck({
         checkboxClass: 'icheckbox_flat-red',
         radioClass: 'iradio_flat-red'
    });
-    
     var table = $('#tabla').DataTable( {
       "ajax": {
                "type" : "post",
                "url": "representante/data_representante",
                "cache": false,
+               "data" : function ( d ) {
+                            return {"buscar" : $this};
+                        }
              },
       dom: 'Bfrtip',
       "buttons": [],
+      "processing": true,
+      "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Procesando...</span> '},
       "columns": [
           { "data": "rbd" },
 	  { "data": "colegio" },
@@ -26,22 +44,12 @@ $(document).ready(function(){
     });
     
     $("#buscar").on("click", function(){
-        var buscar = [];
-        buscar["establecimientos"] =  $("#establecimientos").val();
-        buscar["profesor" ]        =  $("#profesor").val();
-        console.log(buscar);
-        $.ajax({
-            type  : "post",
-            cache : false,
-            url   : "representante/data_representante",
-            data  : {"buscar" : buscar},
-            success: function(result){
-              
-              setTimeout( function () {
-                table.ajax.reload();
-            }, 1000 );
-            }
-        })
+        $this.establecimientos = $("#establecimientos").val();
+        $this.profesor = $("#profesor").val();
+        $this.estado = $('input:radio[name=estado]:checked').val();
+        setTimeout( function () {
+            table.ajax.reload();
+        }, 200 );
     });
     
     $("#tabla").on("click", ".hijos", function(){

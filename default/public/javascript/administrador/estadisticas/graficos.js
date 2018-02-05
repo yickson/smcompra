@@ -26,7 +26,7 @@ var Graficos = function(option){
       $.each( indices, function( key, val )
       {
         colegios[i] = val.tipo;
-        if(val.tipo == "Apoderado"){
+        if(val.tipo == "apoderado"){
           cantidad_apoderado[i]  = val.cantidad;
           color[i] = 'rgba(255, 99, 132, 0.2)';
           borde[i] = 'rgba(255,99,132,1)';

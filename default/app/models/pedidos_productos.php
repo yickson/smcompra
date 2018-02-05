@@ -14,6 +14,10 @@ class PedidosProductos extends ActiveRecord
     foreach ($carro as $key => $valor) {
       $producto = (New Productos)->find($valor[1]); //Encontrar producto
       $productos = New PedidosProductos;
+      $texto_model = (New ProfesorAlumnos)->find_by_sql('SELECT * FROM profesor_alumnos WHERE usuario_id ='.$webpay->sessionId.
+		                                        ' AND producto_id ='.$valor[1].' AND alumno_id ='.$valor[0]);
+      $texto_model->estado = 1;
+      $texto_model->save();
       $productos->producto_id = $valor[1];
       $productos->cantidad = $producto->valor;
       $productos->usuario_id = $webpay->sessionId;

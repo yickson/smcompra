@@ -19,10 +19,9 @@ class RepresentanteController extends AppController
 
   public function index()
   {
-	$zona = (new RepresentanteZona)->find_by_representante(Session::get("id", "administrador"))->zona;
+	$zona = new RepresentanteZona();
+	$zona->find_by_sql("SELECT zona FROM representante_zona WHERE representante = ".Session::get("id", "administrador"));	
 	$establecimientos = (new Establecimientos)->getEstByRepresentante($zona);
-	
-	
 	$this->filtro_est = $establecimientos;
   }
 

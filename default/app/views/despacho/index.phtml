@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <div id="cap">
+      <div class="card bg-light mb-12 cont-sombra">
+        <div class="card-header">Buscado de pedidos de SMCompra - Ediciones SM</div>
+        <div class="card-body text-dark">
+          <h4 class="card-title">Asistente de despacho</h4>
+          <p class="card-text">Este asistente le ayudará a saber el estatus de su pedido</p>
+          <h4 class="card-title">Bienvenido</h4>
+          <p class="card-text">Por favor, lea todas las instrucciones antes de continuar.</p>
+          <p class="card-text">Este asistente está diseñado para que saber el estatus de su pedido, solo es uso para los profesores.</p>
+          <div class="form-group">
+            <form class="form-inline">
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="rut" class="sr-only">p</label>
+                <input type="text" class="form-control" id="rut" placeholder="Ingrese su rut">
+              </div>
+              <button id="buscador" type="button" class="btn btn-primary mb-2">Buscar mis compras</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3"></div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#buscador").click(function(){
+      var rut = $("#rut").val();
+      console.log(rut);
+      if(rut !== undefined){
+        $.ajax({
+          type: 'POST',
+          cache: false,
+          url: 'getCompras',
+          data: {"rut": rut},
+          success: function(result){
+            console.log(result);
+            //Agregar un div para mostrar los pagos
+          }
+        })
+      }
+    })
+  })
+</script>

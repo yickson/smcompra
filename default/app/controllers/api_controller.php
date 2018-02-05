@@ -674,6 +674,185 @@ class apiController extends AppController{
     }
     
     /**
+     * Se cargan las zonas representates y supervisores
+     */
+    public function cargaEstZona(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/cargas_masivas/establecimiento_zona.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E3960');
+	
+	//Variables Globales
+	$primera = true;
+	$rbd  = null; $zona = null; $representante = null; $supervisor = null;
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$establecimiento = new Establecimientos();
+		$representante_zona = new RepresentanteZona() ;
+		$supervisor_representante = new SupervisorRepresentante();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //RBD
+			    if($colIndex == "A"){
+				$rbd = trim($cell->getCalculatedValue());
+			    }
+			    
+			    //Zona
+			    if($colIndex == "C"){
+				$zona = trim(str_replace('.',',',($cell->getCalculatedValue())));
+			    }
+			    
+			    //Representante
+			    if($colIndex == "D"){
+				$representante = trim($cell->getCalculatedValue());
+			    }
+			    
+			    //Supervisor
+			    if($colIndex == "E"){
+				$supervisor = trim($cell->getCalculatedValue());
+			    }
+			    
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe tupla en $establecimiento
+		    $establecimiento->find_by_rbd($rbd);
+		    if($establecimiento->id != null){
+			$zona_model          = new Zonas();
+			$zona_model->find_by_valor($zona);
+			if($zona_model->id != null){
+			    $establecimiento->zona = $zona_model->id;
+			    $establecimiento->save();
+			    
+			    $representante_model = new Representantes(); 
+			    $representante_model->find_by_nombre($representante);
+			    if($representante_model->id != null){
+				$representante_zona->representante = $representante_model->id;
+				$representante_zona->zona = $zona_model->id;
+				try{
+				    $representante_zona->save();
+				}catch(Exception $ex){
+				   
+				}
+				$supervisor_model = new Supervisor();
+				$supervisor_model->find_by_nombre($supervisor);
+				if($supervisor_model->id != null){
+				    $supervisor_representante->supervisor    = $supervisor_model->id;
+				    $supervisor_representante->representante = $representante_model->id;
+				    try{
+					$supervisor_representante->save();
+				    }catch(Exception $ex){
+
+				    }
+				}
+			    }
+			}
+		    }
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
+    
+    
+    
+    /**
+     * Se cargan las zonas representates y supervisores
+     */
+    public function cargaSeguimiento(){
+	Load::lib("php_excel");
+	
+	$archivo = "../public/files/seguimientos/seguimientos.xlsx";
+        $tipo = PHPExcel_IOFactory::identify($archivo);
+        $excel = PHPExcel_IOFactory::createReader($tipo);
+        $excel_reader = $excel->load($archivo);
+	//$excel_reader->setActiveSheetIndex(0)->rangeToArray('A1:E3960');
+	
+	//Variables Globales
+	$primera = true;
+	$orden_compra  = null; $transporte = null; $ot = null;
+	
+	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
+            $i = 1;
+            foreach ($worksheet->getRowIterator() as $fila=>$row):
+		
+		//Instancias
+		$despacho = new Despacho();
+		
+		if(!$primera){
+		    $cellIterator = $row->getCellIterator();
+		    $cellIterator->setIterateOnlyExistingCells(true);
+		    foreach ($cellIterator as $cell):
+		        $colIndex = $cell->getColumn();
+			$rowIndex = $row->getRowIndex();
+			$cell = $worksheet->getCell($colIndex . $rowIndex);
+			
+			try {
+			     
+			    //Orden de Compra
+			    if($colIndex == "B"){
+				$orden_compra = trim($cell->getCalculatedValue());
+			    }
+			    
+			    //Transporte
+			    if($colIndex == "J"){
+				$transporte = trim(str_replace('.',',',($cell->getCalculatedValue())));
+			    }
+			    
+			    //Codigo OT
+			    if($colIndex == "L"){
+				$ot = trim($cell->getCalculatedValue());
+			    }
+			    
+			    
+			} catch(PHPExcel_Exception $e) {
+			     print_r($e->getMessage());die();
+			}
+		    endforeach;
+		    
+		    //Buscamos si existe tupla en $establecimiento
+		    $despacho->find_by_orden_compra($orden_compra);
+		    if($despacho->id != null){
+			//Existe entonces no se debe guardar no debe existir duplicidad
+			print_r("ya existe ".$orden_compra." / ");
+		    }else{
+			//No existe entonces guardamos
+			$despacho->orden_compra = $orden_compra;
+			$despacho->transporte   = $transporte;
+			$despacho->ot           = $ot;
+			$despacho->save();
+		    }
+		}
+		$primera  = false;
+	    endforeach;
+	endforeach;
+	$this->data = "Perfecto!";
+	View::select(null, "json");
+    }
+    
+    /**
      * Asigna productos en la relacion de profesor alumnos
      * @param object  $profesor_alumno_producto
      * @param integer $profesor
@@ -697,6 +876,7 @@ class apiController extends AppController{
 	    $profesor_alumno_producto->save();
 	}
     }
+    
     
     /**
      * Relacion el alumno con el apoderado/profesor
@@ -730,4 +910,7 @@ class apiController extends AppController{
 	}
 	return $alumno->id;
     }
+    
+    
+    
 } 

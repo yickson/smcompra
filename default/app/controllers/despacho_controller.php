@@ -25,6 +25,10 @@ class DespachoController extends AppController
     $this->data = '';
     View::select(null, 'json');
   }
+  
+  public function seguimiento(){
+      
+  }
 }
 
 

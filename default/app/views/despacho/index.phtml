@@ -19,6 +19,9 @@
               <button id="buscador" type="button" class="btn btn-primary mb-2">Buscar mis compras</button>
             </form>
           </div>
+          <p id="#mensaje" class="card-text">
+            <span class="msj"></span>
+          </p>
         </div>
       </div>
     </div>
@@ -27,6 +30,7 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
+    var codigos = new Array();
     $("#buscador").click(function(){
       var rut = $("#rut").val();
       console.log(rut);
@@ -34,13 +38,20 @@
         $.ajax({
           type: 'POST',
           cache: false,
-          url: 'getCompras',
+          url: 'despacho/getCompras',
           data: {"rut": rut},
           success: function(result){
-            console.log(result);
+            //console.log(result);
             //Agregar un div para mostrar los pagos
+            if(typeof result === 'string'){
+              $(".msj").empty();
+              $(".msj").append('No posee ninguna compra en nuestra tienda');
+              console.log(result);
+            }else{
+              console.log('Redireccion');
+            }
           }
-        })
+        });
       }
     })
   })

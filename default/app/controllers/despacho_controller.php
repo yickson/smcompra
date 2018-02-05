@@ -28,17 +28,23 @@ class DespachoController extends AppController
         $this->data = 'No existe el usuario';
       }else{
         $codigos= (New Usuarios)->find_all_by_sql("SELECT wt.buyOrder FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id) WHERE wt.codigoRespuesta = 0 AND u.id = $id");
-        Session::set('id', $usuario->id);
-        $this->data = $codigos;
+        if(!empty($codigos)){
+          Session::set('id', $usuario->id);
+          $this->data = $codigos;
+        }else{
+          $this->data = 'No tiene compras';
+        }
       }
     }else{
-      $this->data = 'No hay usuario';
+      $this->data = 'No existe este RUT en nuestra plataforma';
     }
     View::select(null, 'json');
   }
-  
-  public function seguimiento(){
-      
+
+  public function seguimiento()
+  {
+    $id = Session::get('id');
+    $codigos= (New Usuarios)->find_all_by_sql("SELECT wt.buyOrder FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id) WHERE wt.codigoRespuesta = 0 AND u.id = $id");
   }
 }
 

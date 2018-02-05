@@ -45,10 +45,11 @@
             //Agregar un div para mostrar los pagos
             if(typeof result === 'string'){
               $(".msj").empty();
-              $(".msj").append('No posee ninguna compra en nuestra tienda');
+              $(".msj").append('<b>'+result+'</b>');
               console.log(result);
             }else{
-              console.log('Redireccion');
+              console.log('Aqui estamos');
+              window.location.href = 'despacho/seguimiento';
             }
           }
         });

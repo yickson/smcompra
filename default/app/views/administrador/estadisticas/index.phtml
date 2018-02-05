@@ -41,7 +41,7 @@
     </div>
   </div>
 <!-- Fin grafico N°2 -->
-
+<!-- Grafica por día de  -->
 </div>
 
 <script type="text/javascript">
@@ -68,6 +68,11 @@
                                          legenda : "Compras por usuario"});
           grafico_n2.estadistica2(result);
       }
+    });
+    $.ajax({
+      type: "GET",
+      cache: false,
+      url: "estadisticas/",
     })
   })
 </script>

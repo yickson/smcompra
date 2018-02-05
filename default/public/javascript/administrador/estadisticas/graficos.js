@@ -116,27 +116,14 @@ var Graficos = function(option){
             }]
         },
         options: {
-          elements: {
-             rectangle: {
-               borderSkipped: 'left',
-             }
-           },
-          responsive: true,
-          legend: {
-              position: 'right',
-          },
-          title: {
-              display: true,
-              text: 'Compras por tipo de usuario'
-          },
-          scales: {
-            xAxes: [{
-                ticks: {
-                   suggestedMin: 0,
-                   scaleBeginAtZero : true,
-                }
-            }]
-          }
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Compra por tipo de usuario'
+            }
         }
     });
   }

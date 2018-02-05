@@ -792,7 +792,6 @@ class apiController extends AppController{
 	
 	//Variables Globales
 	$primera = true;
-	$orden_compra  = null; $transporte = null; $ot = null;
 	
 	foreach ($excel_reader->getWorksheetIterator() as $test=>$worksheet):
             $i = 1;
@@ -800,6 +799,7 @@ class apiController extends AppController{
 		
 		//Instancias
 		$despacho = new Despacho();
+		$orden_compra  = null; $transporte = null; $ot = null;
 		
 		if(!$primera){
 		    $cellIterator = $row->getCellIterator();
@@ -823,6 +823,7 @@ class apiController extends AppController{
 			    
 			    //Codigo OT
 			    if($colIndex == "L"){
+				
 				$ot = trim($cell->getCalculatedValue());
 			    }
 			    
@@ -839,6 +840,7 @@ class apiController extends AppController{
 			print_r("ya existe ".$orden_compra." / ");
 		    }else{
 			//No existe entonces guardamos
+			
 			$despacho->orden_compra = $orden_compra;
 			$despacho->transporte   = $transporte;
 			$despacho->ot           = $ot;

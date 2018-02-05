@@ -19,6 +19,7 @@
               <button id="buscador" type="button" class="btn btn-primary mb-2">Buscar mis compras</button>
             </form>
           </div>
+          <!-- Aqui muestra los mensajes según el ingreso del RUT -->
           <p id="#mensaje" class="card-text">
             <span class="msj"></span>
           </p>
@@ -31,24 +32,34 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var codigos = new Array();
+    var rutv;
+    $("#rut")
+      .rut({formatOn: 'keyup', validateOn: 'change', minimumLength: 7})
+      .on('rutInvalido', function(){
+        $(this).parents(".form-group").addClass("has-danger");
+        $(this).addClass("is-invalid");
+        rutv = '';
+      })
+      .on('rutValido', function(){
+        $(this).parents(".form-group").removeClass("has-danger");
+        $(this).removeClass("is-invalid");
+      })
+      .on('rutValido', function(e, rut){
+        rutv = rut;
+      });
     $("#buscador").click(function(){
-      var rut = $("#rut").val();
       console.log(rut);
       if(rut !== undefined){
         $.ajax({
           type: 'POST',
           cache: false,
           url: 'despacho/getCompras',
-          data: {"rut": rut},
+          data: {"rut": rutv},
           success: function(result){
-            //console.log(result);
-            //Agregar un div para mostrar los pagos
             if(typeof result === 'string'){
               $(".msj").empty();
               $(".msj").append('<b>'+result+'</b>');
-              console.log(result);
             }else{
-              console.log('Aqui estamos');
               window.location.href = 'despacho/seguimiento';
             }
           }

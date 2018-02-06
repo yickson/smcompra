@@ -1,20 +1,27 @@
 
 <div class="card bg-light mb-12">
-    <div class="card-header">Selección de productos - Ediciones SM </div>
+    <div class="card-header">Seguimiento de Compras - Ediciones SM </div>
     <div class="card-body text-dark">
-	<div class="row" style="border-bottom: 1px solid #E6EAEA; border-top: 1px solid #E6EAEA; margin-top: 20px; padding: 10px;">
+<!--	<img src="../img/despacho.png" style="width:10%">-->
+	<div class="row" style=" margin-top: 20px; padding: 10px;">
 	    <div id="definicion1" class="col-xs-12 col-sm-6" >
-		<i class="fa fa-hashtag fa-2x" aria-hidden="true"></i>
+		
 		<div style="padding:20px" class="card  bg-light col-xs-12 col-sm-6">
-		    <label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> Codigos de Compra </label>
-		    <div class="form-group row">
-    <!--		   <img src="../img/despacho.png" width="225">-->
-
-			<div style="padding:20px; " class="card col-xs-12 col-sm-12">
-			    <label class="col-form-label col-xs-4 col-sm-4" >Despacho : </label> <label class="col-form-label col-xs-8 col-sm-8" >BLuexc </label>
-			    <label class="col-form-label col-xs-12 col-sm-12" >Codigo OT </label>
-			    <label class="col-form-label col-xs-12 col-sm-12" >6465823081</label>
-			</div>
+		    <label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> 
+			<i class="fa fa-hashtag" aria-hidden="true"></i> Codigos de Compra 
+		    </label>
+		    <div class="form-group row col-sm-12">
+			 <?php 
+				foreach($codigos as $codigo): ?>
+				    <div style="padding:20px; " class="card col-xs-12 col-sm-12">
+					<div class="row">
+					<label class="col-xs-12 col-sm-12" >Transporte  : <?php echo $codigo->transporte ?></label> 
+					</div>
+					<div class="row">
+					<label class="col-xs-12 col-sm-12" >Codigo OT   : <?php echo $codigo->ot?></label>
+					</div>
+				    </div>
+			<?php	endforeach; ?>
 		    </div>
 		</div>
 	    </div>

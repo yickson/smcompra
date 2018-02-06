@@ -812,17 +812,17 @@ class apiController extends AppController{
 			try {
 			     
 			    //Orden de Compra
-			    if($colIndex == "B"){
+			    if($colIndex == "C"){
 				$orden_compra = trim($cell->getCalculatedValue());
 			    }
 			    
 			    //Transporte
-			    if($colIndex == "J"){
+			    if($colIndex == "G"){
 				$transporte = trim(str_replace('.',',',($cell->getCalculatedValue())));
 			    }
 			    
 			    //Codigo OT
-			    if($colIndex == "L"){
+			    if($colIndex == "I"){
 				
 				$ot = trim($cell->getCalculatedValue());
 			    }
@@ -835,14 +835,14 @@ class apiController extends AppController{
 		    
 		    //Buscamos si existe tupla en $establecimiento
 		    $despacho->find_by_orden_compra($orden_compra);
-		    if($despacho->id != null){
+		    if($despacho->id != null and $orden_compra != "REVISAR"){
 			//Existe entonces no se debe guardar no debe existir duplicidad
 			print_r("ya existe ".$orden_compra." / ");
 		    }else{
 			//No existe entonces guardamos
 			
 			$despacho->orden_compra = $orden_compra;
-			$despacho->transporte   = $transporte;
+			$despacho->transporte   = $this->getTransporte($transporte);
 			$despacho->ot           = $ot;
 			$despacho->save();
 		    }
@@ -854,6 +854,16 @@ class apiController extends AppController{
 	View::select(null, "json");
     }
     
+    public function getTransporte($transporte){
+	$transporte_model = new Transporte();
+	$transporte_model->find_by_alias($transporte);
+	if($transporte_model->id != null){
+	    $transporte = $transporte_model->id;
+	}else{
+	    $transporte = 1;
+	}
+	return $transporte;
+    }
     /**
      * Asigna productos en la relacion de profesor alumnos
      * @param object  $profesor_alumno_producto

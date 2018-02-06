@@ -60,7 +60,19 @@
               $(".msj").empty();
               $(".msj").append('<b>'+result+'</b>');
             }else{
-              window.location.href = 'despacho/seguimiento';
+              swal({
+                  type: 'success',
+                  title: 'Usted tiene órdenes de compra',
+                  text: 'Gracias por su confianza, ya lo estamos redirigiendo...',
+                  timer: 3000,
+                  onOpen: () => {
+                    swal.showLoading()
+                  }
+                }).then((result) => {
+                  if (result.dismiss === 'timer') {
+                    window.location.href = 'despacho/seguimiento';
+                  }
+                });
             }
           }
         });

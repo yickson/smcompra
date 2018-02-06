@@ -48,6 +48,18 @@ class WebpayTransaccion extends ActiveRecord
       return false;
     }
   }
+
+  public function licencias()
+  {
+    $datos = (New WebpayTransaccion)->find_all_by_sql("SELECT wt.* FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id AND u.tipo = 1) WHERE wt.codigoRespuesta = 0 ");
+    return $datos;
+  }
+
+  public function productos()
+  {
+    $datos = (New WebpayTransaccion)->find_all_by_sql("SELECT wt.* FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id AND u.tipo = 2) WHERE wt.codigoRespuesta = 0 ");
+    return $datos;
+  }
 }
 
 

@@ -198,7 +198,7 @@ var Graficos = function(option){
     //console.log(cantidad_profesor);
     var ctx = document.getElementById(option.canvas);
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: dias,
             datasets: [{
@@ -221,4 +221,121 @@ var Graficos = function(option){
         }
     });
   }
+
+  this.estadistica5 = function (result){
+    var ctx = document.getElementById(option.canvas);
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['restante por vender', 'vendidos'],
+            datasets: [{
+                label: 'Compra por dias',
+                data: result,
+                backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)"],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Venta de Licencias'
+            }
+        }
+    });
+  }
+
+  this.estadistica6 = function (result){
+    var ctx = document.getElementById(option.canvas);
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['restante por vender', 'vendidos'],
+            datasets: [{
+                label: 'Compra por dias',
+                data: result,
+                backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)"],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Venta de Textos'
+            }
+        }
+    });
+  }
+
+  this.estadistica7 = function (indices){
+    var cantidad = new Array();
+    var dias = new Array();
+    var tope = indices.length;
+    var i=0;
+    $.each( indices, function( key, val )
+    {
+      if(val.dia == "1"){
+        dias[i] = 'Domingo';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "2"){
+        dias[i] = 'Lunes';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "3"){
+        dias[i] = 'Martes';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "4"){
+        dias[i] = 'Miércoles';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "5"){
+        dias[i] = 'Jueves';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "6"){
+        dias[i] = 'Viernes';
+        cantidad[i] = val.compras;
+      }
+      if(val.dia == "7"){
+        dias[i] = 'Sábado';
+        cantidad[i] = val.compras;
+      }
+      i++;
+    });
+    //console.log(cantidad_profesor);
+    var ctx = document.getElementById(option.canvas);
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dias,
+            datasets: [{
+                label: 'Compra por dias de la semana',
+                data: cantidad,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Compra en la semana'
+            }
+        }
+    });
+  }
+
 }

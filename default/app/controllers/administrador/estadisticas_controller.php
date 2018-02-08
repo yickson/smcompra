@@ -50,6 +50,13 @@ class EstadisticasController extends AppController
     $this->data = $webpay;
     View::select(null, 'json');
   }
+
+  public function compra_semana()
+  {
+    $webpay = (New WebpayTransaccion)->compra_semana();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
 }
 
 

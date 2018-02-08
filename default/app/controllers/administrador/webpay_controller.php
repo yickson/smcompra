@@ -85,6 +85,20 @@ class WebpayController extends AppController
     $this->data = $webpay;
     View::select(null, 'json');
   }
+
+  public function licPorcentaje()
+  {
+    $webpay = (New WebpayTransaccion)->licPorc();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
+
+  public function texPorcentaje()
+  {
+    $webpay = (New WebpayTransaccion)->texPorc();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
 }
 
 

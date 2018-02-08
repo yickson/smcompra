@@ -127,4 +127,98 @@ var Graficos = function(option){
         }
     });
   }
+
+  this.estadistica3 = function (indices){
+    var cantidad = new Array();
+    var meses = new Array();
+    var tope = indices.length;
+    var i=0;
+    $.each( indices, function( key, val )
+    {
+      if(val.mes == "1"){
+        meses[i] = "Enero";
+        cantidad[i] = val.compras;
+      }
+      if(val.mes == "2"){
+        meses[i] = "Febrero";
+        cantidad[i] = val.compras;
+      }
+      if(val.mes == "3"){
+        meses[i] = "Marzo";
+        cantidad[i] = val.compras;
+      }
+      if(val.mes == "4"){
+        meses[i] = "Abril";
+        cantidad[i] = val.compras;
+      }
+      if(val.mes == "5"){
+        meses[i] = "Mayo";
+        cantidad[i] = val.compras;
+      }
+      i++;
+    });
+    //console.log(cantidad_profesor);
+    var ctx = document.getElementById(option.canvas);
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Compra por mes',
+                data: cantidad,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Compra por tipo de usuario'
+            }
+        }
+    });
+  }
+
+  this.estadistica4 = function (indices){
+    var cantidad = new Array();
+    var dias = new Array();
+    var tope = indices.length;
+    var i=0;
+    $.each( indices, function( key, val )
+    {
+      dias[i] = val.dia;
+      cantidad[i] = val.compras;
+      i++;
+    });
+    //console.log(cantidad_profesor);
+    var ctx = document.getElementById(option.canvas);
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dias,
+            datasets: [{
+                label: 'Compra por dias',
+                data: cantidad,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Compra por tipo de usuario'
+            }
+        }
+    });
+  }
 }

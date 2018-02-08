@@ -60,6 +60,18 @@ class WebpayTransaccion extends ActiveRecord
     $datos = (New WebpayTransaccion)->find_all_by_sql("SELECT wt.* FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id AND u.tipo = 2) WHERE wt.codigoRespuesta = 0 ");
     return $datos;
   }
+
+  public function compra_mes()
+  {
+    $datos = (New WebpayTransaccion)->find_all_by_sql("SELECT MONTH(wt.fecha) as mes, COUNT(*) as compras FROM webpay_transaccion wt WHERE wt.codigoRespuesta = 0 GROUP BY MONTH(wt.fecha)");
+    return $datos;
+  }
+
+  public function compra_dias()
+  {
+    $datos = (New WebpayTransaccion)->find_all_by_sql("SELECT DAY(wt.fecha) as dia, COUNT(*) as compras FROM webpay_transaccion wt WHERE wt.codigoRespuesta = 0 GROUP BY DAY(wt.fecha)");
+    return $datos;
+  }
 }
 
 

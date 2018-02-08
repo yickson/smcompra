@@ -1,3 +1,5 @@
+<?php echo Tag::js("../bower_components/charts/dist/chart") ?>
+<?php echo Tag::js("administrador/estadisticas/graficos") ?>
 <div class="row">
   <div class="col-sm-4">
     <div class="info-box">
@@ -25,6 +27,105 @@
       <div class="info-box-content">
         <span class="info-box-text">Ingresos menos despacho</span>
         <span class="info-box-number"><?php echo $ventatotal->venta - $despacho ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+</div>
+<!-- Ingresos por Licencias y Textos -->
+<div class="row">
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Ventas total de Licencias</span>
+        <span class="info-box-number"><?php echo $licencias ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Venta total de textos</span>
+        <span class="info-box-number"><?php echo $textos ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Otra</span>
+        <span class="info-box-number">En construcción</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+</div>
+<!-- Licencia globales y textos globales -->
+<div class="row">
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Licencias globales</span>
+        <span class="info-box-number"><?php echo $licenciaGlobal ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Textos globales</span>
+        <span class="info-box-number"><?php echo $licVenta ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Licencias restantes por vender</span>
+        <span class="info-box-number"><?php echo $licenciaGlobal - $licVenta ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+</div>
+<!-- Textos globales, textos comprados, textos restantes por comprar -->
+<div class="row">
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Textos globales</span>
+        <span class="info-box-number"><?php echo $textoGlobal ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Textos vendidos</span>
+        <span class="info-box-number"><?php echo $texVenta ?></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Textos restantes por vender</span>
+        <span class="info-box-number"><?php echo $textoGlobal - $texVenta ?></span>
       </div>
       <!-- /.info-box-content -->
     </div>

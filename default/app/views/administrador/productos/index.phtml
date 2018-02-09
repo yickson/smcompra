@@ -28,8 +28,8 @@
       location.href = "https://localhost/smcompra/administrador/productos/editar/"+id;
     });
 
-    $("tabla_productos").on("click", "#agregar", function(){
-      location.href = "https://localhost/smcompra/administrador/productos/agregar/"+id;
+    $(".agregar").click(function(){
+      location.href = "https://localhost/smcompra/administrador/productos/agregar/";
     })
   });
 </script>
@@ -41,8 +41,7 @@
         <h3 class="box-title pull-left"> Lista de Productos activos </h3>
         <br>
         <br>
-        <button id="agregar" type="button" name="button" class="btn btn-success">Agregar nuevo producto</button>
-        <hr>
+        <button class="btn btn-success agregar pull-right">Agregar nuevo producto</button>
         <div class="table-responsive col-md-12">
           <table id="tabla_productos" class="display" cellspacing="0" width="100%">
             <thead>

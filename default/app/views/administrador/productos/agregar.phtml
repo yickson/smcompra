@@ -15,13 +15,17 @@
             <h4>Proyecto</h4>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-address-card-o" style="color:red"></i></span>
-              <input id="proyecto" minlength="9" maxlength="10" name="rut" type="text" class="form-control" placeholder="Ingrese proyecto">
+              <input id="proyecto" maxlength="50" name="rut" type="text" class="form-control" placeholder="Ingrese proyecto">
             </div>
             <br>
             <h4>Tipo</h4>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
-              <input id="tipo" minlength="3" maxlength="80" name="correo" type="text" class="form-control" placeholder="Ingrese Email">
+              <select id="tipo" class="form-control" name="tipo">
+                <?php foreach($tipos as $key => $valor): ?>
+                  <option value="<?php echo $valor->id ?>"><?php echo $valor->nombre ?></option>
+                <?php endforeach ?>
+              </select>
             </div>
             <br>
             <h4>Nombre</h4>
@@ -30,16 +34,20 @@
               <input id="nombre" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="Ingrese nombre del producto">
             </div>
             <br>
+            <h4>Nivel</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <select id="curso" class="form-control" name="tipo">
+                <?php foreach($cursos as $key => $valor): ?>
+                  <option value="<?php echo $valor->id ?>"><?php echo $valor->nombre ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <br>
             <h4>Código</h4>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
               <input id="codigo" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="Ingrese codigo SAP">
-            </div>
-            <br>
-            <h4>Precio</h4>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
-              <input id="valor" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="19000">
             </div>
             <br>
             <h4>Precio</h4>
@@ -61,23 +69,23 @@
   $(document).ready(function(){
     //console.log(id + nombre + rut + correo);
     $(".guardar").click(function(){
-      var id = $("#producto").val();
       var descripcion = $("#descripcion").val();
       var proyecto = $("#proyecto").val();
       var tipo = $("#tipo").val();
       var nombre = $("#nombre").val();
+      var nivel = $("#curso").val();
       var codigo = $("#codigo").val();
       var valor = $("#valor").val();
       $.ajax({
         type: "POST",
         cache: false,
-        url: "../editar_producto",
-        data: {"id": id, "descripcion":descripcion, "proyecto":proyecto, "tipo":tipo, "nombre":nombre, "codigo":codigo, "valor":valor},
+        url: "../agregar_producto",
+        data: {"descripcion":descripcion, "proyecto":proyecto, "tipo":tipo, "nombre":nombre, "nivel":nivel, "codigo":codigo, "valor":valor},
         success: function(result){
           if(result == 1){
-            console.log("producto actualizado");
+            console.log("producto ingresado");
             swal({
-               title: "Producto actualizado correctamente!",
+               title: "Producto ingresado correctamente!",
                text: "En breves momentos serás redireccionado",
                type: "success",
                timer: 3000
@@ -86,7 +94,7 @@
             console.log("error"); //Colocar el sweet alert
             swal(
                   'Error al editar',
-                  'No se pudieron editar los datos, vuelva a intentar',
+                  'No se pudieron ingresar los datos, vuelva a intentar',
                   'error'
                 );
           }

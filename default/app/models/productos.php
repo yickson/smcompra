@@ -1,5 +1,5 @@
 <?php
-
+require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
 /**
  * Modelo para productos (Libros o licencias)
  */
@@ -41,7 +41,7 @@ class Productos extends ActiveRecord
 	        $alumno = (new Productos)->find_all_by_sql("SELECT  *
 							    FROM establecimiento_proyecto as ep
 							    WHERE $sql");
-		
+
 		$lista_productos = new Productos();
 		$alumnos = array();
 		$i=0;
@@ -84,7 +84,7 @@ class Productos extends ActiveRecord
 							    FROM productos as p
 							    INNER JOIN profesor_alumnos pa ON (pa.producto_id = p.id and pa.usuario_id = $id_usuario and ($sql))
 							    ORDER BY pa.alumno_id ASC");
-		
+
 	  break;
       endswitch;
     return $alumnos;
@@ -93,6 +93,25 @@ class Productos extends ActiveRecord
     public function getProductosActivos()
     {
       $productos = (New Productos)->find_all_by_sql("SELECT pa.id, p.nombre as producto, p.codigo, u.nombre as usuario, a.nombre as alumno FROM profesor_alumnos pa INNER JOIN usuarios u ON (u.id = pa.usuario_id) INNER JOIN alumnos a ON (a.id = pa.alumno_id) INNER JOIN productos p ON (p.id = pa.producto_id) WHERE pa.estado = 1");
+      return $productos;
+    }
+
+    public function getProductos()
+    {
+      $productos = array();
+      $i = 0;
+      $datos = (New Productos)->find_all_by_sql("SELECT p.id, p.descripcion, p.proyecto, IF(p.tipo = 1, 'texto', 'licencia') AS tipo, p.nombre, p.codigo, p.valor FROM productos p ");
+      foreach ($datos as $key => $valor) {
+        $productos[$i]['id'] = $valor->id;
+        $productos[$i]['descripcion'] = $valor->descripcion;
+        $productos[$i]['proyecto'] = $valor->proyecto;
+        $productos[$i]['tipo'] = $valor->tipo;
+        $productos[$i]['nombre'] = $valor->nombre;
+        $productos[$i]['codigo'] = $valor->codigo;
+        $productos[$i]['valor'] = $valor->valor;
+        $productos[$i]['acciones'] = DatatableAcciones::getBtnProd($valor->id);
+        $i++;
+      }
       return $productos;
     }
 }

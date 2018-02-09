@@ -27,6 +27,7 @@
 //setlocale(LC_ALL, 'es_ES');
 
 //*Timezone*
+
 ini_set('date.timezone', 'America/Santiago');
 
 /**

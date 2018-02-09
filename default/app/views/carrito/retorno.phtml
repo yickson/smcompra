@@ -14,6 +14,10 @@
     $tipo = Session::get('tipo');
   
 ?>
+    <form name="webpay" action="<?=$result->urlRedirection?>" method="post">
+      <input type="text" name="token_ws" value="<?=$token?>" style="display:none"/>
+      <input id="regreso" type="submit" value="" style="display:none" />
+    </form>
     <?php if($tipo == 1): ?>
     
     <?php echo Tag::js("libros"); ?>
@@ -25,17 +29,13 @@
 
 	
     </script>
-    <?php else: ?>
+    <?php elseif ($tipo == 2): ?>
    <script>
-       $(document).ready(function(){
-	    $("#regreso").trigger("click");
-       });
+      window.onload = function(){
+	   document.webpay.submit();
+       }
   </script>
     
      <?php endif; ?>
-    <form name="webpay" action="<?=$result->urlRedirection?>" method="post">
-      <input type="text" name="token_ws" value="<?=$token?>" style="display:none"/>
-      <input id="regreso" type="submit" value="" style="display:none" />
-    </form>
 
 <?php endif ?>

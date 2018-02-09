@@ -39,10 +39,12 @@ var Libros = function(params){
             break;
 
             case $this.CHILE :  //Consume servicio rest de generacion de licencias, devuelve licencias por cada producto de alumno en session
-                var libros = [];
+                var libros_format = [];
+                var i = 0;
                 $.each($this.libros, function(key,val){     
                     if(val[0] == value.id){
-                        libros[key]  = [value.rut, val[1]];
+                        libros_format[i]  = [value.rut, val[1]];
+                        ++i;
                     }
                 });
                 $.ajax({
@@ -55,7 +57,7 @@ var Libros = function(params){
                         xhr.setRequestHeader("X-Public", $this.public);
                         xhr.setRequestHeader("X-Hash", $this.hash);
                     },
-                    data:{"libros": libros},
+                    data:{"libros": libros_format},
                     success: function(result){
                         console.log(result);
                         console.log("Conexion realizada con exito");
@@ -71,11 +73,13 @@ var Libros = function(params){
                                 $("#regreso").trigger("click");
                             },
                             error: function(){
+                                $("#regreso").trigger("click");
                                 console.log("error con el ingreso de licencias");
                             }
                         });
                     },
                     error: function(){
+                         $("#regreso").trigger("click");
                         console.log("error en consumo rest Libros");
                     }
                 }); 

@@ -138,6 +138,7 @@ class UsuarioController extends AppController
       if(!$datos->save()){
         $this->data = 'Error en el guardado';
       }else{
+	Session::set('iduser', $datos->id);
         $this->data = 1;
       }
     }else{
@@ -146,6 +147,7 @@ class UsuarioController extends AppController
         $usuario->save();
       }
         if($tipo == $usuario->tipo){
+	  Session::set('iduser', $usuario->id);
           $this->data = 1;
         }
         else{

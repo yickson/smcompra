@@ -8,8 +8,10 @@
     <?php Tag::css('minty') ?>
     <?php Tag::css('font') ?>
     <?php Tag::css('smcompra') ?>
+    <?php Tag::css('introjs') ?>
     <?= Html::IncludeCss() ?>
     <?php echo Tag::js('jquery3') ?>
+    <?php echo Tag::js("introjs/intro")?>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>-->
     <script src="https://unpkg.com/sweetalert2@7.0.9/dist/sweetalert2.all.js" charset="utf-8"></script>
     <?php echo Tag::js('rut') ?>
@@ -42,8 +44,7 @@
       <?php View::content() ?>
     </div>
     <?php View::partial('pie') ?>
-  </body>
-  <?php echo Tag::js('popper') ?>
+    <?php echo Tag::js('popper') ?>
   <?php echo Tag::js('bootstrap') ?>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112769494-1"></script>
@@ -54,4 +55,6 @@
 
   gtag('config', 'UA-112769494-1');
 </script>
+  </body>
+  
 </html>

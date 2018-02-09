@@ -44,12 +44,17 @@ class DespachoController extends AppController
   public function seguimiento()
   {
     $id = Session::get('id');
-    $codigos = (New Despacho)->find_all_by_sql("SELECT wt.buyOrder, d.orden_compra as codigo, d.ot as ot,
+    $codigos = (New Despacho)->find_all_by_sql("SELECT wt.buyOrder, d.orden_compra as codigo, d.ot as ot, u.nombre, d.transporte as codigo_transporte, 
 	                                      (SELECT nombre FROM transporte WHERE id = d.transporte) as transporte 
 	                                       FROM webpay_transaccion wt INNER JOIN usuarios u ON (u.id = wt.usuario_id) 
-	                                       INNER JOIN despacho d ON (d.orden_compra = wt.buyOrder) 
+	                                       LEFT JOIN despacho d ON (d.orden_compra = wt.buyOrder) 
 	                                       WHERE wt.codigoRespuesta = 0 AND u.id = $id");
     $this->codigos = $codigos;
+  }
+  
+   public function bluex()
+  {
+      
   }
 }
 

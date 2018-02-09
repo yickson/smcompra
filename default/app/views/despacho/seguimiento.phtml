@@ -1,56 +1,168 @@
 
+<script>
+//$(window).on("load", function(){
+//    $("#definicion3 iframe").contents().find("html").click(function(){
+//	alert("ASD");
+//    });
+//});
+
+$(document).ready(function(){
+    $('.guia').on('click', function(e){
+	startIntro();
+    });
+    
+    function startIntro(){
+	var intro = introJs();
+	  intro.setOptions({
+	    showProgress : true,  
+	    steps: [
+	      { 
+		intro: "<div text-align:justify'>Bienvenido al Sistema para el Seguimiento de sus pedidos. <br>Complete el inductivo hasta el final para conocer todas las funcionalidades que proporciona el sistema.<br> <strong>Suerte!</strong> </div>",
+		position: 'top',
+		tooltipClass: "intro-bienvenida",
+		showProgress: true
+	       },
+	      {
+		element: document.querySelector('.t1'),
+		intro: "Esta sección muetra su lista de pedidos de compra."
+	      },
+	      {
+		element: document.querySelectorAll('.t2')[0],
+		intro: "Este recuadro indica el <strong>Código de compra</strong>, el tipo de <strong>Transporte</strong> para despacho y el <strong>Código de seguimiento</strong> para saber el estado de sus pedidos.",
+		position: 'right'
+	      },
+	      {
+		element: document.querySelectorAll('.t3')[0],
+		intro: "<strong>Código de Compra:</strong> Es el código que le devuelve Transbank para identificar su pedido.",
+		position: 'right'
+	      },
+	      {
+		element: document.querySelectorAll('.t4')[0],
+		intro: "<strong>Transporte:</strong> Indica el Proveedor de despacho, para realizar un seguimiento deberá ingresar el Codigo de Seguimiento (se detallara en el paso siguiente)",
+		position: 'right'
+	      },
+	      {
+		element: document.querySelectorAll('.t5')[0],
+		intro: "<strong>Código de Seguimiento:</strong> Este código le permitirá conocer el estado actual de su pedido.",
+		position: 'right'
+	      },
+	      {
+		element: document.querySelectorAll('.t6')[0],
+		intro: "En esta sección podrá visualizar el estado de sus pedidos, aquí es donde debe ingresar el Codigo de Seguimiento.",
+		position: 'right'
+	      },
+	      {
+		element: document.querySelectorAll('.t2')[0],
+		intro: "<div text-align:justify' style='width:320px; padding:10px 20px 10px 10px' >Haz completado exitosamente el inductivo del sistema de seguimiento.<br> Ahora ya puedes realizar el seguimiento a tus pedidos. <br> Si tienes dudas puedes llamar a nuestro Callcenter <strong> (600 381 1312).</strong> <br>Para iniciar el proceso de seguimiento, debe hacer click en el recuadro destacado, el cual corresponde a un pedido en particular y luego ingrese su codigo de seguimiento.",
+		position: 'right'
+	      }
+	    ]
+	  });
+	  intro.start();
+    }
+
+    $("#definicion1").on("click",".codigos", function(){
+	var blue = 2;
+	var transporte = $(this).data("transporte");
+	var ot = $(this).data("ot")
+	
+	if(transporte == ""){
+	   $("#definicion3 #no_disponible").removeClass("hidden");
+	   $("#ot").text("Código de seguimiento no disponible");
+        }
+	
+        if(transporte == 2){
+	   $("#definicion3 #bluex").removeClass("hidden");
+	   $("#ot").text("Seguimiento : " + ot);
+        }
+	
+	if(transporte == 3){
+	   $("#definicion3 #tnt").removeClass("hidden");
+	   $("#ot").text("Seguimiento : " + ot);
+        }
+    });
+    
+   
+});
+</script>
 <div class="card bg-light mb-12">
     <div class="card-header">Seguimiento de Compras - Ediciones SM </div>
     <div class="card-body text-dark">
+          <h4 class="card-title">Asistente de despacho</h4>
+          <p class="card-text">Este asistente le ayudará a saber el estatus de su pedido</p>
+          <h4 class="card-title">Bienvenido</h4>
+          <p class="card-text">Por favor, lea todas las instrucciones antes de continuar.</p>
+          <p class="card-text">Presione el boton <strong>Guia de ayuda</strong> para aprender a utilizar el sistema de seguimiento.</p>
+          <p class="card-text"><button class="btn btn-success puntero guia"><i class="fa fa-book"></i> Guía de ayuda </button></p>
+	<hr>
 <!--	<img src="../img/despacho.png" style="width:10%">-->
 	<div class="row" style=" margin-top: 20px; padding: 10px;">
 	    <div id="definicion1" class="col-xs-12 col-sm-6" >
-		
-		<div style="padding:20px" class="card  bg-light col-xs-12 col-sm-6">
+		<h4 style="margin: 10px">Nombre : <?php echo (New Usuarios)->find(Session::get('id'))->nombre ?></h4>
+		<div style="padding:20px" class="card  bg-light col-xs-12 col-sm-9 col-md-9 col-xl-6 t1">
 		    <label style="font-size: 28px; text-decoration: underline; margin-left: 1%"> 
-			<i class="fa fa-hashtag" aria-hidden="true"></i> Codigos de Compra 
+			<img src="../img/despacho.png" style="width:10%; margin: -3% 5% 0% 0%">Pedidos de Compra 
 		    </label>
-		    <div class="form-group row col-sm-12">
+		    <div class="form-group row col-sm-12 t2">
 			 <?php 
 				foreach($codigos as $codigo): ?>
-				    <div style="padding:20px; " class="card col-xs-12 col-sm-12">
-					<div class="row">
-					<label class="col-xs-12 col-sm-12" >Transporte  : <?php echo $codigo->transporte ?></label> 
+				    <div style="padding:20px; margin-top:10px" class="card col-xs-12 col-sm-12 codigos"  data-transporte="<?php echo $codigo->codigo_transporte ?>"  data-ot="<?php echo $codigo->ot ?>">
+					<div class="row pull-right">
 					</div>
-					<div class="row">
-					<label class="col-xs-12 col-sm-12" >Codigo OT   : <?php echo $codigo->ot?></label>
+					<div class="row text-center">
+					    <label class="col-xs-12 col-sm-12 puntero" ><strong>Código de Compra</strong></label> 
 					</div>
+					<div class="row text-center t3">
+					    <label class="col-xs-12 col-sm-12 puntero" ><?php echo $codigo->buyOrder ?></label> 
+					</div>
+					<div class="row text-center">
+					<label class="col-xs-12 col-sm-12 puntero" ><strong>Transporte</strong> </label> 
+					</div>
+					<div class="row text-center t4">
+					    <label class="col-xs-12 col-sm-12 puntero" ><span><?php echo ($codigo->transporte == "") ?  "No disponible":  $codigo->transporte;  ?></span></label> 
+					</div>
+					<div class="row text-center">
+					<label class="col-xs-12 col-sm-12 puntero" ><strong>Código Seguimiento</strong></label>
+					</div>
+					<div class="row text-center t5">
+					    <label class="col-xs-12 col-sm-12 puntero" ><?php echo ($codigo->ot == "") ? "No disponible" : $codigo->ot?></label> 
+					</div>
+<!--					<img src="../img/despacho.png" style="width: 15%; height: 40%; float: right; margin: -5% 0% 0% 80%; position: absolute;">-->
 				    </div>
 			<?php	endforeach; ?>
 		    </div>
 		</div>
 	    </div>
 	    <div id="definicion3" class="col-xs-12 col-sm-6">
-		<div class="form-group row">
+		<div class="row">
 		    <div class="col-md-12" style="">
-			<h4>Seguimiento <?php echo Session::get('id') ?></h4>
+			<h4><span id="ot"></span></h4>
 			<i class="carrito_compra" aria-hidden="true"></i>
 			<span id="carrito_txt" class="badge badge-dark"></span>
 		    </div>
-		    		    <iframe  id="iframess" width='700' height='500' src="http://www.bluex.cl/web/portal-blue-express-chile/nacional" frameborder="0" allowfullscreen></iframe>
-
+		    <div  class="col-md-12 t6" >
+			<iframe id="bluex" class="hidden" width='700' height='500' src="https://localhost/smcompra/despacho/bluex" frameborder="0" allowfullscreen></iframe>
+			<iframe id="tnt"   class="hidden" width='700' height='500' src="https://www.tnt.com/express/es_cl/site/herramientas-envio/seguimiento.html" frameborder="0" allowfullscreen></iframe>
+			<div class="hidden" id="no_disponible">	
+			    <h4>Su pedido está en preparación</h4>
+			    <img src="../img/proceso_2.png" style="width: 90%; height: 60%; float: left; margin: 5% 0% 0% 0%;">
+			</div>
+		    </div>
 		</div>
-
 	    </div>
 	</div>
     </div>
 </div>
-<script>
-
-  $(document).ready(function(){
-    var iFrameDOM = $("iframe#iframess").contents();
-	    iFrameDOM.find("html").css("overflow-x","hidden");
-	    iFrameDOM.find("html").css("overflow-y","hidden");
-    console.log(iFrameDOM);
-  });
-</script>
 <style>
-    iframe.html{
-	overflow: hidden !important;
+    .codigos{
+	cursor: pointer;
+    }
+    
+    .puntero{
+	cursor: pointer;
+    }
+    
+    .hidden{
+	display:none;
     }
 </style>

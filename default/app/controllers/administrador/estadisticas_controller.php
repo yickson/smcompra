@@ -36,6 +36,27 @@ class EstadisticasController extends AppController
     $this->data = $datos;
     View::select(null, 'json');
   }
+
+  public function compra_mes()
+  {
+    $webpay = (New WebpayTransaccion)->compra_mes();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
+
+  public function compra_dias()
+  {
+    $webpay = (New WebpayTransaccion)->compra_dias();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
+
+  public function compra_semana()
+  {
+    $webpay = (New WebpayTransaccion)->compra_semana();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
 }
 
 

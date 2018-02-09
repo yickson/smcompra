@@ -44,6 +44,69 @@
 <!-- Grafica por día de  -->
 </div>
 
+<!-- Compra por mes -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Compras realizadas por mes</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="chart">
+          <canvas id="chart3" width="510" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Compra por dias -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Compras realizadas por dias</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="chart">
+          <canvas id="chart4" width="510" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Compra por días de la semana -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Compras realizadas en la semana</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="chart">
+          <canvas id="chart5" width="510" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
   $(document).ready(function(){
     //Grafico para obtener número de usuarios
@@ -70,9 +133,37 @@
       }
     });
     $.ajax({
-      type: "GET",
-      cache: false,
-      url: "estadisticas/",
-    })
+        type    : "GET",
+        cache   : false,
+        url     : "estadisticas/compra_mes",
+        success: function(result) {
+            var grafico_n3 = new Graficos({tipo    : "line",
+                                           canvas  : "chart3",
+                                           legenda : "Compra por mes"});
+            grafico_n3.estadistica3(result);
+        }
+      });
+      $.ajax({
+          type    : "GET",
+          cache   : false,
+          url     : "estadisticas/compra_dias",
+          success: function(result) {
+              var grafico_n4 = new Graficos({tipo    : "line",
+                                             canvas  : "chart4",
+                                             legenda : "Compra por dias"});
+              grafico_n4.estadistica4(result);
+          }
+        });
+        $.ajax({
+            type    : "GET",
+            cache   : false,
+            url     : "estadisticas/compra_semana",
+            success: function(result) {
+                var grafico_n5 = new Graficos({tipo    : "line",
+                                               canvas  : "chart5",
+                                               legenda : "Compra por dias"});
+                grafico_n5.estadistica7(result);
+            }
+          });
   })
 </script>

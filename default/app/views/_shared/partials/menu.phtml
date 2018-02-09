@@ -50,4 +50,57 @@
     <span>Alumnos</span>
 	</a>
     </li>
+    <li class="header"> TRANSACCIONES </li>
+    <li class="treeview" id="apoderado">
+      <a href="#" id="menu2">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Pedidos</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li id="menu22">
+          <a href="<?php echo PUBLIC_PATH ?>administrador/pedidos/" id="lista">
+            <i class="fa fa-list" aria-hidden="true"></i>Compras
+          </a>
+        </li>
+
+      </ul>
+    </li>
+    <li class="treeview" id="apoderado">
+      <a href="#" id="menu2">
+        <i class="fa fa-money"></i>
+        <span>WebPay</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li id="menu22">
+          <a href="<?php echo PUBLIC_PATH ?>administrador/webpay/" id="lista">
+            <i class="fa fa-list" aria-hidden="true"></i>Todas las compras
+          </a>
+        </li>
+        <li id="menu22">
+          <a href="<?php echo PUBLIC_PATH ?>administrador/webpay/licencias" id="lista">
+            <i class="fa fa-list" aria-hidden="true"></i>Venta licencias
+          </a>
+        </li>
+        <li id="menu22">
+          <a href="<?php echo PUBLIC_PATH ?>administrador/webpay/productos" id="lista">
+            <i class="fa fa-list" aria-hidden="true"></i>Venta Textos
+          </a>
+        </li>
+        <li id="menu22">
+          <a href="<?php echo PUBLIC_PATH ?>administrador/webpay/ingresos" id="lista">
+            <i class="fa fa-list" aria-hidden="true"></i>Ingresos y gráficas
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="header"> ESTADISTICAS </li>
+    <li class="" id="menu22">
+      <?php echo Html::link('administrador/estadisticas', '<i class="fa fa-list" aria-hidden="true"></i><span>Principal</span>', 'id="lista"') ?>
+    </li>
 </ul>

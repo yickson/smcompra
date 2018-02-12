@@ -21,10 +21,7 @@ class IndexController extends AppController
 
   public function index()
   {
-    $auth = (New Administrador)->logged();
-    if(!$auth){
-      Redirect::to('administrador/index/entrar');
-    }
+    View::template('admin');
   }
 
   public function entrar()

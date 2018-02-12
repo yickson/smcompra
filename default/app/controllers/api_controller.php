@@ -784,7 +784,7 @@ class apiController extends AppController{
     public function cargaSeguimiento(){
 	Load::lib("php_excel");
 	
-	$archivo = "../public/files/seguimientos/seguimientos_2.xlsx";
+	$archivo = "../public/files/seguimientos/seguimientos_4.xlsx";
         $tipo = PHPExcel_IOFactory::identify($archivo);
         $excel = PHPExcel_IOFactory::createReader($tipo);
         $excel_reader = $excel->load($archivo);
@@ -817,12 +817,12 @@ class apiController extends AppController{
 			    }
 			    
 			    //Transporte
-			    if($colIndex == "G"){
+			    if($colIndex == "I"){
 				$transporte = trim(str_replace('.',',',($cell->getCalculatedValue())));
 			    }
 			    
 			    //Codigo OT
-			    if($colIndex == "I"){
+			    if($colIndex == "J"){
 				
 				$ot = trim($cell->getCalculatedValue());
 			    }

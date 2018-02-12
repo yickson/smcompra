@@ -41,7 +41,7 @@ var Licencias = function(params){
             });
         },
         error: function(){
-            console.log("error en consumo rest Licencias");;
+            console.log("error en consumo rest Licencias");
         }
     });
 };

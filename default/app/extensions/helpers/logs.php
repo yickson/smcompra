@@ -22,8 +22,9 @@ class Logs
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
 		$mensaje .= "* ID_USUARIO: ".Session::get("iduser")."\n";
-		$mensaje .= "* HIJOS: ".json_encode(Session::get("alumno"));
-		$mensaje .= "* NAVEGADOR/VERSION: ".json_encode(Session::get("navegador"));
+		$mensaje .= "* HIJOS: ".json_encode(Session::get("alumno"))."\n";
+		$mensaje .= "* NAVEGADOR/VERSION: ".json_encode(Session::get("navegador"))."\n";
+		$mensaje .= "* NAVEGADOR/VERSION: ".$_SERVER["HTTP_HOST"];
 	    }
 	}
 
@@ -35,8 +36,9 @@ class Logs
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
 		$mensaje .= "* ID_USUARIO: ".Session::get("iduser")."\n";
-		$mensaje .= "* HIJOS: ".json_encode(Session::get("alumno"));
-		$mensaje .= "* NAVEGADOR/VERSION: ".json_encode(Session::get("navegador"));
+		$mensaje .= "* HIJOS: ".json_encode(Session::get("alumno"))."\n";
+		$mensaje .= "* NAVEGADOR/VERSION: ".json_encode(Session::get("navegador"))."\n";
+		$mensaje .= "* NAVEGADOR/VERSION: ".$_SERVER["HTTP_HOST"];
 	    }
 	}
 
@@ -157,6 +159,10 @@ class Logs
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
 		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
 		$mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* TARJETA: ".$status->cardDetail->cardNumber;
+		$mensaje .= "* CUOTAS: ".$status->detailOutput->sharesNumber;
+		$mensaje .= "* TIPO PAGO: ".$status->detailOutput->paymentTypeCode;
+		$mensaje .= "* VCI: ".$status->VCI;
 		$mensaje .= "* CARRITO: ".$_COOKIE["carritoSM"];
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha modificado \n";
@@ -178,6 +184,11 @@ class Logs
 		$mensaje .= "* STATUS: ".$status->responseCode."\n";
 		$mensaje .= "* ORDENCOMPRA: ".$status->buyOrder."\n";
 		$mensaje .= "* MONTO: ".$status->amount."\n";
+		$mensaje .= "* TARJETA: ".$status->cardDetail->cardNumber;
+		$mensaje .= "* CUOTAS: ".$status->detailOutput->sharesNumber;
+		$mensaje .= "* TIPO PAGO: ".$status->detailOutput->paymentTypeCode;
+		$mensaje .= "* VCI: ".$status->VCI;
+		$mensaje .= "* CARRITO: ".$_COOKIE["carritoSM"];
 	    }else{
 		$mensaje  = "El Archivo $nombre_archivo se ha creado \n";
 		$mensaje .= "* ID_USUARIO: ".$resp->sessionId."\n";

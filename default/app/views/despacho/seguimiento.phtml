@@ -1,4 +1,3 @@
-
 <script>
 //$(window).on("load", function(){
 //    $("#definicion3 iframe").contents().find("html").click(function(){
@@ -64,7 +63,7 @@ $(document).ready(function(){
     $("#definicion1").on("click",".codigos", function(){
 	var blue = 2;
 	var transporte = $(this).data("transporte");
-	var ot = $(this).data("ot")
+	var ot = $(this).data("ot");
 	
 	if(transporte == ""){
 	   $("#definicion3 #no_disponible").removeClass("hidden");
@@ -72,8 +71,9 @@ $(document).ready(function(){
         }
 	
         if(transporte == 2){
-	   $("#definicion3 #bluex").removeClass("hidden");
-	   $("#ot").text("Seguimiento : " + ot);
+	    $("#definicion3 #bluex").removeClass("hidden");
+	    copiarOT(ot);
+	    $("#ot").text("Seguimiento : " + ot);
         }
 	
 	if(transporte == 3){
@@ -82,8 +82,39 @@ $(document).ready(function(){
         }
     });
     
-   
+    function openProveedor(url, titulo, w, h) {
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2);
+	var popup = window.open(url, titulo, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+	return popup;
+    } 
+    
+    function copiarOT(id) {
+	swal({
+	    title: "Éste es tu Código de seguimiento: \n "+ id,
+	    text: "Anotalo para ingresarlo en la siguiente ventana a continuación!. \n ¿Lo has anotado?",
+	    icon: "info",
+	    buttons: ["No aun", "Sí, lo he anotado!"],
+	    dangerMode: false,
+	  })
+	  .then((willDelete) => {
+	    if (willDelete) {
+//	      swal("Bien! ", {
+//		icon: "success",
+//		timer: 3000,
+//                  onOpen: () => {
+//		    
+//                    swal.showLoading()
+//                  }
+//	      });
+	      openProveedor('http://www.bluex.cl', 'myPop1',400,450);
+	    } else {
+	      //swal("Your imaginary file is safe!");
+	    }
+	  });
+    }
 });
+    
 </script>
 <div class="card bg-light mb-12">
     <div class="card-header">Seguimiento de Compras - Ediciones SM </div>
@@ -140,9 +171,7 @@ $(document).ready(function(){
 			<i class="carrito_compra" aria-hidden="true"></i>
 			<span id="carrito_txt" class="badge badge-dark"></span>
 		    </div>
-		    <div  class="col-md-12 t6" >
-			<iframe id="bluex" class="hidden" width='700' height='500' src="https://localhost/smcompra/despacho/bluex" frameborder="0" allowfullscreen></iframe>
-			<iframe id="tnt"   class="hidden" width='700' height='500' src="https://www.tnt.com/express/es_cl/site/herramientas-envio/seguimiento.html" frameborder="0" allowfullscreen></iframe>
+<!--			<iframe id="tnt"   class="hidden" width='700' height='500' src="https://www.tnt.com/express/es_cl/site/herramientas-envio/seguimiento.html" frameborder="0" allowfullscreen></iframe>-->
 			<div class="hidden" id="no_disponible">	
 			    <h4>Su pedido está en preparación</h4>
 			    <img src="../img/proceso_2.png" style="width: 90%; height: 60%; float: left; margin: 5% 0% 0% 0%;">

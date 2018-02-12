@@ -9,7 +9,7 @@ class WebpayTransaccion extends ActiveRecord
   {
     //Metodo para ingresar la transaccion
     $transaccion = New WebpayTransaccion;
-    $transaccion->usuario_id = $_COOKIE["clienteSM"];
+    $transaccion->usuario_id = $pago->sessionId;
     $transaccion->buyOrder = $pago->detailOutput->buyOrder;
     $transaccion->cardNumber = $pago->cardDetail->cardNumber;
     $transaccion->cuotas = $pago->detailOutput->sharesNumber;

@@ -25,12 +25,7 @@ class Pedidos extends ActiveRecord
   
   public function getPedidos() 
   {
-	$pedidos = $this->find_all_by_sql("SELECT p.id, 
-					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre, 
-					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
-					   wp.buyOrder , wp.monto, wp.fecha
-					   FROM pedidos as p
-					   INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)");
+	$pedidos = $this->find_all_by_sql("SELECT u.id, u.nombre, u.rut, wt.buyOrder, wt.monto, wt.fecha FROM pedidos p INNER JOIN webpay_transaccion wt ON (wt.id = p.transaccion_id AND (codigoRespuesta = 0 or codigoRespuesta = 1)) INNER JOIN usuarios u ON (u.id = wt.usuario_id)");
 	//formatear no mas
 	$pedidos_format = array();
 	foreach($pedidos as $k => $pedido):
@@ -58,12 +53,7 @@ class Pedidos extends ActiveRecord
 
   public function getPedidosMail()
   {
-    $pedidos = $this->find_all_by_sql("SELECT p.id,
-  					  (SELECT nombre FROM usuarios WHERE id = p.usuario_id) as nombre,
-  					  (SELECT rut FROM usuarios WHERE id = p.usuario_id) as rut,
-  					   wp.buyOrder , wp.monto, wp.fecha
-  					   FROM pedidos as p
-  					   INNER JOIN webpay_transaccion wp ON (p.transaccion_id = wp.id and codigoRespuesta = 0)");
+    $pedidos = $this->find_all_by_sql("SELECT u.id, u.nombre, u.rut, wt.buyOrder, wt.monto, wt.fecha FROM pedidos p INNER JOIN webpay_transaccion wt ON (wt.id = p.transaccion_id AND codigoRespuesta = 0) INNER JOIN usuarios u ON (u.id = wt.usuario_id)");
   	//formatear no mas
   	$pedidos_format = array();
   	foreach($pedidos as $k => $pedido):

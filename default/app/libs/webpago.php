@@ -8,7 +8,8 @@ class Webpago
 {
   public $urlR = 'https://localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
   public $urlF = 'https://localhost/smcompra/carrito/fin'; //URL de vista final segun caso
-
+  public $urlR2 = 'https://www.localhost/smcompra/carrito/retorno'; //URL de llamada de Retorno
+  public $urlF2 = 'https://www.localhost/smcompra/carrito/fin'; //URL de vista final segun caso
   public function inicioWebpay()
   {
     //Load::lib('libwebpay/configuration');
@@ -30,8 +31,8 @@ class Webpago
 	Redirect::to('../', 5);
     }else{
 	$sessionId = $_COOKIE['clienteSM']; //Random
-	$urlReturn = $this->urlR;
-	$urlFinal  = $this->urlF;
+	$urlReturn = ($_SERVER["HTTP_HOST"] == 'www.localhost')? $this->urlR2 : $this->urlR;
+	$urlFinal  = ($_SERVER["HTTP_HOST"] == 'www.localhost')? $this->urlF2 : $this->urlF;
 	return $webpay->getNormalTransaction()->initTransaction($amount, $buyOrder, $sessionId , $urlReturn, $urlFinal);
     }
   }

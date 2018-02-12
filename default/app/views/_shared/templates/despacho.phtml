@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>SM Compra | Ediciones SM</title>
+    <link rel="icon" type="image/png" href="/img/favicon_sm.png" />
+    <?php Tag::css('minty') ?>
+    <?php Tag::css('font') ?>
+    <?php Tag::css('smcompra') ?>
+    <?php Tag::css('introjs') ?>
+    <?= Html::IncludeCss() ?>
+    <?php echo Tag::js('jquery3') ?>
+    <?php echo Tag::js("introjs/intro")?>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <?php echo Tag::js('rut') ?>
+  </head>
+  <body>
+    <?php echo Html::img('fondo.jpg', 'Logo ediciones SM', 'style="width:100%; height: 100%; position:absolute"') ?></a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light col-sm-12">
+	<div class="col-md-2"></div>
+	<a class="navbar-brand"><?php echo Html::img('logo_tiendasm.png', 'Logo ediciones SM', 'width="160" height="50"') ?></a>
+	<div class="collapse navbar-collapse" id="top-navbar-1"></div>
+	<ul class="nav navbar-nav navbar-right">
+	    <li>
+		<span class="li-text">
+		    Síguenos en nuestras
+		</span>
+		<strong>redes</strong>
+		<span class="li-text">
+		    sociales:
+		</span>
+		<span class="li-social" >
+		    <a href="https://es-la.facebook.com/edicionesSMChile/"><i class="fa fa-facebook fa-2x"></i></a>
+		    <a href="https://twitter.com/ediciones_sm?lang=es"><i class="fa fa-twitter fa-2x"></i></a>
+		</span>
+	    </li>
+	</ul>
+	<div class="col-md-2"></div>
+    </nav>
+  <div class="col-sm-2"></div>
+    <div class="container-fluid">
+      <?php View::content() ?>
+    </div>
+    <?php View::partial('pie') ?>
+    <?php echo Tag::js('popper') ?>
+  <?php echo Tag::js('bootstrap') ?>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112769494-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112769494-1');
+</script>
+  </body>
+  
+</html>

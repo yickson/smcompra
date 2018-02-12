@@ -47,6 +47,7 @@ var Libros = function(params){
                         ++i;
                     }
                 });
+                console.log(libros_format);
                 $.ajax({
                     type  : "post",
                     cache : false,
@@ -79,7 +80,7 @@ var Libros = function(params){
                         });
                     },
                     error: function(){
-                         $("#regreso").trigger("click");
+                        $("#regreso").trigger("click");
                         console.log("error en consumo rest Libros");
                     }
                 }); 

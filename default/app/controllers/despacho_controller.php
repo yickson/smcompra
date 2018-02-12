@@ -43,6 +43,7 @@ class DespachoController extends AppController
 
   public function seguimiento()
   {
+    View::template("despacho");
     $id = Session::get('id');
     $codigos = (New Despacho)->find_all_by_sql("SELECT wt.buyOrder, d.orden_compra as codigo, d.ot as ot, u.nombre, d.transporte as codigo_transporte, 
 	                                      (SELECT nombre FROM transporte WHERE id = d.transporte) as transporte 
@@ -54,7 +55,7 @@ class DespachoController extends AppController
   
    public function bluex()
   {
-      
+     
   }
 }
 

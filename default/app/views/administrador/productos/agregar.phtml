@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title"> Editar usuario </h3>
+        <div class="box-body">
+          <form id="editar_usuario" >
+            <h4>Descripción</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user" style="color:red"></i></span>
+              <input id="descripcion" name="nombre" type="text" class="form-control" placeholder="Ingrese Descripcion del producto">
+            </div>
+            <br>
+            <h4>Proyecto</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-address-card-o" style="color:red"></i></span>
+              <input id="proyecto" maxlength="50" name="rut" type="text" class="form-control" placeholder="Ingrese proyecto">
+            </div>
+            <br>
+            <h4>Tipo</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <select id="tipo" class="form-control" name="tipo">
+                <?php foreach($tipos as $key => $valor): ?>
+                  <option value="<?php echo $valor->id ?>"><?php echo $valor->nombre ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <br>
+            <h4>Nombre</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <input id="nombre" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="Ingrese nombre del producto">
+            </div>
+            <br>
+            <h4>Nivel</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <select id="curso" class="form-control" name="tipo">
+                <?php foreach($cursos as $key => $valor): ?>
+                  <option value="<?php echo $valor->id ?>"><?php echo $valor->nombre ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <br>
+            <h4>Código</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <input id="codigo" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="Ingrese codigo SAP">
+            </div>
+            <br>
+            <h4>Precio</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <input id="valor" minlength="3" maxlength="80" name="telefono" type="text" class="form-control" placeholder="19000">
+            </div>
+            <br>
+          </form>
+          <button  class="btn btn-success guardar pull-right"  />Agregar producto</button>
+          <span class=" ml-1 pull-right"> &nbsp; &nbsp; </span>
+          <button  class="btn btn-default volver  pull-right"  />Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    //console.log(id + nombre + rut + correo);
+    $(".guardar").click(function(){
+      var descripcion = $("#descripcion").val();
+      var proyecto = $("#proyecto").val();
+      var tipo = $("#tipo").val();
+      var nombre = $("#nombre").val();
+      var nivel = $("#curso").val();
+      var codigo = $("#codigo").val();
+      var valor = $("#valor").val();
+      $.ajax({
+        type: "POST",
+        cache: false,
+        url: "../agregar_producto",
+        data: {"descripcion":descripcion, "proyecto":proyecto, "tipo":tipo, "nombre":nombre, "nivel":nivel, "codigo":codigo, "valor":valor},
+        success: function(result){
+          if(result == 1){
+            console.log("producto ingresado");
+            swal({
+               title: "Producto ingresado correctamente!",
+               text: "En breves momentos serás redireccionado",
+               type: "success",
+               timer: 3000
+             });
+          }else{
+            console.log("error"); //Colocar el sweet alert
+            swal(
+                  'Error al editar',
+                  'No se pudieron ingresar los datos, vuelva a intentar',
+                  'error'
+                );
+          }
+        }
+      })
+    });
+    $(".volver").click(function(){
+      location.href = "https://localhost/smcompra/administrador/productos";
+    })
+  })
+</script>

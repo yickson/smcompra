@@ -2,7 +2,7 @@
 <?php Tag::css('../bower_components/datatables.net-bs/css/dataTables.bootstrap.min') ?>
 <script type="text/javascript">
   $(document).ready(function() {
-    var table = $('#tabla_licencias').DataTable( {
+    var table = $('#tabla_productos').DataTable( {
       "ajax": {
                "url": "productos/listar_productos",
                "dataType": "json",
@@ -14,13 +14,23 @@
       ],
       "columns": [
           { "data": "id" },
-      	  { "data": "codigo" },
-      	  { "data": "producto" },
-      	  { "data": "usuario" },
-          { "data": "alumno" }
+      	  { "data": "descripcion" },
+      	  { "data": "proyecto" },
+      	  { "data": "tipo" },
+          { "data": "nombre" },
+          { "data": "codigo"},
+          { "data": "valor"},
+          { "data": "acciones"}
       ]
     });
+    $("#tabla_productos").on("click", ".editar", function(){
+      var id = $(this).attr("value");
+      location.href = "https://localhost/smcompra/administrador/productos/editar/"+id;
+    });
 
+    $(".agregar").click(function(){
+      location.href = "https://localhost/smcompra/administrador/productos/agregar/";
+    })
   });
 </script>
 <div class="row">
@@ -30,16 +40,20 @@
         <i class="fa fa-users hidden"></i>
         <h3 class="box-title pull-left"> Lista de Productos activos </h3>
         <br>
-        <hr>
+        <br>
+        <button class="btn btn-success agregar pull-right">Agregar nuevo producto</button>
         <div class="table-responsive col-md-12">
-          <table id="tabla_licencias" class="display" cellspacing="0" width="100%">
+          <table id="tabla_productos" class="display" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>ID</th>
-		                <th>Codigo SAP</th>
-            		    <th>Nombre producto</th>
-            		    <th>Usuario</th>
-                    <th>Alumno</th>
+		                <th>Descripcion</th>
+            		    <th>Proyecto</th>
+            		    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Código SAP</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
           </table>

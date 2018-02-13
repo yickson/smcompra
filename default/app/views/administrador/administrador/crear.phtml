@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title"> Crear usuario </h3>
+        <div class="box-body">
+          <form id="editar_usuario" >
+            <h4>Nombre</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user" style="color:red"></i></span>
+              <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Ingrese nombre del usuario">
+            </div>
+            <br>
+            <h4>Correo</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope" style="color:red"></i></span>
+              <input id="correo" type="text" class="form-control" placeholder="Ingrese correo">
+            </div>
+            <br>
+            <h4>Nivel</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-arrow-circle-up" style="color:red"></i></span>
+              <select id="nivel" class="form-control" name="tipo">
+                <?php foreach($nivel as $key => $valor): ?>
+                  <option value="<?php echo $valor->id ?>"><?php echo $valor->descripcion ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <h4>Clave</h4>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-key" style="color:red"></i></span>
+              <input id="clave" type="password" class="form-control" placeholder="Ingrese la clave">
+            </div>
+            <br>
+            <br>
+          </form>
+          <button  class="btn btn-success guardar pull-right"  />Crear</button>
+          <span class=" ml-1 pull-right"> &nbsp; &nbsp; </span>
+          <button  class="btn btn-default volver  pull-right"  />Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(".guardar").click(function(){
+  var nombre = $("#nombre").val();
+  var correo = $("#correo").val();
+  var nivel = $("#nivel").val();
+  var clave = $("#clave").val();
+  $.ajax({
+    type: "POST",
+    cache: false,
+    url: "../crear_usuario",
+    data: {"nombre":nombre, "correo":correo, "nivel":nivel, "clave":clave },
+    success: function(result){
+      if(result == 1){
+        console.log("usuario creado");
+        swal({
+           title: "Usuario creado correctamente!",
+           text: "En breves momentos serás redireccionado",
+           type: "success",
+           timer: 2500,
+           onOpen: () => {
+             swal.showLoading()
+           }
+         }).then((result) => {
+           if (result.dismiss === 'timer') {
+             window.location.href = "https://localhost/smcompra/administrador/administrador/";
+           }
+         });
+      }else{
+        console.log("error"); //Colocar el sweet alert
+        swal(
+              'Error al crear',
+              'No se pudieron crear los datos del usuario, vuelva a intentar',
+              'error'
+            );
+      }
+    }
+  })
+});
+</script>

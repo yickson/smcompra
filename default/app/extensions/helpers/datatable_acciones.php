@@ -155,4 +155,10 @@ class datatableAcciones
       $btn = "<button value='$id' class='btn btn-success editar'><i class='fa fa-edit'></i></button>";
       return $btn;
     }
+
+    public static function getBtnAdm($id)
+    {
+      $btn = "<button value='$id' class='btn btn-success editar'><i class='fa fa-edit'></i></button>";
+      return $btn;
+    }
 }

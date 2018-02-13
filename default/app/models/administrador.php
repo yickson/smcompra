@@ -1,5 +1,5 @@
 <?php
-
+require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
 /**
  * Modelo del administrador
  */
@@ -40,6 +40,22 @@ class Administrador extends ActiveRecord
   public static function logged()
   {
   return Auth2::factory('model')->isValid();
+  }
+
+  public function getAdministrador()
+  {
+    $administrador = array();
+    $i = 0;
+    $datos = (New administrador)->find_all_by_sql("SELECT a.id, a.nombre, a.correo, n.descripcion FROM administrador a INNER JOIN niveles n ON (n.id = a.nivel)");
+    foreach ($datos as $key => $valor) {
+      $administrador[$i]['id'] = $valor->id;
+      $administrador[$i]['nombre'] = $valor->nombre;
+      $administrador[$i]['correo'] = $valor->correo;
+      $administrador[$i]['descripcion'] = $valor->descripcion;
+      $administrador[$i]['acciones'] = DatatableAcciones::getBtnAdm($valor->id);
+      $i++;
+    }
+    return $administrador;
   }
 }
 

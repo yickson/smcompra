@@ -70,6 +70,15 @@ class WebpayController extends AppController
     $this->globalTotalTex = $globalTotalTex->textos;
   }
 
+  public function ratios()
+  {
+
+  }
+
+  public function ratioslic()
+  {
+
+  }
 
   //Métodos para AJAX
 
@@ -107,6 +116,21 @@ class WebpayController extends AppController
     $this->data = $webpay;
     View::select(null, 'json');
   }
+
+  public function ratios_colegios()
+  {
+    $webpay = (New ProfesorAlumnos)->ratios_colegios();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
+
+  public function ratios_licencias()
+  {
+    $webpay = (New Licences)->ratios_licencias();
+    $this->data = $webpay;
+    View::select(null, 'json');
+  }
+
 }
 
 

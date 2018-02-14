@@ -48,7 +48,7 @@ class AppController extends Controller
         $this->acl->add_resource(new AclResource('productos'), 'index', 'agregar', 'editar', 'listar_productos', 'editar_producto', 'agregar_producto');
         $this->acl->add_resource(new AclResource('licencias'), 'index', 'listar_licencias');
         $this->acl->add_resource(new AclResource('representante'), 'index', 'data_representante', 'hijosProductos');
-        $this->acl->add_resource(new AclResource('webpay'), 'index', 'licencias', 'productos', 'ingresos', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje');
+        $this->acl->add_resource(new AclResource('webpay'), 'index', 'licencias', 'productos', 'ingresos', 'ratios', 'ratioslic', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje', 'ratios_colegios', 'ratios_licencias');
 
         //Se crean los permisos
          // Inicio
@@ -62,12 +62,12 @@ class AppController extends Controller
         $this->acl->allow('1', 'estadisticas', array('index', 'getUsuarios', 'getComprasByUsuario', 'compra_mes', 'compra_semana', 'compra_dias'));
         $this->acl->allow('1', 'productos', array('index', 'agregar', 'editar', 'listar_productos', 'editar_producto', 'agregar_producto'));
         $this->acl->allow('1', 'representante', array('index', 'data_representante', 'hijosProductos'));
-        $this->acl->allow('1', 'webpay', array('index', 'licencias', 'productos', 'ingresos', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje'));
+        $this->acl->allow('1', 'webpay', array('index', 'licencias', 'productos', 'ingresos', 'ratios', 'ratioslic', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje', 'ratios_colegios', 'ratios_licencias'));
          // Acceso para el usuario nivel 2 CallCenter
         $this->acl->allow('2', "usuarios", array('index', 'editar', 'editar_usuario', 'listar_con_hijos', 'consultarHijos', 'consultarDireccion'));
         $this->acl->allow('2', 'dashboard', array('index'));
         $this->acl->allow('2', 'pedidos', array('index', 'mailer', 'listar_pedidos', 'listar_pedidos_mailer', 'enviarMail'));
-        $this->acl->allow('2', 'webpay', array('index', 'licencias', 'productos', 'ingresos', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje'));
+        $this->acl->allow('2', 'webpay', array('index', 'licencias', 'productos', 'ingresos', 'listar_operaciones', 'compras_licencias', 'compras_productos', 'licPorcentaje', 'texPorcentaje', 'ratios_colegios'));
         //$this->acl->allow('2', 'administrador', 'index');
         // Acceso para el usuario nivel 3 Parvularios
 

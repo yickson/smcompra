@@ -106,6 +106,34 @@ class Alumnos extends ActiveRecord
     }
     return $resultado;
   }
+
+  public function getAlumnos()
+  {
+    $datos = array();
+    $alumnos = (New Alumnos)->find();
+    $i = 0;
+    foreach($alumnos as $key => $valor){
+      $datos[$i]['id'] = $valor->id;
+      $datos[$i]['nombre'] = $valor->nombre;
+      $datos[$i]['rut'] = $valor->rut;
+      if(!empty($valor->correo)){
+        $datos[$i]['correo'] = $valor->correo;
+      }else{
+        $datos[$i]['correo'] = 'No tiene correo';
+      }
+      $datos[$i]['colegio'] = (New Establecimientos)->find($valor->establecimiento_id)->nombre;
+      $datos[$i]['curso'] = (New Cursos)->find($valor->curso)->nombre;
+      if(!empty((New Usuarios)->find($valor->apoderado_id)->nombre)){
+        $datos[$i]['apoderado'] = (New Usuarios)->find($valor->apoderado_id)->nombre;//
+      }else{
+        $datos[$i]['apoderado'] = 'No posee';
+      }
+
+      $i++;
+    }
+    return $datos;
+  }
+
 }
 
 

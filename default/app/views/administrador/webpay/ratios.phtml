@@ -1,0 +1,52 @@
+<?php Tag::css('../bower_components/datatables.net-bs/css/dataTables.bootstrap.min') ?>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var table = $('#tabla_historial').DataTable( {
+      "ajax": {
+               "url": "ratios_colegios",
+               "dataSrc":"",
+               "dataType": "json",
+               "cache": false,
+             },
+      dom: 'Bfrtip',
+      "buttons": [
+         {"extend": 'excel', "text":'<i class="fa fa-download" aria-hidden="true"></i>&nbsp; &nbsp; Exportar Excel',"className": 'btn btn-success pull-center'}
+      ],
+      "columns": [
+          { "data": "rbd" },
+          { "data": "colegio" },
+      	  { "data": "curso" },
+      	  { "data": "total" },
+      	  { "data": "ventas" },
+      	  { "data": "fill" },
+      ]
+    });
+  })
+</script>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="box box-danger">
+      <div class="box-header">
+        <i class="fa fa-users hidden"></i>
+        <h3 class="box-title pull-left"> Venta de Licencias </h3>
+        <br>
+        <hr>
+        <div class="table-responsive">
+          <table id="tabla_historial" class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>RBD</th>
+                <th>Colegio</th>
+                <th>Curso</th>
+                <th>Total de textos</th>
+                <th>Total de ventas</th>
+                <th>Fill rate %</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+    <?php echo Html::link('administrador', 'Volver al administrador', 'class="btn btn-success"') ?>
+  </div>
+</div>

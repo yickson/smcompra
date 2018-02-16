@@ -1,5 +1,5 @@
 <?php
-
+require_once APP_PATH ."extensions/helpers/datatable_acciones.php";
 /**
  * Modelo para gestionar alumnos
  */
@@ -116,8 +116,8 @@ class Alumnos extends ActiveRecord
       $datos[$i]['id'] = $valor->id;
       $datos[$i]['nombre'] = $valor->nombre;
       $datos[$i]['rut'] = $valor->rut;
-      if(!empty($valor->correo)){
-        $datos[$i]['correo'] = $valor->correo;
+      if(!empty($valor->email)){
+        $datos[$i]['correo'] = $valor->email;
       }else{
         $datos[$i]['correo'] = 'No tiene correo';
       }
@@ -128,6 +128,7 @@ class Alumnos extends ActiveRecord
       }else{
         $datos[$i]['apoderado'] = 'No posee';
       }
+      $datos[$i]['acciones'] = DatatableAcciones::getBtnUser($valor->id);
 
       $i++;
     }

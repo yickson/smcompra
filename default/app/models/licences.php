@@ -53,7 +53,7 @@ class Licences extends ActiveRecord
       $datos = (New Licences)->find_all_by_sql("SELECT e.rbd, e.nombre, a.curso, a.establecimiento_id, a.id as alumno FROM licences l INNER JOIN alumnos a ON (a.id = l.alumno_id) INNER JOIN establecimientos e ON (e.id = a.establecimiento_id) GROUP BY e.nombre, a.curso");
       $i = 0;
       foreach ($datos as $key => $valor) {
-        $licencias = (New Licences)->find_by_sql("SELECT COUNT(*) as total FROM alumnos WHERE curso = $valor->curso AND establecimiento_id = $valor->establecimiento_id");
+        $licencias = (New Licences)->find_by_sql("SELECT COUNT(*) as total FROM alumnos INNER JOIN establecimiento_proyecto ep ON(ep.curso_id = $valor->curso AND ep.rbd = $valor->rbd) WHERE curso = $valor->curso AND establecimiento_id = $valor->establecimiento_id");
         $venta = (New Licences)->find_by_sql("SELECT COUNT(*) as licVendidas FROM alumnos a INNER JOIN licences l ON (l.alumno_id = a.id) WHERE curso = $valor->curso AND establecimiento_id = $valor->establecimiento_id AND l.estado = 1");
         $colegios[$i]['rbd'] = $valor->rbd;
         $colegios[$i]['colegio'] = $valor->nombre;

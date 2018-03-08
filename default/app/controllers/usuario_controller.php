@@ -83,8 +83,14 @@ class UsuarioController extends AppController
         $this->data = 2;
       }
     }else{
-      Session::set('iduser', $usuario->id);
-      $this->data = $usuario;
+      if($usuario->tipo == 3){
+        Session::set('tipo', 3);
+        Session::set('iduser', $usuario->id);
+        $this->data = $usuario;
+      }else{
+        Session::set('iduser', $usuario->id);
+        $this->data = $usuario;
+      }
     }
     View::select(null, 'json');
   }
@@ -175,13 +181,13 @@ class UsuarioController extends AppController
     Session::delete('iduser'); //Limpia la variable del id del usuario
     View::template(null);
   }
-  
+
    public function setNavegador(){
 	Session::set("navegador", Input::post("data"));
 	$this->data = "exito";
 	View::select(null, "json");
     }
-    
+
 }
 
 

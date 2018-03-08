@@ -3,7 +3,7 @@
     <strong>Compra anulada por el usuario</strong>
     <?php echo Html::link('../', 'Volver al inicio', 'class="btn btn-success"') ?>
   </div>
-  
+
 <?php else: ?>
 <script>
     $(document).ready(function(){
@@ -18,7 +18,7 @@
 <?php
   $tipo = Session::get('tipo');
 ?>
-    <?php if($tipo == 1): ?>
+    <?php if($tipo == 1 or $tipo == 3): ?>
 
   <div class="row">
     <div class="col-sm-2"></div>

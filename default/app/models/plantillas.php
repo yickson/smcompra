@@ -134,7 +134,7 @@ class Plantillas
 
   public function apoderado($detalles)
   {
-    $lic3 = (New Alumnos)->caso_especial();
+    $colegio = (New Usuarios)->find_by_sql("SELECT u.nombre as apoderado, e.rbd, e.nombre, e.pais FROM usuarios u INNER JOIN alumnos a ON (a.apoderado_id = u.id AND u.id = 1) INNER JOIN establecimientos e ON (e.id = a.establecimiento_id) GROUP BY u.nombre");
     $contenido = '<table max-width="800" cellpadding="0" cellspacing="0" align="center">
       <tr>
         <td height="80" align="left" valign="middle" bgcolor="ffffff" style="font-family:Arial, Helvetica, sans-serif; color:#ffffff;">
@@ -200,12 +200,12 @@ class Plantillas
                 $contenido .= '<tr>';
                 $contenido .= '<td width="162">'.$value->proyecto.'</td>';
                 $contenido .= '<td width="162">'.$value->nombre.'</td>';
-                if($value->id == 360){
-                  $contenido .= '<td width="162">'.$lic3[$i].'</td>';
-                  $i++;
-                }else{
+                //if($value->id == 360){
+                  //$contenido .= '<td width="162">'.$lic3[$i].'</td>';
+                  //$i++;
+                //}else{
                   $contenido .= '<td width="162">'.$value->codigo.'</td>';
-                }
+                //}
 
                 $contenido .= '<td width="162">$'.number_format($value->valor, 0, ' ', '.').'</td></tr>';
                 $total += $value->valor;

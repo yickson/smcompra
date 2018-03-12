@@ -1,0 +1,55 @@
+2018-03-02 12:30:13 El Archivo log_rest_connecta.txt se ha creado 
+* ID_USUARIO: 606
+* HIJOS: [{"id":"681","nombre":"DOMENICO ROMEO HUGHES","rut":"21715370","curso":"8","email":"","establecimiento_id":"321","apoderado_id":"606"}]
+* RESULT: {"code":"200","message":[{"licencia":"THJBO-5AEB-8444","store_id":["21715370","397"]},{"licencia":"TSPBG-ZZ5F-Z27C","store_id":["21715370","359"]},{"licencia":"TSPBI-5654-FZ85","store_id":["21715370","361"]},{"licencia":"TSPBH-ZFA7-2AFB","store_id":["21715370","358"]},{"licencia":"TSPBF-9B3A-5CBE","store_id":["21715370","360"]},{"licencia":"TSPIK-CBD3-6552","store_id":["21715370","369"]}]}
+
+2018-03-05 09:28:22 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 607
+* HIJOS: [{"id":"602","nombre":"VICENTE CATALAN MU\u00d1OZ","rut":"22160420","curso":"6","email":"","establecimiento_id":"321","apoderado_id":"607"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSAFG-2F3F-5728","store_id":["22160420","399"]},{"licencia":"TSAFH-7AC4-C855","store_id":["22160420","400"]},{"licencia":"TSAFF-FAF9-5B64","store_id":["22160420","401"]},{"licencia":"TSAFI-ZFZ5-F4DE","store_id":["22160420","402"]},{"licencia":"THJFO-9227-2529","store_id":["22160420","403"]}]}
+
+2018-03-05 09:45:11 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 608
+* HIJOS: [{"id":"787","nombre":"MIRKO AGUST\u00cdN MARRA DE ROSAS","rut":"22512306","curso":"9","email":"","establecimiento_id":"321","apoderado_id":"608"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRK-673A-ZBBD","store_id":["22512306","375"]},{"licencia":"TSPII-Z8DB-F2D7","store_id":["22512306","368"]},{"licencia":"TSPIL-4A54-DZ3A","store_id":["22512306","372"]},{"licencia":"TSPIM-BBDD-5599","store_id":["22512306","367"]},{"licencia":"TSPIG-FA48-57C4","store_id":["22512306","371"]},{"licencia":"TSPIH-ZC2B-2345","store_id":["22512306","370"]}]}
+
+2018-03-05 09:57:37 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 609
+* HIJOS: [{"id":"429","nombre":"Pino San Pedro Ailin Sof\u00eda","rut":"21007355","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"609"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRI-8D5C-2566","store_id":["21007355","374"]},{"licencia":"TSPRM-5B25-E72C","store_id":["21007355","373"]}]}
+
+2018-03-06 08:04:21 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 611
+* HIJOS: [{"id":"563","nombre":"Romersa Vega Alberto","rut":"20809845","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"611"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRI-38EA-6852","store_id":["20809845","374"]},{"licencia":"TSPRM-CE5C-79A7","store_id":["20809845","373"]}]}
+
+2018-03-06 08:18:46 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 612
+* HIJOS: [{"id":"407","nombre":"Rebolledo Corces Magdalena","rut":"21069252","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"612"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRI-E3B8-6A33","store_id":["21069252","374"]},{"licencia":"TSPRM-992D-99Z7","store_id":["21069252","373"]}]}
+
+2018-03-06 08:29:23 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 613
+* HIJOS: [{"id":"637","nombre":"VICENTE ANDRES SALGADO MOYA","rut":"21970328","curso":"7","email":"","establecimiento_id":"321","apoderado_id":"613"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPQH-Z6ZC-5BC9","store_id":["21970328","342"]},{"licencia":"THJQO-6557-35DB","store_id":["21970328","398"]},{"licencia":"TSPQG-98B8-BE4F","store_id":["21970328","343"]},{"licencia":"TSPQI-5965-2C45","store_id":["21970328","345"]},{"licencia":"TSPQF-C98D-3FZD","store_id":["21970328","344"]}]}
+
+2018-03-06 08:49:37 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 614
+* HIJOS: [{"id":"471","nombre":"Juillerat Ferrer Juan Jos\u00e9","rut":"21061315","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"614"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRI-AZD4-Z233","store_id":["21061315","374"]},{"licencia":"TSPRM-3Z52-8D7F","store_id":["21061315","373"]}]}
+
+2018-03-06 15:33:05 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 615
+* HIJOS: [{"id":"833","nombre":"GERARDO ANDR\u00c9S ROSSELOT VALENZUELA","rut":"20966267","curso":"10","email":"","establecimiento_id":"321","apoderado_id":"615"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRM-F6DD-3BZ7","store_id":["20966267","373"]},{"licencia":"TSPRL-3ZEC-3A5E","store_id":["20966267","378"]},{"licencia":"TNESK-55B3-6289","store_id":["20966267","350"]}]}
+
+2018-03-07 15:52:35 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 918
+* HIJOS: [{"id":"853","nombre":"MART\u00cdN BEZANILLA FERN\u00c1NDEZ","rut":"21060668","curso":"10","email":"pa_fernandez_delacruz@hotmail.com","establecimiento_id":"321","apoderado_id":"918"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRM-3B28-8B4Z","store_id":["21060668","373"]},{"licencia":"TSPRL-4C6D-ZAEA","store_id":["21060668","378"]},{"licencia":"TNESK-Z988-DA63","store_id":["21060668","350"]}]}
+
+2018-03-07 17:24:55 El Archivo log_rest_connecta.txt se ha modificado 
+* ID_USUARIO: 1216
+* HIJOS: [{"id":"410","nombre":"Undurraga Kraus Catalina","rut":"21197410","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"1216"}]
+* RESULT: {"code":"200","message":[{"licencia":"TSPRI-AF49-A35Z","store_id":["21197410","374"]},{"licencia":"TSPRM-FF5Z-437F","store_id":["21197410","373"]}]}
+

@@ -12,22 +12,22 @@
 <?php
     echo Tag::js('jquery3');
     $tipo = Session::get('tipo');
-  
+
 ?>
     <form name="webpay" action="<?=$result->urlRedirection?>" method="post">
       <input type="text" name="token_ws" value="<?=$token?>" style="display:none"/>
       <input id="regreso" type="submit" value="" style="display:none" />
     </form>
-    <?php if($tipo == 1): ?>
-    
+    <?php if($tipo == 1 or $tipo == 3): ?>
+
     <?php echo Tag::js("libros"); ?>
     <?php echo Tag::js("licencias"); ?>
     <script>
-	
+
 	   var rest_libros = new Libros({"carrito" : <?php echo $_COOKIE["carritoSM"] ?>,
 	                                 "flujo"   : <?php echo json_encode($data_alumnos)?> });
 
-	
+
     </script>
     <?php elseif ($tipo == 2): ?>
    <script>
@@ -35,7 +35,7 @@
 	   document.webpay.submit();
        }
   </script>
-    
+
      <?php endif; ?>
 
 <?php endif ?>

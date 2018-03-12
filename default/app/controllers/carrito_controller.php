@@ -34,7 +34,7 @@ class CarritoController extends AppController
 	    }
 	    Session::set('alumno', $alumno );
 	}
-	
+
     setcookie("clienteSM", Session::get("iduser"),time()+86400*30);
     setcookie("alumnosSM", json_encode(Session::get("alumno")),time()+86400*30);
     $log = new Logs();
@@ -100,7 +100,7 @@ class CarritoController extends AppController
 
   public function datatableValidarPago(){
 //    $datos_direccion = Input::post("datos_direccion");
-    $telefono = "";  $region = "";  $comuna    = "";  
+    $telefono = "";  $region = "";  $comuna    = "";
     $calle    = "";  $numero = "";  $adicional = "";  $tipo = "";
     if(Input::hasPost("tel")){
 	$telefono = Input::post("tel");
@@ -144,11 +144,11 @@ class CarritoController extends AppController
     $webpay = New Webpago;
     $result = $webpay->inicioWebpay();
     if(is_object($result)){
-      $this->result = $webpay->inicioWebpay();  
+      $this->result = $webpay->inicioWebpay();
     }else{
       Redirect::to('../');
     }
-    
+
     View::template(null);
   }
 
@@ -157,8 +157,8 @@ class CarritoController extends AppController
     Load::lib('webpago');
     $webpay = New Webpago;
     $logs = new Logs();
-    
-    
+
+
     $this->token = $_POST['token_ws'];
     try {
       $this->result = $webpay->retornoWebpay($this->token);
@@ -206,7 +206,7 @@ class CarritoController extends AppController
         $this->direccion = (New Direcciones)->getFullDireccion();
 	     // Email::enviar($usuario->email, $this->detalles, $this->direccion);
       }else{
-        $this->lic3 = (New Alumnos)->caso_especial();
+        //$this->lic3 = (New Alumnos)->caso_especial();
         $this->detalles = (New PedidosProductos)->encontrar_pedidos(); //Trae los productos evitando incongruencias
        //Email::enviar_a($usuario->email, $this->detalles); //Email para el apoderado
       }

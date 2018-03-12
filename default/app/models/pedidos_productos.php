@@ -42,7 +42,7 @@ class PedidosProductos extends ActiveRecord
     $carro = json_decode($_COOKIE["carritoSM"]);
     $i = 0;
     foreach ($carro as $key => $valor) {
-      $productos[$i] = (New PedidosProductos)->find_by_sql("SELECT l.codigo, p.id, p.proyecto, p.nombre, p.valor, p.nivel, u.nombre FROM licences l INNER JOIN productos p ON (p.id = l.producto_id) INNER JOIN usuarios u ON u.id = l.usuario_id WHERE l.producto_id = $valor[1] AND l.alumno_id = $valor[0] ");
+      $productos[$i] = (New PedidosProductos)->find_by_sql("SELECT l.codigo, p.id, p.proyecto, p.nombre, p.valor, p.nivel, u.nombre as usuario FROM licences l INNER JOIN productos p ON (p.id = l.producto_id) INNER JOIN usuarios u ON u.id = l.usuario_id WHERE l.producto_id = $valor[1] AND l.alumno_id = $valor[0] ");
       $i++;
     }
 

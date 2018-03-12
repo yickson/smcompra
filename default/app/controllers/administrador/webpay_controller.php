@@ -80,6 +80,13 @@ class WebpayController extends AppController
 
   }
 
+  public function ratel()
+  {
+    //Formato de la tabla del fill rate
+    $this->colegios = array();
+    $this->datos = (New Licences)->ratios_licencias();
+  }
+
   //Métodos para AJAX
 
   public function listar_operaciones()

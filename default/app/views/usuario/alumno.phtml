@@ -1,6 +1,6 @@
 <br>
 <div class="card bg-light mb-12">
-  <div class="card-header">Identificación del alumno - Ediciones SM</div>
+  <div class="card-header">Identificación del alumno - Ediciones SM <?php echo Session::get('tipo') ?></div>
   <div class="card-body text-dark">
     <div class="col-xs-12 col-sm-12">
         <?php View::partial("steps", "", $step); ?>

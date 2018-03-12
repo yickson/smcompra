@@ -72,17 +72,17 @@ class ProfesorAlumnos extends ActiveRecord
   public function ratios_colegios()
   {
     $colegios = array();
-    $datos = (New ProfesorAlumnos)->find_all_by_sql("SELECT e.rbd, e.nombre, a.curso, a.establecimiento_id FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) INNER JOIN establecimientos e ON (e.id = a.establecimiento_id) GROUP BY e.nombre, a.curso");
+    $datos = (New ProfesorAlumnos)->find_all_by_sql("SELECT e.rbd, e.nombre, a.curso, e.id, COUNT(*) as textos FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) INNER JOIN establecimientos e ON (e.id = a.establecimiento_id) GROUP BY e.nombre, a.curso ");
     $i = 0;
     foreach ($datos as $key => $valor) {
-      $textos = (New ProfesorAlumnos)->find_by_sql("SELECT COUNT(*) as total FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) WHERE a.curso = $valor->curso AND a.establecimiento_id = $valor->establecimiento_id");
-      $venta = (New ProfesorAlumnos)->find_by_sql("SELECT COUNT(*) as total FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) WHERE a.curso = $valor->curso AND a.establecimiento_id = $valor->establecimiento_id AND pa.estado = 1");
+      //$textos = (New ProfesorAlumnos)->find_by_sql("SELECT COUNT(*) as total FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) WHERE a.curso = $valor->curso AND a.establecimiento_id = $valor->establecimiento_id");
+      $venta = (New ProfesorAlumnos)->find_by_sql("SELECT COUNT(*) as total FROM profesor_alumnos pa INNER JOIN alumnos a ON (a.id = pa.alumno_id) WHERE a.curso = $valor->curso AND a.establecimiento_id = $valor->id AND pa.estado = 1");
       $colegios[$i]['rbd'] = $valor->rbd;
       $colegios[$i]['colegio'] = $valor->nombre;
       $colegios[$i]['curso'] = (New Cursos)->find($valor->curso)->nombre;
-      $colegios[$i]['total'] = $textos->total;
+      $colegios[$i]['total'] = $valor->textos;
       $colegios[$i]['ventas'] = $venta->total;
-      $colegios[$i]['fill'] = ROUND(($venta->total/$textos->total)*100, 2);
+      $colegios[$i]['fill'] = ROUND(($venta->total/$valor->textos)*100, 2);
       $i++;
     }
 

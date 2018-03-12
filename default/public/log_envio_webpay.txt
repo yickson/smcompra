@@ -1,0 +1,39 @@
+2018-03-02 12:29:38 El Archivo log_envio_webpay.txt se ha creado 
+* ID_USUARIO: 606
+
+2018-03-05 09:27:51 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 607
+
+2018-03-05 09:44:46 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 608
+
+2018-03-05 09:57:16 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 609
+
+2018-03-06 08:03:37 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 611
+
+2018-03-06 08:17:35 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 612
+
+2018-03-06 08:29:02 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 613
+
+2018-03-06 08:48:44 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 614
+
+2018-03-06 15:32:45 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 615
+
+2018-03-07 12:56:00 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 893
+
+2018-03-07 12:57:08 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 893
+
+2018-03-07 15:52:07 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 918
+
+2018-03-07 17:24:25 El Archivo log_envio_webpay.txt se ha modificado 
+* ID_USUARIO: 1216
+

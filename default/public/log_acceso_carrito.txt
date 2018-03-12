@@ -1,0 +1,103 @@
+2018-01-23 14:48:13 El Archivo log_acceso_carrito.txt se ha creado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 14:49:37 El Archivo log_acceso_carrito.txt se ha modificado 
+La session de usuario se ha perdido y no se ha podido crear un registro.
+2018-01-23 14:50:13 El Archivo log_acceso_carrito.txt se ha modificado 
+La session de usuario se ha perdido y no se ha podido crear un registro.
+2018-01-23 14:51:31 El Archivo log_acceso_carrito.txt se ha modificado 
+La session de usuario se ha perdido y no se ha podido crear un registro.
+2018-01-23 14:52:35 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 14:55:55 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 14:57:02 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 15:01:55 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 15:02:04 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 15:03:45 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 15:03:50 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-01-23 15:03:56 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1280
+* HIJOS: [{"id":"1800","nombre":"Isidora Trinidad Huerta Miranda","rut":"21092089","curso":"8","email":"isihuerta123@hotmail.com","establecimiento_id":"398","apoderado_id":"1280"}]
+2018-03-02 12:29:00 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 606
+* HIJOS: [{"id":"681","nombre":"DOMENICO ROMEO HUGHES","rut":"21715370","curso":"8","email":"","establecimiento_id":"321","apoderado_id":"606"}]
+* NAVEGADOR/VERSION: ["chrome","63.0.3239.132"]
+* NAVEGADOR/VERSION: localhost
+2018-03-05 09:27:01 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 607
+* HIJOS: [{"id":"602","nombre":"VICENTE CATALAN MU\u00d1OZ","rut":"22160420","curso":"6","email":"","establecimiento_id":"321","apoderado_id":"607"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-05 09:44:24 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 608
+* HIJOS: [{"id":"787","nombre":"MIRKO AGUST\u00cdN MARRA DE ROSAS","rut":"22512306","curso":"9","email":"","establecimiento_id":"321","apoderado_id":"608"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-05 09:56:22 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 609
+* HIJOS: [{"id":"429","nombre":"Pino San Pedro Ailin Sof\u00eda","rut":"21007355","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"609"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-05 10:06:20 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 610
+* HIJOS: [{"id":"642","nombre":"CLEMENTE OCTAVIO GUERRA GONZ\u00c1LEZ","rut":"21878512","curso":"7","email":"","establecimiento_id":"321","apoderado_id":"610"},{"id":"788","nombre":"EDUARDO ENRIQUE GUERRA GONZ\u00c1LEZ","rut":"21289508","curso":"9","email":"","establecimiento_id":"321","apoderado_id":"610"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-06 08:03:27 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 611
+* HIJOS: [{"id":"563","nombre":"Romersa Vega Alberto","rut":"20809845","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"611"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-06 08:17:30 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 612
+* HIJOS: [{"id":"407","nombre":"Rebolledo Corces Magdalena","rut":"21069252","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"612"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-06 08:28:54 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 613
+* HIJOS: [{"id":"637","nombre":"VICENTE ANDRES SALGADO MOYA","rut":"21970328","curso":"7","email":"","establecimiento_id":"321","apoderado_id":"613"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-06 08:47:01 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 614
+* HIJOS: [{"id":"471","nombre":"Juillerat Ferrer Juan Jos\u00e9","rut":"21061315","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"614"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-06 15:32:33 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 615
+* HIJOS: [{"id":"833","nombre":"GERARDO ANDR\u00c9S ROSSELOT VALENZUELA","rut":"20966267","curso":"10","email":"","establecimiento_id":"321","apoderado_id":"615"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-07 12:55:54 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 893
+* HIJOS: [{"id":"2163","nombre":"Diego Lamur","rut":"20670539","curso":"10","email":"diego.lamur@gmail.com","establecimiento_id":"3857","apoderado_id":"893"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-07 12:57:02 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 893
+* HIJOS: [{"id":"2163","nombre":"Diego Lamur","rut":"20670539","curso":"10","email":"diego.lamur@gmail.com","establecimiento_id":"3857","apoderado_id":"893"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-07 15:51:49 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 918
+* HIJOS: [{"id":"853","nombre":"MART\u00cdN BEZANILLA FERN\u00c1NDEZ","rut":"21060668","curso":"10","email":"pa_fernandez_delacruz@hotmail.com","establecimiento_id":"321","apoderado_id":"918"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
+2018-03-07 17:24:06 El Archivo log_acceso_carrito.txt se ha modificado 
+* ID_USUARIO: 1216
+* HIJOS: [{"id":"410","nombre":"Undurraga Kraus Catalina","rut":"21197410","curso":"10","email":"","establecimiento_id":"3787","apoderado_id":"1216"}]
+* NAVEGADOR/VERSION: ["chrome","64.0.3282.186"]
+* NAVEGADOR/VERSION: localhost
